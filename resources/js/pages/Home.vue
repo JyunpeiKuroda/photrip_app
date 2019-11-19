@@ -3,7 +3,12 @@
         <lb-header></lb-header>
         <div class="mt-5" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg h-screen mb-30">
-                <bookmark-list></bookmark-list>
+                <bookmark-list
+                    v-for="(datum, index) in data"
+                    :key="index"
+                    bookmarkTitle="bookmarkTitle"
+                    username="username"
+                ></bookmark-list>
             </div>
         </div>
     </div>
@@ -17,6 +22,15 @@ export default {
     components: {
         LbHeader,
         BookmarkList
+    },
+    data() {
+        return {
+            data: [
+                { bookmarkTitle: 'aaa', username: 'kkk'},
+                { bookmarkTitle: 'aaa', username: 'kkk'},
+                { bookmarkTitle: 'aaa', username: 'kkk'}
+            ]
+        }
     }
 }
 </script>

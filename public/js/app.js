@@ -1854,29 +1854,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    bookmarkTitle: String,
+    username: String
+  }
+});
 
 /***/ }),
 
@@ -1983,12 +1966,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     BookmarkList: _components_BookmarkList_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      data: [{
+        bookmarkTitle: 'aaa',
+        username: 'kkk'
+      }, {
+        bookmarkTitle: 'aaa',
+        username: 'kkk'
+      }, {
+        bookmarkTitle: 'aaa',
+        username: 'kkk'
+      }]
+    };
   }
 });
 
@@ -20345,84 +20347,10 @@ var render = function() {
               attrs: { id: "bookmark_list_detail" }
             },
             [
-              _c("p", [_vm._v("京都旅行の旅")]),
+              _c("p", [_vm._v(_vm._s(_vm.bookmarkTitle))]),
               _vm._v(" "),
               _c("p", { staticClass: "text-xs text-gray-600" }, [
-                _vm._v("dear ユーザー名")
-              ])
-            ]
-          )
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "h-20 px-5 hover:bg-gray-100 py-5",
-        attrs: { id: "Bookmark_list_wrap" }
-      },
-      [
-        _c("router-link", { attrs: { to: "/memoria/bookmark/detail" } }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "no-underline bg-blue-200 w-10 h-10 inline-block rounded-full",
-              attrs: { id: "list_userinfo" }
-            },
-            [_c("img", { attrs: { src: "#", alt: "" } })]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "inline-block ml-2",
-              attrs: { id: "bookmark_list_detail" }
-            },
-            [
-              _c("p", [_vm._v("京都旅行の旅")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-xs text-gray-600" }, [
-                _vm._v("dear ユーザー名")
-              ])
-            ]
-          )
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "h-20 px-5 hover:bg-gray-100 py-5",
-        attrs: { id: "Bookmark_list_wrap" }
-      },
-      [
-        _c("router-link", { attrs: { to: "/memoria/bookmark/detail" } }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "no-underline bg-blue-200 w-10 h-10 inline-block rounded-full",
-              attrs: { id: "list_userinfo" }
-            },
-            [_c("img", { attrs: { src: "#", alt: "" } })]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "inline-block ml-2",
-              attrs: { id: "bookmark_list_detail" }
-            },
-            [
-              _c("p", [_vm._v("京都旅行の旅")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-xs text-gray-600" }, [
-                _vm._v("dear ユーザー名")
+                _vm._v("dear " + _vm._s(_vm.username))
               ])
             ]
           )
@@ -20656,7 +20584,12 @@ var render = function() {
           {
             staticClass: "w-8/12 bg-white h-64 m-auto rounded-lg h-screen mb-30"
           },
-          [_c("bookmark-list")],
+          _vm._l(_vm.data, function(datum, index) {
+            return _c("bookmark-list", {
+              key: index,
+              attrs: { bookmarkTitle: "bookmarkTitle", username: "username" }
+            })
+          }),
           1
         )
       ])
