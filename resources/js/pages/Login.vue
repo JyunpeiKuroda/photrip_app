@@ -29,7 +29,7 @@
                     <div class="social-auth-links bg-blue-400 rounded-lg w-64 h-12 shadow-lg" id="social-auth-wrap">
                         <div class="" id="social-auth-title">
                             <i class="fab fa-twitter text-white"></i>
-                            <a href="#" class="text-white" id="social-auth-title-link">Twitterでログイン</a>
+                            <a href="/memoria/home" class="text-white" id="social-auth-title-link">Twitterでログイン</a>
                         </div>
                     </div>
             </div>

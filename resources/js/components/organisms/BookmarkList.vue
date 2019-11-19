@@ -6,7 +6,7 @@
                 <img src="#" alt="">
             </div>
             <div id="bookmark_list_detail" class="inline-block ml-2">
-                <p>{{ bookmarkTitle }}</p>
+                <p class="font-medium">{{ bookmarkTitle }}</p>
                 <p class="text-xs text-gray-600">dear {{ username }}</p>
             </div>
             </router-link>

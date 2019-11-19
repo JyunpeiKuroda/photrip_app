@@ -6,8 +6,8 @@
                 <bookmark-list
                     v-for="(datum, index) in data"
                     :key="index"
-                    bookmarkTitle="bookmarkTitle"
-                    username="username"
+                    :bookmarkTitle="datum.bookmarkTitle"
+                    :username="datum.username"
                 ></bookmark-list>
             </div>
         </div>
