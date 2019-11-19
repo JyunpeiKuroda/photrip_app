@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div id="overview" class="px-16 pm-10">
-            <div id="planline" class="mt-10">
-                <h3 class="subtitle font-extrabold">{{ day }}日目</h3>
+        <div id="overview" class="">
+            <div id="planline" class="px-5">
+                <h3 class="subtitle font-extrabold" v-if="day !== '0'">{{ day }}日目</h3>
                 <dl class="schedule-item">
                     <dt></dt>
                     <dd class="content">
                         <div class="block">{{ place }}</div>
-                        <div class="bg-gray-200 rounded-lg py-3 px-2 my-3 sm:overflow-x-scrooll" v-if="placeDetail.trim()">
+                        <div class="bg-gray-200 rounded-lg py-3 px-2 my-3" v-if="placeDetail.trim()">
                             <p class="text-gray-600">{{ placeDetail }}</p>
                         </div>
                     </dd>
@@ -30,9 +30,7 @@ export default {
 </script>
 
 <style scoped>
-  #overview {
-      margin-bottom: 100px;
-  }
+
 
 .subtitle {
     padding-top: 20px;

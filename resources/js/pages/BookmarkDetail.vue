@@ -69,7 +69,12 @@ export default {
                 { overviewTitle: '持ち物', overviewContent: 'あちこ'},
             ],
             planData: [
-                { day: '1', place: '東京駅', placeDetail: '', endDeclear: true }
+                { day: '1', place: '東京駅', placeDetail: '', endDeclear: false },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false },
+                { day: '2', place: '東京駅', placeDetail: '', endDeclear: false },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: true },
             ],
             bookmarkTitle: '京都旅行'
         }

@@ -2069,6 +2069,31 @@ __webpack_require__.r(__webpack_exports__);
         day: '1',
         place: '東京駅',
         placeDetail: '',
+        endDeclear: false
+      }, {
+        day: '0',
+        place: '東京駅',
+        placeDetail: '',
+        endDeclear: false
+      }, {
+        day: '0',
+        place: '東京駅',
+        placeDetail: '',
+        endDeclear: false
+      }, {
+        day: '0',
+        place: '東京駅',
+        placeDetail: '',
+        endDeclear: false
+      }, {
+        day: '2',
+        place: '東京駅',
+        placeDetail: '',
+        endDeclear: false
+      }, {
+        day: '0',
+        place: '東京駅',
+        placeDetail: '',
         endDeclear: true
       }],
       bookmarkTitle: '京都旅行'
@@ -2194,7 +2219,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "#overview[data-v-4424db01] {\n  margin-bottom: 100px;\n}\n.subtitle[data-v-4424db01] {\n  padding-top: 20px;\n  background-color: #fff;\n  color: #21252B;\n  margin-top: 0;\n  margin-bottom: 0;\n  width: 64px;\n  height: 64px;\n  border: 4px solid #21252B;\n  border-radius: 50%;\n  box-sizing: border-box;\n  font-size: 14px;\n  text-align: center;\n  margin-left: 25px;\n  font-family: 'Roboto Condensed', sans-serif;\n  line-height: 16px;\n  letter-spacing: 1px;\n  text-indent: 1px;\n  -webkit-column-break-inside: avoid;\n     -moz-column-break-inside: avoid;\n          break-inside: avoid;\n  padding-bottom: 1px;\n}\n.schedule-item > .content[data-v-4424db01] {\n  min-height: 3em;\n  position: relative;\n  margin-left: 55px;\n  padding: 6px 0 .2rem 12px;\n  border-left: 4px solid #13b1f1;\n  z-index: 0;\n}\n.schedule-item > .content[data-v-4424db01]::before {\n  content: '';\n  display: block;\n  width: 16px;\n  height: 16px;\n  box-sizing: border-box;\n  border: 4px solid #21252b;\n  border-radius: 50%;\n  position: absolute;\n  left: -10px;\n  top: 8px;\n  background-color: #fff;\n}\n.endtitle[data-v-4424db01] {\n  font-size: 12px;\n  padding-left:3px;\n}\n", ""]);
+exports.push([module.i, ".subtitle[data-v-4424db01] {\n  padding-top: 20px;\n  background-color: #fff;\n  color: #21252B;\n  margin-top: 0;\n  margin-bottom: 0;\n  width: 64px;\n  height: 64px;\n  border: 4px solid #21252B;\n  border-radius: 50%;\n  box-sizing: border-box;\n  font-size: 14px;\n  text-align: center;\n  margin-left: 25px;\n  font-family: 'Roboto Condensed', sans-serif;\n  line-height: 16px;\n  letter-spacing: 1px;\n  text-indent: 1px;\n  -webkit-column-break-inside: avoid;\n     -moz-column-break-inside: avoid;\n          break-inside: avoid;\n  padding-bottom: 1px;\n}\n.schedule-item > .content[data-v-4424db01] {\n  min-height: 3em;\n  position: relative;\n  margin-left: 55px;\n  padding: 6px 0 .2rem 12px;\n  border-left: 4px solid #13b1f1;\n  z-index: 0;\n}\n.schedule-item > .content[data-v-4424db01]::before {\n  content: '';\n  display: block;\n  width: 16px;\n  height: 16px;\n  box-sizing: border-box;\n  border: 4px solid #21252b;\n  border-radius: 50%;\n  position: absolute;\n  left: -10px;\n  top: 8px;\n  background-color: #fff;\n}\n.endtitle[data-v-4424db01] {\n  font-size: 12px;\n  padding-left:3px;\n}\n", ""]);
 
 // exports
 
@@ -20732,11 +20757,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "px-16 pm-10", attrs: { id: "overview" } }, [
-      _c("div", { staticClass: "mt-10", attrs: { id: "planline" } }, [
-        _c("h3", { staticClass: "subtitle font-extrabold" }, [
-          _vm._v(_vm._s(_vm.day) + "日目")
-        ]),
+    _c("div", { attrs: { id: "overview" } }, [
+      _c("div", { staticClass: "px-5", attrs: { id: "planline" } }, [
+        _vm.day !== "0"
+          ? _c("h3", { staticClass: "subtitle font-extrabold" }, [
+              _vm._v(_vm._s(_vm.day) + "日目")
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("dl", { staticClass: "schedule-item" }, [
           _c("dt"),
@@ -20747,10 +20774,7 @@ var render = function() {
             _vm.placeDetail.trim()
               ? _c(
                   "div",
-                  {
-                    staticClass:
-                      "bg-gray-200 rounded-lg py-3 px-2 my-3 sm:overflow-x-scrooll"
-                  },
+                  { staticClass: "bg-gray-200 rounded-lg py-3 px-2 my-3" },
                   [
                     _c("p", { staticClass: "text-gray-600" }, [
                       _vm._v(_vm._s(_vm.placeDetail))
