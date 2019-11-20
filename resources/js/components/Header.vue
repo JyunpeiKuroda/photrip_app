@@ -14,13 +14,13 @@
       </div>
     </div>
     <nav :class="isOpen ? 'block' : 'hidden'" class="px-4 pt-4 pb-4 sm:flex sm:p-0">
-        <router-link to="/memoria/home" class="mt-1 block px-2 py-1 text-black font-semibold rounded">
+        <router-link to="/photrip/home" class="mt-1 block px-2 py-1 text-black font-semibold rounded">
             <i class="fas fa-home"></i><span class="ml-2">ホーム</span>
         </router-link>
-        <router-link to="/memoria/compose/plan" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
+        <router-link to="/photrip/compose/plan" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
             <i class="far fa-plus-square"></i><span class="ml-2">しおりを作成する</span>
         </router-link>
-        <router-link to="/memoria/user" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
+        <router-link to="/photrip/user" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
             <i class="fas fa-user"></i><span class="ml-2">ユーザー名</span>
         </router-link>
     </nav>

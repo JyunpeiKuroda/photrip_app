@@ -39,6 +39,7 @@
                     :place="datum.place"
                     :placeDetail="datum.placeDetail"
                     :endDeclear="datum.endDeclear"
+                    :imgLink="datum.imgLink"
                     ></plan>
                 </div> 
 
@@ -69,12 +70,12 @@ export default {
                 { overviewTitle: '持ち物', overviewContent: 'あちこ'},
             ],
             planData: [
-                { day: '1', place: '東京駅', placeDetail: '', endDeclear: false },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false },
-                { day: '2', place: '東京駅', placeDetail: '', endDeclear: false },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: true },
+                { day: '1', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: true },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
+                { day: '2', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false},
+                { day: '0', place: '東京駅', placeDetail: '', endDeclear: true, imgLink: false },
             ],
             bookmarkTitle: '京都旅行'
         }

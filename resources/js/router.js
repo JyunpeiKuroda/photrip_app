@@ -11,9 +11,9 @@ Vue.use(Router);
 
 const routes = [
     { path: '/login', component: Login },
-    { path: '/memoria/home', component: Home },
-    { path: '/memoria/bookmark/detail', component: BookmarkDetail },
-    { path: '/memoria/compose/plan', component: ComposePlan },
+    { path: '/photrip/home', component: Home },
+    { path: '/photrip/bookmark/detail', component: BookmarkDetail },
+    { path: '/photrip/compose/plan', component: ComposePlan },
 ];
 
 export default new Router({
