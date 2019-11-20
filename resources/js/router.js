@@ -8,6 +8,7 @@ import BookmarkDetail from './pages/BookmarkDetail.vue';
 import ComposePlan from './pages/ComposePlan.vue';
 import PhotoList from './pages/PhotoList.vue';
 import EditPlan from './pages/EditPlan.vue';
+import NotPageError from './pages/NotPageError.vue';
 
 Vue.use(Router);
 
@@ -18,6 +19,7 @@ const routes = [
     { path: '/photrip/compose/plan', component: ComposePlan },
     { path: '/photrip/photo', component: PhotoList },
     { path: '/photrip/edit/plan', component: EditPlan },
+    { path: '*', component: NotPageError },
 ];
 
 export default new Router({
