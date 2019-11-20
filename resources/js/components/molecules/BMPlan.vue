@@ -30,8 +30,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .subtitle {
     padding-top: 20px;
     background-color: #fff;
