@@ -2221,7 +2221,7 @@ __webpack_require__.r(__webpack_exports__);
       planData: [{
         day: '1',
         place: '東京駅',
-        placeDetail: '',
+        placeDetail: 'ここで集合です！！！！',
         endDeclear: false,
         imgLink: true
       }, {
@@ -2257,6 +2257,13 @@ __webpack_require__.r(__webpack_exports__);
       }],
       bookmarkTitle: '京都旅行'
     };
+  },
+  methods: {
+    toEditPage: function toEditPage() {
+      this.$router.push({
+        path: '/photrip/edit/plan'
+      });
+    }
   }
 });
 
@@ -2329,6 +2336,96 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {// window.onbeforeunload = function() {
     //     return '行った変更が保存されない可能性があります。';
     // };
+  },
+  data: function data() {
+    return {
+      title: '',
+      days: '',
+      overviewForm: [{
+        place: '',
+        content: ''
+      }]
+    };
+  },
+  methods: {
+    addPlacePanel: function addPlacePanel() {
+      this.overviewForm;
+      console.log(this.overviewForm, 'overviewForm');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/EditPlan.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/EditPlan.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
+/* harmony import */ var _components_organisms_OverviewPanel_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/organisms/OverviewPanel.vue */ "./resources/js/components/organisms/OverviewPanel.vue");
+/* harmony import */ var _components_organisms_PlaceDetailPanel_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/organisms/PlaceDetailPanel.vue */ "./resources/js/components/organisms/PlaceDetailPanel.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    OverviewPanel: _components_organisms_OverviewPanel_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    PlaceDetailPanel: _components_organisms_PlaceDetailPanel_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  mounted: function mounted() {
+    // 初期データの取得
+    this.title = '京都旅行';
+    this.days = '12日';
+    console.log(this.title);
   },
   data: function data() {
     return {
@@ -21536,7 +21633,21 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _vm._m(2)
+            _c("div", { staticClass: "w-32 p-4 float-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "text-gray-700 text-center bg-gray-400 p-2 rounded-full",
+                  on: {
+                    click: function($event) {
+                      return _vm.toEditPage()
+                    }
+                  }
+                },
+                [_vm._v("編集する")]
+              )
+            ])
           ]
         )
       ])
@@ -21571,20 +21682,6 @@ var staticRenderFns = [
         _vm._v("計画")
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-32 p-4 float-right" }, [
-      _c(
-        "button",
-        {
-          staticClass: "text-gray-700 text-center bg-gray-400 p-2 rounded-full"
-        },
-        [_vm._v("編集する")]
-      )
-    ])
   }
 ]
 render._withStripped = true
@@ -21597,6 +21694,146 @@ render._withStripped = true
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/ComposePlan.vue?vue&type=template&id=92e7093c& ***!
   \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "bg-gray-200 h-auto overflow-scroll" },
+    [
+      _c("lb-header"),
+      _vm._v(" "),
+      _c("div", { staticClass: "pt-10", attrs: { id: "mainContent" } }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "w-8/12 bg-white h-64 m-auto rounded-lg mb-30 h-auto overflow-scroll"
+          },
+          [
+            _c("compose-i-f", {
+              attrs: {
+                name: "title",
+                label: "タイトル",
+                placeholder: "タイトルを入力してください"
+              },
+              model: {
+                value: _vm.title,
+                callback: function($$v) {
+                  _vm.title = $$v
+                },
+                expression: "title"
+              }
+            }),
+            _vm._v(" "),
+            _c("compose-i-f", {
+              attrs: {
+                name: "days",
+                label: "期間",
+                placeholder: "期間を入力してください。例）12日"
+              },
+              model: {
+                value: _vm.days,
+                callback: function($$v) {
+                  _vm.days = $$v
+                },
+                expression: "days"
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "pt-20", attrs: { id: "overview" } }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "pb-20" }),
+              _vm._v(" "),
+              _c("div", {}, [_c("overview-panel")], 1)
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pt-20", attrs: { id: "overview" } }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "pb-20" }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {},
+                [
+                  _c("place-detail-panel", {
+                    attrs: {
+                      place: _vm.overviewForm.place,
+                      content: _vm.overviewForm.content
+                    },
+                    on: {
+                      addPlacePanel: function($event) {
+                        return _vm.addPlacePanel()
+                      }
+                    },
+                    model: {
+                      value: _vm.overviewForm,
+                      callback: function($$v) {
+                        _vm.overviewForm = $$v
+                      },
+                      expression: "overviewForm"
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ],
+          1
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pl-4 flex justify-center" }, [
+      _c("i", {
+        staticClass: "fas fa-bars sm:text-xl lg:text-2xl text-center py-1 mr-2"
+      }),
+      _c("h1", { staticClass: "sm:text-xl lg:text-2xl text-centerd" }, [
+        _vm._v("概要")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pl-4 flex justify-center" }, [
+      _c("i", {
+        staticClass: "fas fa-bars sm:text-xl lg:text-2xl text-center py-1 mr-2"
+      }),
+      _c("h1", { staticClass: "sm:text-xl lg:text-2xl text-centerd" }, [
+        _vm._v("計画")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/EditPlan.vue?vue&type=template&id=ba45fd48&":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/EditPlan.vue?vue&type=template&id=ba45fd48& ***!
+  \******************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -21820,7 +22057,7 @@ var staticRenderFns = [
                 staticClass: "text-black text-3xl",
                 attrs: { id: "loginTitle" }
               },
-              [_vm._v("めもりあ")]
+              [_vm._v("フォトリップ")]
             ),
             _vm._v(" "),
             _c(
@@ -21834,7 +22071,7 @@ var staticRenderFns = [
                   _vm._v("旅が終わればすぐに捨てるしおり。"),
                   _c("br"),
                   _vm._v(" "),
-                  _c("strong", [_vm._v("めもりあ")]),
+                  _c("strong", [_vm._v("フォトリップ")]),
                   _vm._v("ではしおりに写真を紐付けることで"),
                   _c("br"),
                   _vm._v(
@@ -37767,6 +38004,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/EditPlan.vue":
+/*!*****************************************!*\
+  !*** ./resources/js/pages/EditPlan.vue ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditPlan_vue_vue_type_template_id_ba45fd48___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditPlan.vue?vue&type=template&id=ba45fd48& */ "./resources/js/pages/EditPlan.vue?vue&type=template&id=ba45fd48&");
+/* harmony import */ var _EditPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditPlan.vue?vue&type=script&lang=js& */ "./resources/js/pages/EditPlan.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditPlan_vue_vue_type_template_id_ba45fd48___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditPlan_vue_vue_type_template_id_ba45fd48___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/EditPlan.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/EditPlan.vue?vue&type=script&lang=js&":
+/*!******************************************************************!*\
+  !*** ./resources/js/pages/EditPlan.vue?vue&type=script&lang=js& ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EditPlan.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/EditPlan.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/EditPlan.vue?vue&type=template&id=ba45fd48&":
+/*!************************************************************************!*\
+  !*** ./resources/js/pages/EditPlan.vue?vue&type=template&id=ba45fd48& ***!
+  \************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditPlan_vue_vue_type_template_id_ba45fd48___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EditPlan.vue?vue&type=template&id=ba45fd48& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/EditPlan.vue?vue&type=template&id=ba45fd48&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditPlan_vue_vue_type_template_id_ba45fd48___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditPlan_vue_vue_type_template_id_ba45fd48___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/Home.vue":
 /*!*************************************!*\
   !*** ./resources/js/pages/Home.vue ***!
@@ -38009,9 +38315,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_BookmarkDetail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/BookmarkDetail.vue */ "./resources/js/pages/BookmarkDetail.vue");
 /* harmony import */ var _pages_ComposePlan_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/ComposePlan.vue */ "./resources/js/pages/ComposePlan.vue");
 /* harmony import */ var _pages_PhotoList_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/PhotoList.vue */ "./resources/js/pages/PhotoList.vue");
+/* harmony import */ var _pages_EditPlan_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/EditPlan.vue */ "./resources/js/pages/EditPlan.vue");
 
 
 /** pages */
+
 
 
 
@@ -38034,6 +38342,9 @@ var routes = [{
 }, {
   path: '/photrip/photo',
   component: _pages_PhotoList_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+}, {
+  path: '/photrip/edit/plan',
+  component: _pages_EditPlan_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',

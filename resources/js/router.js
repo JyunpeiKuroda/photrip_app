@@ -7,6 +7,7 @@ import Home from './pages/Home.vue';
 import BookmarkDetail from './pages/BookmarkDetail.vue';
 import ComposePlan from './pages/ComposePlan.vue';
 import PhotoList from './pages/PhotoList.vue';
+import EditPlan from './pages/EditPlan.vue';
 
 Vue.use(Router);
 
@@ -16,6 +17,7 @@ const routes = [
     { path: '/photrip/bookmark/detail', component: BookmarkDetail },
     { path: '/photrip/compose/plan', component: ComposePlan },
     { path: '/photrip/photo', component: PhotoList },
+    { path: '/photrip/edit/plan', component: EditPlan },
 ];
 
 export default new Router({

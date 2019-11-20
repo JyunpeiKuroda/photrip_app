@@ -45,7 +45,7 @@
 
                 <!-- 編集ボタン -->
                 <div class="w-32 p-4 float-right">
-                    <button class="text-gray-700 text-center bg-gray-400 p-2 rounded-full">編集する</button>
+                    <button @click="toEditPage()" class="text-gray-700 text-center bg-gray-400 p-2 rounded-full">編集する</button>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@ export default {
                 { overviewTitle: '持ち物', overviewContent: 'あちこ'},
             ],
             planData: [
-                { day: '1', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: true },
+                { day: '1', place: '東京駅', placeDetail: 'ここで集合です！！！！', endDeclear: false, imgLink: true },
                 { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
                 { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
                 { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
@@ -78,6 +78,13 @@ export default {
                 { day: '0', place: '東京駅', placeDetail: '', endDeclear: true, imgLink: false },
             ],
             bookmarkTitle: '京都旅行'
+        }
+    },
+    methods: {
+        toEditPage() {
+            this.$router.push({
+                path: '/photrip/edit/plan'
+            })
         }
     }
 }
