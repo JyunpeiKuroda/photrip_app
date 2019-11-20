@@ -7,8 +7,8 @@
                 <div class="w-1/6 p-2" v-for="(imginfo, index) in imgData" :key="index">
                     <p class="h-8 text-gray-600">{{ imginfo.place }}</p>
                     <a @click="imgListener(imginfo)">
-                        <div class="text-gray-700 text-center bg-gray-400 p-2 h-64">
-                        {{ imginfo.img }}
+                        <div class="text-gray-700 text-center bg-gray-400 h-64 shadow-lg">
+                            <img :src="imginfo.imgUrl" class="object-cover h-64 w-full">
                         </div>
                     </a>
                 </div>
@@ -26,14 +26,8 @@ export default {
     data() {
         return {
             imgData: [
-                { place: '京都駅', img: 'aaa',photoId: '1111' },
-                { place: '', img: 'aaa', photoId: '123' },
-                { place: '', img: 'aaa', photoId: '234' },
-                { place: '大阪駅', img: 'aaa', photoId: '345' },
-                { place: '', img: 'aaa', photoId: '345' },
-                { place: '', img: 'aaa', photoId: '345' },
-                { place: '', img: 'aaa', photoId: '345' },
-                { place: '', img: 'aaa', photoId: '345' }
+                { place: '京都駅', imgUrl: 'https://seolaboratory.jp/wordpress/wp-content/uploads/2017/04/pho01-7.png',photoId: '1111' },
+                { place: '', imgUrl: 'https://seolaboratory.jp/wordpress/wp-content/uploads/2017/04/pho05-2.png', photoId: '123' }
             ]
         }
     },

@@ -2492,36 +2492,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       imgData: [{
         place: '京都駅',
-        img: 'aaa',
+        imgUrl: 'https://seolaboratory.jp/wordpress/wp-content/uploads/2017/04/pho01-7.png',
         photoId: '1111'
       }, {
         place: '',
-        img: 'aaa',
+        imgUrl: 'https://seolaboratory.jp/wordpress/wp-content/uploads/2017/04/pho05-2.png',
         photoId: '123'
-      }, {
-        place: '',
-        img: 'aaa',
-        photoId: '234'
-      }, {
-        place: '大阪駅',
-        img: 'aaa',
-        photoId: '345'
-      }, {
-        place: '',
-        img: 'aaa',
-        photoId: '345'
-      }, {
-        place: '',
-        img: 'aaa',
-        photoId: '345'
-      }, {
-        place: '',
-        img: 'aaa',
-        photoId: '345'
-      }, {
-        place: '',
-        img: 'aaa',
-        photoId: '345'
       }]
     };
   },
@@ -21950,14 +21926,13 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "text-gray-700 text-center bg-gray-400 p-2 h-64"
+                        "text-gray-700 text-center bg-gray-400 h-64 shadow-lg"
                     },
                     [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(imginfo.img) +
-                          "\n                    "
-                      )
+                      _c("img", {
+                        staticClass: "object-cover h-64 w-full",
+                        attrs: { src: imginfo.imgUrl }
+                      })
                     ]
                   )
                 ]
