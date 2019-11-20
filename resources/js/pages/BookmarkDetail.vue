@@ -44,8 +44,11 @@
                 </div> 
 
                 <!-- 編集ボタン -->
-                <div class="w-32 p-4 float-right">
-                    <button @click="toEditPage()" class="text-gray-700 text-center bg-gray-400 p-2 rounded-full">編集する</button>
+                <div class="w-32 py-6 float-right">
+                    <button @click="toEditPage()" class="text-white text-center bg-gray-500 p-2 border-2 border-gray-500 rounded-full hover:bg-gray-300 hover:text-black">編集する</button>
+                </div>
+                <div class="w-32 py-6 float-right">
+                    <button @click="deletePlan()" class="text-red-500 text-center border-2 border-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white">削除する</button>
                 </div>
             </div>
         </div>

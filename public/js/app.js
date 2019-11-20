@@ -2200,6 +2200,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -21633,12 +21636,12 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "w-32 p-4 float-right" }, [
+            _c("div", { staticClass: "w-32 py-6 float-right" }, [
               _c(
                 "button",
                 {
                   staticClass:
-                    "text-gray-700 text-center bg-gray-400 p-2 rounded-full",
+                    "text-white text-center bg-gray-500 p-2 border-2 border-gray-500 rounded-full hover:bg-gray-300 hover:text-black",
                   on: {
                     click: function($event) {
                       return _vm.toEditPage()
@@ -21646,6 +21649,22 @@ var render = function() {
                   }
                 },
                 [_vm._v("編集する")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-32 py-6 float-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "text-red-500 text-center border-2 border-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white",
+                  on: {
+                    click: function($event) {
+                      return _vm.deletePlan()
+                    }
+                  }
+                },
+                [_vm._v("削除する")]
               )
             ])
           ]
