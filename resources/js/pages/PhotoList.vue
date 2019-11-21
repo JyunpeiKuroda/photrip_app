@@ -7,8 +7,8 @@
                 <div class="w-1/6 p-2" v-for="(imginfo, index) in imgData" :key="index">
                     <p class="h-8 text-gray-600">{{ imginfo.place }}</p>
                     <a @click="imgListener(imginfo)">
-                        <div class="text-gray-700 text-center bg-gray-400 h-64 shadow-lg">
-                            <img :src="imginfo.imgUrl" class="object-cover h-64 w-full">
+                        <div class="text-center bg-white h-64 shadow-lg">
+                            <img :src="imginfo.imgUrl" class="object-cover h-64 w-full py-1 px-1">
                         </div>
                     </a>
                 </div>

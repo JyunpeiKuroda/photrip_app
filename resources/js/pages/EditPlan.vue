@@ -41,16 +41,12 @@
 <script>
 import LbHeader from '../components/Header.vue';
 import ComposeIF from '../components/molecules/ComposeInputField.vue';
-import OverviewPanel from '../components/organisms/OverviewPanel.vue';
-import PlaceDetailPanel from '../components/organisms/PlaceDetailPanel.vue';
 
 
 export default {
     components: {
         LbHeader,
-        ComposeIF,
-        OverviewPanel,
-        PlaceDetailPanel
+        ComposeIF
     },
     mounted () {
         // 初期データの取得
