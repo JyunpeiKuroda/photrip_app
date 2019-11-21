@@ -1,6 +1,6 @@
 <template>
   <header class="bg-white sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-lg">
-    <div class="flex items-center justify-between px-4 py-3 sm:p-0">
+    <div class="flex items-center justify-between px-4 py-4 sm:p-0">
       <div>
         <img class="" src="" alt="">
       </div>
@@ -13,14 +13,14 @@
         </button>
       </div>
     </div>
-    <nav :class="isOpen ? 'block' : 'hidden'" class="px-2 pt-2 pb-4 sm:flex sm:p-0">
-        <router-link to="/memoria/home" class="mt-1 block px-2 py-1 text-black font-semibold rounded">
+    <nav :class="isOpen ? 'block' : 'hidden'" class="px-4 pt-4 pb-4 sm:flex sm:p-0">
+        <router-link to="/photrip/home" class="mt-1 block px-2 py-1 text-black font-semibold rounded">
             <i class="fas fa-home"></i><span class="ml-2">ホーム</span>
         </router-link>
-        <router-link to="/memoria/compose/plan" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
+        <router-link to="/photrip/compose/plan" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
             <i class="far fa-plus-square"></i><span class="ml-2">しおりを作成する</span>
         </router-link>
-        <router-link to="/memoria/user" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
+        <router-link to="/photrip/user" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
             <i class="fas fa-user"></i><span class="ml-2">ユーザー名</span>
         </router-link>
     </nav>
