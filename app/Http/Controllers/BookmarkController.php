@@ -24,7 +24,8 @@ class BookmarkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dump($request->input());
+        dump($request->request->parameters);
     }
 
     /**

@@ -2256,35 +2256,35 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      bookmarkForm: {
+      form: {
         title: '',
-        days: ''
-      },
-      overviewForm: [{
-        overview: '',
-        content: ''
-      }],
-      placeForm: [{
-        place: '',
-        detail: ''
-      }]
+        days: '',
+        overviewForm: [{
+          overview: '',
+          content: ''
+        }],
+        placeForm: [{
+          place: '',
+          detail: ''
+        }]
+      }
     };
   },
   methods: {
     // 概要フォーム
     addOverviewPanel: function addOverviewPanel(form) {
+      console.log(form, 'form');
       var overview = form.overview;
       var content = form.content;
       var additionalForm = {
-        place: place,
-        overview: overview
+        overview: overview,
+        content: content
       };
-      this.overviewForm.push(additionalForm);
-      this.overviewForm[this.overviewForm.length - 1] = {
+      this.form.overviewForm.push(additionalForm);
+      this.form.overviewForm[this.form.overviewForm.length - 1] = {
         overview: '',
         content: ''
       };
-      console.log('概要フォーム : ', this.overviewForm);
     },
     deleteOverviewPanel: function deleteOverviewPanel(index) {
       if (this.overviewForm.length === 1) {
@@ -2295,32 +2295,30 @@ __webpack_require__.r(__webpack_exports__);
     },
     // プランフォーム
     addPlacePanel: function addPlacePanel(form) {
-      var place = form.overplaceview;
+      var place = form.place;
       var detail = form.detail;
       var additionalForm = {
         place: place,
         detail: detail
       };
-      this.placeForm.push(additionalForm);
-      this.placeForm[this.placeForm.length - 1] = {
+      this.form.placeForm.push(additionalForm);
+      this.form.placeForm[this.form.placeForm.length - 1] = {
         place: '',
         detail: ''
       };
       console.log('プランフォーム : ', this.placeForm);
     },
     deletePlacePanel: function deletePlacePanel(index) {
-      if (this.placeForm.length === 1) {
+      if (this.form.placeForm.length === 1) {
         alert('これ以上削除することはできません');
       } else {
-        this.placeForm.splice(index, 1);
+        this.form.placeForm.splice(index, 1);
       }
     },
     composeBookmark: function composeBookmark() {
-      var params = [];
-      params.push(this.bookmarkForm);
-      params.push(this.overviewForm);
-      params.push(this.placeForm);
-      console.log(params, 'params'); // axios.post('/api/v1/bookmark')
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/v1/bookmark', this.form).then(function (res) {
+        console.log(res);
+      });
     }
   }
 });
@@ -21537,11 +21535,11 @@ var render = function() {
                 placeholder: "タイトルを入力してください"
               },
               model: {
-                value: _vm.bookmarkForm.title,
+                value: _vm.form.title,
                 callback: function($$v) {
-                  _vm.$set(_vm.bookmarkForm, "title", $$v)
+                  _vm.$set(_vm.form, "title", $$v)
                 },
-                expression: "bookmarkForm.title"
+                expression: "form.title"
               }
             }),
             _vm._v(" "),
@@ -21552,11 +21550,11 @@ var render = function() {
                 placeholder: "期間を入力してください。例）12日"
               },
               model: {
-                value: _vm.bookmarkForm.days,
+                value: _vm.form.days,
                 callback: function($$v) {
-                  _vm.$set(_vm.bookmarkForm, "days", $$v)
+                  _vm.$set(_vm.form, "days", $$v)
                 },
-                expression: "bookmarkForm.days"
+                expression: "form.days"
               }
             }),
             _vm._v(" "),
@@ -21568,7 +21566,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "pb-20" }),
                 _vm._v(" "),
-                _vm._l(_vm.overviewForm, function(form, index) {
+                _vm._l(_vm.form.overviewForm, function(form, index) {
                   return _c("div", { key: index, staticClass: "mb-5" }, [
                     _c(
                       "div",
@@ -21614,8 +21612,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: form.content,
-                                expression: "form.content"
+                                value: form.overview,
+                                expression: "form.overview"
                               }
                             ],
                             staticClass:
@@ -21625,13 +21623,13 @@ var render = function() {
                               type: "text",
                               placeholder: "例）持ち物など"
                             },
-                            domProps: { value: form.content },
+                            domProps: { value: form.overview },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(form, "content", $event.target.value)
+                                _vm.$set(form, "overview", $event.target.value)
                               }
                             }
                           })
@@ -21653,8 +21651,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: form.overview,
-                                expression: "form.overview"
+                                value: form.content,
+                                expression: "form.content"
                               }
                             ],
                             staticClass:
@@ -21663,13 +21661,13 @@ var render = function() {
                               id: "label",
                               placeholder: "例）充電コード"
                             },
-                            domProps: { value: form.overview },
+                            domProps: { value: form.content },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(form, "overview", $event.target.value)
+                                _vm.$set(form, "content", $event.target.value)
                               }
                             }
                           })
@@ -21706,7 +21704,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "pb-20" }),
                 _vm._v(" "),
-                _vm._l(_vm.placeForm, function(form, index) {
+                _vm._l(_vm.form.placeForm, function(form, index) {
                   return _c("div", { key: index, staticClass: "mb-5" }, [
                     _c(
                       "div",

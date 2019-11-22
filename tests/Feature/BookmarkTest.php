@@ -19,4 +19,24 @@ class BookmarkTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_post_bookmark_json()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->post('/api/v1/bookmark', $this->data());
+        $response->assertStatus(200);
+    } 
+
+    public function data()
+    {
+        return [
+            [ 'title'=> "dsaf", 'days'=> "dfsd" ], 
+            [
+                [ 'overview'=> "dfsgd", 'content'=> "dsafsgd" ]
+            ],
+            [
+                [ 'place'=> "dsfsd", 'detail'=> "sadf" ]
+            ]
+        ];
+    }
 }
