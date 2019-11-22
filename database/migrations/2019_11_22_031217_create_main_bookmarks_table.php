@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlacePhotoTable extends Migration
+class CreateMainBookmarksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePlacePhotoTable extends Migration
      */
     public function up()
     {
-        Schema::create('place_photo', function (Blueprint $table) {
+        Schema::create('main_bookmarks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreatePlacePhotoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('place_photo');
+        Schema::dropIfExists('main_bookmarks');
     }
 }

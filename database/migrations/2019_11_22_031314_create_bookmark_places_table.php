@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookmarksOverviewTable extends Migration
+class CreateBookmarkPlacesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBookmarksOverviewTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookmarks_overview', function (Blueprint $table) {
+        Schema::create('bookmark_places', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateBookmarksOverviewTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bookmarks_overview');
+        Schema::dropIfExists('bookmark_places');
     }
 }

@@ -21795,8 +21795,7 @@ var render = function() {
                                 expression: "form.detail"
                               }
                             ],
-                            staticClass:
-                              "border-b pt-8 w-full focus:outline-none focus:border-blue-400",
+                            staticClass: "border-b pt-8 w-full",
                             attrs: {
                               id: "label",
                               placeholder: "詳細を入力してください"
