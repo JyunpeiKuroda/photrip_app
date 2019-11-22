@@ -58,10 +58,10 @@
                             </div>
                             <div class="relative pt-4 px-4">
                                 <label for="name" class="text-xs text-blue-400 font-bold absolute pt-2">詳細</label>
-                                <textarea id="label" v-model="form.detail" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="詳細を入力してください"></textarea>
+                                <textarea id="label" v-model="form.detail" class="border-b pt-8 w-full" placeholder="詳細を入力してください"></textarea>
                             </div>  
                             <div class="pt-3 ml-8 clearfix">
-                                <button @click="addPlacePanel(form)" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
+                                <button @click="addPlacePanel(form)" class="focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
                             </div>
 
                         </div>

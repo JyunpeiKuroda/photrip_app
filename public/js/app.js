@@ -2102,7 +2102,7 @@ __webpack_require__.r(__webpack_exports__);
         overviewContent: '・充電器'
       }, {
         overviewTitle: '持ち物',
-        overviewContent: 'あちこ'
+        overviewContent: '・充電器'
       }],
       planData: [{
         day: '1',
@@ -21818,7 +21818,7 @@ var render = function() {
                             "button",
                             {
                               staticClass:
-                                "float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300",
+                                "focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300",
                               on: {
                                 click: function($event) {
                                   return _vm.addPlacePanel(form)
