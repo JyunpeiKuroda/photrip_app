@@ -36,6 +36,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 概要フォーム　end -->
 
                 <!-- 計画フォーム -->
                 <div id="overview" class="pt-20">
@@ -67,6 +68,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 計画フォーム end-->
 
                 <div class="pt-3 my-4 mx-4">
                     <button id="composeBtn" @click="composeBookmark()" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">しおりを作成</button>

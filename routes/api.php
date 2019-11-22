@@ -17,4 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/v1/bookmark', 'BookmarkController@store');
+Route::post('/v1/bookmark', 'MainBookmarkController@store');

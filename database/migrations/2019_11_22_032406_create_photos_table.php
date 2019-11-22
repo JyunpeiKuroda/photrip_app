@@ -15,8 +15,6 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('bookmark_id')->unsigned();
-            $table->foreign('bookmark_id')->references('id')->on('main_bookmarks');
             $table->integer('bookmark_place_id')->unsigned();
             $table->foreign('bookmark_place_id')->references('id')->on('bookmark_places');
             $table->string('img_url');

@@ -8,12 +8,18 @@ class BookmarkPlace extends Model
 {
     protected $guarded = ['id'];
 
-    public function bookmark_main()
+    protected $fillable = [
+        'main_bookmark_id',
+        'place',
+        'place_detail'
+    ];
+
+    public function bookmarkMain()
     {
         return $this->belongsTo('App\MainBookmark');
     }
 
-    public function photo()
+    public function photos()
     {
         return $this->hasMany('App\Photo');
     }

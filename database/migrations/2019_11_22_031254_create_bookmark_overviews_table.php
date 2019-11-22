@@ -15,8 +15,8 @@ class CreateBookmarkOverviewsTable extends Migration
     {
         Schema::create('bookmark_overviews', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('bookmark_id')->unsigned();
-            $table->foreign('bookmark_id')->references('id')->on('main_bookmarks');
+            $table->integer('main_bookmark_id')->unsigned();
+            $table->foreign('main_bookmark_id')->references('id')->on('main_bookmarks')->onDelete('cascade');
             $table->string('overview_title');
             $table->string('overview_content');
             $table->timestamps();

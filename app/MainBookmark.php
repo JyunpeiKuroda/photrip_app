@@ -8,12 +8,12 @@ class MainBookmark extends Model
 {
     protected $guarded = ['id', 'user_id'];
 
-    public function place_detail()
+    public function placeDetails()
     {
         return $this->hasMany('App\BookmarkPlace');
     }
 
-    public function bookmark_overview()
+    public function bookmarkOverviews()
     {
         return $this->hasMany('App\BookmarkOverview');
     }

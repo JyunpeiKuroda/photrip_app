@@ -15,13 +15,14 @@ class CreateBookmarkPlacesTable extends Migration
     {
         Schema::create('bookmark_places', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('bookmark_id')->unsigned();
-            $table->foreign('bookmark_id')->references('id')->on('main_bookmarks');
+            $table->integer('main_bookmark_id')->unsigned();
             $table->string('place');
-            $table->string('place_detail');
-            $table->integer('photo_id')->unsigned();
-            $table->foreign('photo_id')->references('id')->on('photos');
+            $table->string('place_detail')->nullable();
             $table->timestamps();
+
+            $table->foreign('main_bookmark_id')
+                  ->references('id')
+                  ->on('main_bookmarks');
         });
     }
 
