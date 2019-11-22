@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookmarkOverviewsTable extends Migration
+class CreatePhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateBookmarkOverviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookmark_overviews', function (Blueprint $table) {
+        Schema::create('photos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('bookmark_id')->unsigned();
             $table->foreign('bookmark_id')->references('id')->on('main_bookmarks');
-            $table->string('overview_title');
-            $table->string('overview_content');
+            $table->integer('bookmark_place_id')->unsigned();
+            $table->foreign('bookmark_place_id')->references('id')->on('bookmark_places');
+            $table->string('img_url');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateBookmarkOverviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bookmark_overviews');
+        Schema::dropIfExists('photos');
     }
 }
