@@ -120,10 +120,10 @@ export default {
             }
         },
         deleteOverviewPanel(index) {
-            if (this.overviewForm.length === 1) {
+            if (this.form.overviewForm.length === 1) {
                 alert('これ以上削除することはできません')
             } else {
-                this.overviewForm.splice(index, 1)
+                this.form.overviewForm.splice(index, 1)
             }
         },
         // プランフォーム

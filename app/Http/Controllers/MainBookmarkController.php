@@ -11,13 +11,19 @@ use Illuminate\Support\Facades\DB;
 class MainBookmarkController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * ・最新情報順に表示
+     * ・１ページに15行分のデータ
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        // $query = MainBookmark::query();
+        // $bookmarks = $query->orderBy('id','desc')->paginate(10);
+        
+        $bookmark_place = MainBookmark::find(1)->placeDetails();
+        dd($bookmark_place);
+        return $bookmark_place;
     }
 
     /**

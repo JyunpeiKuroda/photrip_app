@@ -10,6 +10,6 @@ class BookmarkOverview extends Model
 
     public function bookmark_main()
     {
-        return $this->belongsTo('App\MainBookmark');
+        return $this->belongsTo(MainBookmark::class);
     }
 }

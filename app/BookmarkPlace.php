@@ -16,11 +16,11 @@ class BookmarkPlace extends Model
 
     public function bookmarkMain()
     {
-        return $this->belongsTo('App\MainBookmark');
+        return $this->belongsTo(MainBookmark::class);
     }
 
     public function photos()
     {
-        return $this->hasMany('App\Photo');
+        return $this->hasMany(Photo::class);
     }
 }

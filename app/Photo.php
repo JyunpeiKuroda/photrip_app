@@ -10,6 +10,6 @@ class Photo extends Model
 
     public function bookmark_place()
     {
-        return $this->belongsTo('App\BookmarkPlace');
+        return $this->belongsTo(BookmarkPlace::class);
     }
 }

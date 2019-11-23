@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/v1/bookmark', 'MainBookmarkController@store');
+Route::get('/v1/bookmark', 'MainBookmarkController@index');

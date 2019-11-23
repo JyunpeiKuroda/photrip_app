@@ -10,11 +10,11 @@ class MainBookmark extends Model
 
     public function placeDetails()
     {
-        return $this->hasMany('App\BookmarkPlace');
+        return $this->hasMany(BookmarkPlace::class);
     }
 
     public function bookmarkOverviews()
     {
-        return $this->hasMany('App\BookmarkOverview');
+        return $this->hasMany(BookmarkOverview::class);
     }
 }
