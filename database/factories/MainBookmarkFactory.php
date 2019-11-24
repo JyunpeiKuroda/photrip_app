@@ -2,8 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\MainBookmark;
-use App\Model;
+use App\Models\MainBookmark;
 use Faker\Generator as Faker;
 
 $factory->define(MainBookmark::class, function (Faker $faker) {

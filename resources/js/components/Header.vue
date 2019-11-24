@@ -1,5 +1,6 @@
 <template>
   <header class="bg-white sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-lg">
+    <router-link to="/photrip/home" class=""><img class="float-left w-30 h-20" src="../asset/photrip_logo.png"></router-link>
     <div class="flex items-center justify-between px-4 py-4 sm:p-0">
       <div>
         <img class="" src="" alt="">

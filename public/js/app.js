@@ -1867,6 +1867,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -20994,6 +20995,13 @@ var render = function() {
         "bg-white sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-lg"
     },
     [
+      _c("router-link", { attrs: { to: "/photrip/home" } }, [
+        _c("img", {
+          staticClass: "float-left w-30 h-20",
+          attrs: { src: __webpack_require__(/*! ../asset/photrip_logo.png */ "./resources/js/asset/photrip_logo.png") }
+        })
+      ]),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "flex items-center justify-between px-4 py-4 sm:p-0" },
@@ -21098,7 +21106,8 @@ var render = function() {
         ],
         1
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = [
@@ -22120,7 +22129,12 @@ var staticRenderFns = [
                 staticClass: "text-black text-3xl",
                 attrs: { id: "loginTitle" }
               },
-              [_vm._v("フォトリップ")]
+              [
+                _c("img", {
+                  staticClass: "m-auto w-30 h-20",
+                  attrs: { src: __webpack_require__(/*! ../asset/login_logo.png */ "./resources/js/asset/login_logo.png") }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -37369,6 +37383,28 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: _router__WEBPACK_IMPORTED_MODULE_1__["default"],
   el: '#app'
 });
+
+/***/ }),
+
+/***/ "./resources/js/asset/login_logo.png":
+/*!*******************************************!*\
+  !*** ./resources/js/asset/login_logo.png ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/login_logo.png?1327936a01f985eb31fe41131ee012a6";
+
+/***/ }),
+
+/***/ "./resources/js/asset/photrip_logo.png":
+/*!*********************************************!*\
+  !*** ./resources/js/asset/photrip_logo.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/photrip_logo.png?f2cbf13aa04ffdead71eea83f3a245d4";
 
 /***/ }),
 

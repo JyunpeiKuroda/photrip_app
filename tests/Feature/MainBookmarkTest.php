@@ -2,44 +2,60 @@
 
 namespace Tests\Feature;
 
-use App\BookmarkOverview;
-use App\BookmarkPlace;
-use App\MainBookmark;
+use App\Models\BookmarkOverview;
+use App\Models\BookmarkPlace;
+use App\Models\MainBookmark;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class MainBookmarkTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     public function test_get_bookmarks_list()
     {
         $this->withoutExceptionHandling();
+        $this->withoutMiddleware();
         
-        $bookmark_main     = factory(MainBookmark::class)->create();
-        $bookmark_overview = factory(BookmarkOverview::class)->create();
-        $bookmark_place    = factory(BookmarkPlace::class)->create();
+        $bookmark_main = factory(MainBookmark::class)->create()
+            ->each(function($bookmark) {
+                $bookmark->bookmarkOverviews()->save(
+                    factory(BookmarkOverview::class)->make(),
+                    factory(BookmarkPlace::class)->make()
+                );
+            });
 
-        $response = $this->get('/v1/bookmark');
+        // dd($bookmark_main);
+        $this->assertCount(1, BookmarkPlace::all());
+        // $this->assertCount(1, BookmarkOverview::all());
+        // $this->assertCount(1, BookmarkPlace::all());
 
-        $response->assertJson([
-            'data' => [
-                'bookmark_title' => $bookmark_main->bookmark_title,
-                'bookmark_days' => $bookmark_main->bookmark_days,
-                'overviewForm' => [
-                    'main_bookmark_id' => $bookmark_overview->main_bookmark_id,
-                    'overview_title' => $bookmark_overview->overview_title, 
-                    'overview_content' => $bookmark_overview->overview_content
-                ],
-                'placeForm' => [
-                    'main_bookmark_id' => $bookmark_place->main_bookmark_id,
-                    'place' => $bookmark_place->place,
-                    'place_detail' => $bookmark_place->place_detail,
-                ],
-            ]
-        ]);
-    } 
+        // $response = $this->get('/api/v1/bookmark');
+        
+        // // $response->assertJson([
+        // //     'data' => [
+        // //         'bookmark_title' => $bookmark_main->bookmark_title,
+        // //         'bookmark_days' => $bookmark_main->bookmark_days,
+        // //         'overviewForm' => [
+        // //             'main_bookmark_id' => $bookmark_overview->main_bookmark_id,
+        // //             'overview_title' => $bookmark_overview->overview_title, 
+        // //             'overview_content' => $bookmark_overview->overview_content
+        // //         ],
+        // //         'placeForm' => [
+        // //             'main_bookmark_id' => $bookmark_place->main_bookmark_id,
+        // //             'place' => $bookmark_place->place,
+        // //             'place_detail' => $bookmark_place->place_detail,
+        // //         ],
+        // //     ]
+        // // ]);
+        // $response->assertStatus(200);
+        // $response->assertJson([
+        //     'name' => 'mama'
+        // ]);
+    }
 
     // DBに保存できているか
     public function test_can_save_to_db()

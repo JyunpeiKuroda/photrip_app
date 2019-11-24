@@ -2,7 +2,7 @@
     <div class="">
         <div class="bg-blue-500 h-full mx-auto flex justify-center items-center">
             <div class="w-96 bg-white rounded-lg shadow-xl p-6">
-                <h1 class="text-black text-3xl" id="loginTitle">フォトリップ</h1>
+                <h1 class="text-black text-3xl" id="loginTitle"><img class="m-auto w-30 h-20" src="../asset/login_logo.png"></h1>
 
                 <div class="mt-10 text-xl align-middle" id="loginContent">
                     <p>旅が終わればすぐに捨てるしおり。<br>
