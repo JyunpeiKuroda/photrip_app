@@ -4,8 +4,8 @@
         <div class="pt-10" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg mb-30 h-auto overflow-scroll">
 
-                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" v-model="bookmarkForm.title"/>
-                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" v-model="bookmarkForm.days"/>
+                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" v-model="form.title"/>
+                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" v-model="form.days"/>
 
                 <!-- 概要フォーム -->
                 <div id="overview" class="pt-20">
@@ -13,7 +13,7 @@
                         <i class="fas fa-bars sm:text-xl lg:text-2xl text-center py-1 mr-2"></i><h1 class="sm:text-xl lg:text-2xl text-centerd">概要</h1>
                     </div>
                     <div class="pb-20"></div>
-                    <div class="mb-5" v-for="(form, index) in overviewForm" :key="index"> 
+                    <div class="mb-5" v-for="(form, index) in form.overviewForm" :key="index"> 
                         <div class="w-7/12 bg-white m-auto rounded-lg border shadow-xl p-6 h-auto">
                             <!-- クリアボタン -->
                             <div class="pb-3">
@@ -24,11 +24,11 @@
 
                             <div class="relative pt-4 px-4">
                                 <label for="overview" class="text-xs text-blue-400 font-bold absolute pt-2">概要</label>
-                                <input id="overview" v-model="form.content" type="text" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="例）持ち物など">
+                                <input id="overview" v-model="form.overview" type="text" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="例）持ち物など">
                             </div>
                             <div class="relative pt-4 px-4">
                                 <label for="name" class="text-xs text-blue-400 font-bold absolute pt-2">詳細</label>
-                                <textarea id="label" v-model="form.overview" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="例）充電コード"></textarea>
+                                <textarea id="label" v-model="form.content" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="例）充電コード"></textarea>
                             </div>  
                             <div class="pt-3 ml-8 clearfix">
                                 <button @click="addOverviewPanel(form)" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
@@ -36,6 +36,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 概要フォーム　end -->
 
                 <!-- 計画フォーム -->
                 <div id="overview" class="pt-20">
@@ -43,7 +44,7 @@
                         <i class="fas fa-bars sm:text-xl lg:text-2xl text-center py-1 mr-2"></i><h1 class="sm:text-xl lg:text-2xl text-centerd">計画</h1>
                     </div>
                     <div class="pb-20"></div>
-                    <div class="mb-5" v-for="(form, index) in placeForm" :key="index">
+                    <div class="mb-5" v-for="(form, index) in form.placeForm" :key="index">
                         <div class="w-7/12 bg-white m-auto rounded-lg border shadow-xl p-6 h-auto">
                             <!-- クリアボタン -->
                             <div class="pb-3">
@@ -58,15 +59,16 @@
                             </div>
                             <div class="relative pt-4 px-4">
                                 <label for="name" class="text-xs text-blue-400 font-bold absolute pt-2">詳細</label>
-                                <textarea id="label" v-model="form.detail" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="詳細を入力してください"></textarea>
+                                <textarea id="label" v-model="form.detail" class="border-b pt-8 w-full" placeholder="詳細を入力してください"></textarea>
                             </div>  
                             <div class="pt-3 ml-8 clearfix">
-                                <button @click="addPlacePanel(form)" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
+                                <button @click="addPlacePanel(form)" class="focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
                             </div>
 
                         </div>
                     </div>
                 </div>
+                <!-- 計画フォーム end-->
 
                 <div class="pt-3 my-4 mx-4">
                     <button id="composeBtn" @click="composeBookmark()" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">しおりを作成</button>
@@ -88,54 +90,53 @@ export default {
     },
     data() {
         return {
-            bookmarkForm: {
+            form: {
                 title: '',
                 days: '',
+                overviewForm: [
+                    { overview: '', content: '' }
+                ],
+                placeForm: [
+                    { place: '', detail: '' }
+                ]
             },
-            overviewForm: [
-                { overview: '', content: '' }
-            ],
-            placeForm: [
-                { place: '', detail: '' }
-            ]
         }
     },
     methods: {
         // 概要フォーム
         addOverviewPanel(form) {
+            console.log(form , 'form')
             const overview = form.overview
-            const content = form.content 
+            const content = form.content
             const additionalForm = {
-                place: place,
-                overview: overview
+                overview: overview,
+                content: content
             }
 
-            this.overviewForm.push(additionalForm)
-            this.overviewForm[this.overviewForm.length - 1] = {
+            this.form.overviewForm.push(additionalForm)
+            this.form.overviewForm[this.form.overviewForm.length - 1] = {
                 overview: '',
                 content: ''
             }
-
-            console.log('概要フォーム : ', this.overviewForm)
         },
         deleteOverviewPanel(index) {
-            if (this.overviewForm.length === 1) {
+            if (this.form.overviewForm.length === 1) {
                 alert('これ以上削除することはできません')
             } else {
-                this.overviewForm.splice(index, 1)
+                this.form.overviewForm.splice(index, 1)
             }
         },
         // プランフォーム
         addPlacePanel(form) {
-            const place = form.overplaceview
-            const detail = form.detail 
+            const place = form.place
+            const detail = form.detail
             const additionalForm = {
                 place: place,
                 detail: detail
             }
 
-            this.placeForm.push(additionalForm)
-            this.placeForm[this.placeForm.length - 1] = {
+            this.form.placeForm.push(additionalForm)
+            this.form.placeForm[this.form.placeForm.length - 1] = {
                 place: '',
                 detail: ''
             }
@@ -143,20 +144,17 @@ export default {
             console.log('プランフォーム : ', this.placeForm)
         },
         deletePlacePanel(index) {
-            if (this.placeForm.length === 1) {
+            if (this.form.placeForm.length === 1) {
                 alert('これ以上削除することはできません')
             } else {
-                this.placeForm.splice(index, 1)
+                this.form.placeForm.splice(index, 1)
             }
         },
         composeBookmark() {
-            const params = []
-            params.push(this.bookmarkForm)
-            params.push(this.overviewForm)
-            params.push(this.placeForm)
-
-            console.log(params, 'params')
-            // axios.post('/api/v1/bookmark')
+            axios.post('/api/v1/bookmark', this.form)
+            .then(res => {
+                console.log(res);
+            })
         }
     }
 

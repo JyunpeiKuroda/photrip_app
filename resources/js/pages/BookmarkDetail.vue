@@ -70,7 +70,7 @@ export default {
         return {
             data: [
                 { overviewTitle: '持ち物', overviewContent: '・充電器'},
-                { overviewTitle: '持ち物', overviewContent: 'あちこ'},
+                { overviewTitle: '持ち物', overviewContent: '・充電器'},
             ],
             planData: [
                 { day: '1', place: '東京駅', placeDetail: 'ここで集合です！！！！', endDeclear: false, imgLink: true },
