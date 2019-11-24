@@ -5,36 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\BookmarkOverview;
 use App\Models\BookmarkPlace;
 use App\Models\MainBookmark;
+use App\Services\BookmarkService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MainBookmarkController extends Controller
 {
+    private $bookmark_service;
+
+    public function __construct(BookmarkService $bookmark_service)
+    {
+        $this->bookmark_service = $bookmark_service;
+    }
+
     /**
-     * ・最新情報順に表示
+     * 一覧取得
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        
-        $guide = MainBookmark::join('bookmark_overviews', 'main_bookmarks.id', '=', 'bookmark_overviews.main_bookmark_id')
-            ->join('bookmark_places', 'main_bookmarks.id', '=', 'bookmark_places.main_bookmark_id')
-            ->get();
+        // $guide = MainBookmark::join('bookmark_overviews', 'main_bookmarks.id', '=', 'bookmark_overviews.main_bookmark_id')
+            // ->join('bookmark_places', 'main_bookmarks.id', '=', 'bookmark_places.main_bookmark_id')
+            // ->get();
+            
+        return $this->bookmark_service->getAllBookmarks();
 
-        dump($guide);
-        return response()->json($guide);
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -45,36 +41,35 @@ class MainBookmarkController extends Controller
      */
     public function store(Request $request)
     {
+
+        $form = $request->all();
+
         DB::beginTransaction();
 
         try {
+            
+            // しおり固定作成
+            $bookmark = MainBookmark::create($request->get('bookmark', []));
 
-            $mainBookmark     = new MainBookmark();
-            $bookmarkOverview = new BookmarkOverview();
-            $bookmarkPlace    = new BookmarkPlace();
-
-            // しおり固定フォーム
-            $bookmark = $mainBookmark::create([
-                'bookmark_title' => $request->title,
-                'bookmark_days'  => $request->days
-            ]);
-
-            // しおり概要フォーム
-            foreach($request->overviewForm as $form) {
-                $bookmarkOverview->main_bookmark_id = $bookmark->id;
-                $bookmarkOverview->overview_title   = $form['overview'];
-                $bookmarkOverview->overview_content = $form['content'];
-            }
-    
-            // しおり場所詳細フォーム
-            foreach($request->placeForm as $form) {
-                $bookmarkPlace->main_bookmark_id = $bookmark->id;
-                $bookmarkPlace->place            = $form['place'];
-                $bookmarkPlace->place_detail     = $form['detail'];
+            // 概要
+            for ($i = 0, $size = count($form['overviewForm']); $size > $i; $i++) {
+                $overview                   = 'overview'.$i;
+                $overview                   = new BookmarkOverview();
+                $overview->overview         = $form['overviewForm'][$i]['overview'];
+                $overview->content          = $form['overviewForm'][$i]['content'];
+                $overview->main_bookmark_id = $bookmark->id;
+                $overview->save();
             }
 
-            $bookmarkOverview->save();
-            $bookmarkPlace->save();
+            // 場所詳細
+            for ($i = 0, $size = count($form['placeForm']); $size > $i; $i++) {
+                $place                   = 'place'.$i;
+                $place                   = new BookmarkPlace();
+                $place->place            = $form['placeForm'][$i]['place'];
+                $place->place_detail     = $form['placeForm'][$i]['detail'];
+                $place->main_bookmark_id = $bookmark->id;
+                $place->save();
+            }
 
         } catch ( Exception $e ) {
 

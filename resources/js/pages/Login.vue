@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="bg-blue-500 h-full mx-auto flex justify-center items-center">
+        <div class="h-full mx-auto flex justify-center items-center" id="login_background">
             <div class="w-96 bg-white rounded-lg shadow-xl p-6">
                 <h1 class="text-black text-3xl" id="loginTitle"><img class="m-auto w-30 h-20" src="../asset/login_logo.png"></h1>
 
@@ -49,6 +49,8 @@ export default {
 
 #loginContent {
     text-align: center;
+    /* color: #336699; */
+    color: #339900;
 }
 
 #loginTitle {
@@ -69,5 +71,9 @@ export default {
 
 #social-auth-title-link {
     text-decoration: none;
+}
+
+#login_background {
+    background-color: #FFCC66;
 }
 </style>

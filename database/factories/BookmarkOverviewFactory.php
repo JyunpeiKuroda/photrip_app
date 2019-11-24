@@ -8,10 +8,8 @@ use Faker\Generator as Faker;
 
 $factory->define(BookmarkOverview::class, function (Faker $faker) {
     return [
-        'main_bookmark_id' => function(){
-            return factory(MainBookmark::class)->create()->id;
-        },
-        'overview_title'   => $faker->sentence,
-        'overview_content' => $faker->sentence
+        'main_bookmark_id' => factory(MainBookmark::class)->create()->id,
+        'overview'   => $faker->sentence,
+        'content' => $faker->sentence
     ];
 });

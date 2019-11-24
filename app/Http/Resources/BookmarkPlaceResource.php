@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class GuidePlaceResource extends ResourceCollection
+class BookmarkPlaceResource extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,8 +15,10 @@ class GuidePlaceResource extends ResourceCollection
     public function toArray($request)
     {
         return[
-            'place' => $this->place,
-            'detail' => $this->place_detail
+            'id'               => $this->id,
+            'main_bookmark_id' => $this->main_bookmark_id,
+            'place'            => $this->place,
+            'detail'           => $this->place_detail
         ];
     }
 }

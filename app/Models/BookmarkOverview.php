@@ -8,6 +8,8 @@ class BookmarkOverview extends Model
 {
     protected $guarded = ['id'];
 
+    public $timestamps=false;
+
     public function bookmark_main()
     {
         return $this->belongsTo(MainBookmark::class);

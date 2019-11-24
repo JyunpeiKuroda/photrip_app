@@ -14,6 +14,8 @@ class BookmarkPlace extends Model
         'place_detail'
     ];
 
+    public $timestamps=false;
+
     public function bookmarkMain()
     {
         return $this->belongsTo(MainBookmark::class);

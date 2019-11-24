@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GuideResource extends JsonResource
+class BookmarkResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,16 +15,11 @@ class GuideResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'guide_title' => $this->guide_title,
-            'guide_days' => $this->guide_days,
-            'overviewForm' => [
-                BookmarkOverviewResource::collection($this->overviewForm)
-            ],
-            'placeForm' => 
-            [
-                BookmarkPlaceResource::collection($this->placeForm)
-            ],
+            'id'        => $this->id,
+            'title'     => $this->guide_title,
+            'days'      => $this->guide_days,
+            'overviews' => BookmarkOverviewResource::collection($this->overviewForm),
+            'places'    => BookmarkPlaceResource::collection($this->placeForm)
         ];
     }
 }

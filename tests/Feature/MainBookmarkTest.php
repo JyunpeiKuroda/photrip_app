@@ -15,46 +15,48 @@ class MainBookmarkTest extends TestCase
     use RefreshDatabase;
     use WithoutMiddleware;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // factory(MainBookmark::class)->create()
+        // ->each(function($bookmark) {
+        //     $bookmark->bookmarkOverviews()->save(
+        //         factory(BookmarkOverview::class)->make(['main_bookmark_id' => $bookmark->id])
+        //     );
+        //     $bookmark->placeDetails()->save(
+        //         factory(BookmarkPlace::class)->make(['main_bookmark_id' => $bookmark->id])
+        //     );
+        // });
+    }
+
     public function test_get_bookmarks_list()
     {
         $this->withoutExceptionHandling();
         $this->withoutMiddleware();
-        
-        $bookmark_main = factory(MainBookmark::class)->create()
-            ->each(function($bookmark) {
-                $bookmark->bookmarkOverviews()->save(
-                    factory(BookmarkOverview::class)->make(),
-                    factory(BookmarkPlace::class)->make()
-                );
-            });
 
+        $response = $this->get('/api/v1/bookmark');
+        // $bookmark = MainBookmark::first();
         // dd($bookmark_main);
-        $this->assertCount(1, BookmarkPlace::all());
-        // $this->assertCount(1, BookmarkOverview::all());
-        // $this->assertCount(1, BookmarkPlace::all());
-
-        // $response = $this->get('/api/v1/bookmark');
-        
-        // // $response->assertJson([
-        // //     'data' => [
-        // //         'bookmark_title' => $bookmark_main->bookmark_title,
-        // //         'bookmark_days' => $bookmark_main->bookmark_days,
-        // //         'overviewForm' => [
-        // //             'main_bookmark_id' => $bookmark_overview->main_bookmark_id,
-        // //             'overview_title' => $bookmark_overview->overview_title, 
-        // //             'overview_content' => $bookmark_overview->overview_content
-        // //         ],
-        // //         'placeForm' => [
-        // //             'main_bookmark_id' => $bookmark_place->main_bookmark_id,
-        // //             'place' => $bookmark_place->place,
-        // //             'place_detail' => $bookmark_place->place_detail,
-        // //         ],
-        // //     ]
-        // // ]);
-        // $response->assertStatus(200);
         // $response->assertJson([
-        //     'name' => 'mama'
+        //     'data' => [
+        //           '*' => [
+        //             'bookmark_title' => $bookmark->bookmark_title,
+        //             'bookmark_days' => $bookmark->bookmark_days,
+        //             '*' => [
+        //                 'main_bookmark_id' => $bookmark->main_bookmark_id,
+        //                 'overview_title' => $bookmark->overview_title, 
+        //                 'overview_content' => $bookmark->overview_content
+        //             ],
+        //             '*' => [
+        //                 'main_bookmark_id' => $bookmark->main_bookmark_id,
+        //                 'place' => $bookmark->place,
+        //                 'place_detail' => $bookmark->place_detail,
+        //             ],
+        //         ]
+        //     ]
         // ]);
+        $response->assertStatus(200);
     }
 
     // DBに保存できているか
@@ -63,9 +65,10 @@ class MainBookmarkTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->post('/api/v1/bookmark', $this->data());
 
+        // dd($response);
         $this->assertCount(1, MainBookmark::all());
         $this->assertCount(1, BookmarkPlace::all());
-        $this->assertCount(1, BookmarkOverview::all());
+        $this->assertCount(2, BookmarkOverview::all());
     } 
 
     // 200返答確認
@@ -81,14 +84,19 @@ class MainBookmarkTest extends TestCase
     public function data()
     {
         return [
-            'title' => '京都旅行',
-            'days' => '12日',
+            'bookmark'  => [
+                'title' => '京都旅行',
+                'days'  => '12日',
+            ],
             'overviewForm' => [[
                 'overview' => '持ち物',
-                'content' => '充電コード'
+                'content'  => '充電コード'
+            ],[
+                'overview' => '持ち物1',
+                'content'  => '充電コード1'
             ]],
-            'placeForm' => [[
-                'place' => '大阪駅',
+            'placeForm'  => [[
+                'place'  => '大阪駅',
                 'detail' => 'ここで集合'
             ]]
         ];

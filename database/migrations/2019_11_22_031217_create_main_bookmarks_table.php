@@ -15,8 +15,8 @@ class CreateMainBookmarksTable extends Migration
     {
         Schema::create('main_bookmarks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('bookmark_title');
-            $table->string('bookmark_days');
+            $table->string('title');
+            $table->string('days');
             $table->timestamps();
         });
     }

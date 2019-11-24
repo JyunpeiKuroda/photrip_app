@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-200">
+    <div class="bg-gray-200" id="homeBackground">
         <lb-header></lb-header>
         <div class="pt-10" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg h-screen mb-30">
@@ -34,3 +34,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+/* #homeBackground {
+    background-color: #FFCC66;
+} */
+</style>
