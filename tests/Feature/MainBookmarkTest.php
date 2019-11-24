@@ -68,7 +68,7 @@ class MainBookmarkTest extends TestCase
         // dd($response);
         $this->assertCount(1, MainBookmark::all());
         $this->assertCount(1, BookmarkPlace::all());
-        $this->assertCount(2, BookmarkOverview::all());
+        $this->assertCount(1, BookmarkOverview::all());
     } 
 
     // 200返答確認
@@ -91,9 +91,6 @@ class MainBookmarkTest extends TestCase
             'overviewForm' => [[
                 'overview' => '持ち物',
                 'content'  => '充電コード'
-            ],[
-                'overview' => '持ち物1',
-                'content'  => '充電コード1'
             ]],
             'placeForm'  => [[
                 'place'  => '大阪駅',

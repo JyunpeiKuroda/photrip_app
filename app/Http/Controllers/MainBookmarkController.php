@@ -23,8 +23,8 @@ class MainBookmarkController extends Controller
     public function index()
     {
         // $guide = MainBookmark::join('bookmark_overviews', 'main_bookmarks.id', '=', 'bookmark_overviews.main_bookmark_id')
-            // ->join('bookmark_places', 'main_bookmarks.id', '=', 'bookmark_places.main_bookmark_id')
-            // ->get();
+        // ->join('bookmark_places', 'main_bookmarks.id', '=', 'bookmark_places.main_bookmark_id')
+        // ->get();
             
         return $this->bookmark_service->getAllBookmarks();
 

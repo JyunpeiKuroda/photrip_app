@@ -17,7 +17,7 @@ class BookmarkService
     /** 全取得　Json整形 */
     public function getAllBookmarks()
     {
-        return BookmarkResource::collection($this->bookmark_repository->getAllBookmarks());
+        return BookmarkResource::collection($this->bookmark_repository->getAll());
     }
 
     /** ID取得　Json整形 */
@@ -29,7 +29,7 @@ class BookmarkService
    /** しおり作成 DB登録処理 */
    public function ComposeGuide(Request $request)
    {
-       return $this->bookmark_repository->ComposeGuide($request);
+       return $this->bookmark_repository->compose($request);
    }
     
 }

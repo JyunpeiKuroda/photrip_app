@@ -5,11 +5,12 @@ namespace App\Repositories;
 use App\Models\MainBookmark as BookmarkModel;
 use App\Models\BookmarkPlace as PlaceModel;
 use App\Models\BookmarkOverview as OverviewModel;
+use App\Services\Interfaces\BookmarkRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class Bookmark
+class Bookmark implements BookmarkRepositoryInterface
 {
     private $bookmark_model;
 
@@ -24,7 +25,7 @@ class Bookmark
         $this->overview_model = $overview_model;
     }
 
-    public function getAllBookmarks()
+    public function getAll()
     {
         return $this->bookmark_model->all();
     }
@@ -34,7 +35,7 @@ class Bookmark
         return $this->bookmark_model->findOrFail($id);   
     }
 
-    public function ComposeGuide(Request $request)
+    public function compose(Request $request)
     {
         $form = $request->all();
  
@@ -46,23 +47,27 @@ class Bookmark
             $bookmark = $this->bookmark_model::create($request->get('bookmark', []));
  
             // 概要
-            for ($i = 0, $size = count($form['overviewForm']); $size > $i; $i++) {
-                $overview                   = 'overview'.$i;
-                $overview                   = new $this->overview_model;
-                $overview->overview         = $form['overviewForm'][$i]['overview'];
-                $overview->content          = $form['overviewForm'][$i]['content'];
-                $overview->main_bookmark_id = $bookmark->id;
-                $overview->save();
+            if (count($form['overviewForm']) > 0) {
+                for ($i = 0, $size = count($form['overviewForm']); $size > $i; $i++) {
+                    $overview                   = 'overview'.$i;
+                    $overview                   = new $this->overview_model;
+                    $overview->overview         = $form['overviewForm'][$i]['overview'];
+                    $overview->content          = $form['overviewForm'][$i]['content'];
+                    $overview->main_bookmark_id = $bookmark->id;
+                    $overview->save();
+                }
             }
  
             // 場所詳細
-            for ($i = 0, $size = count($form['placeForm']); $size > $i; $i++) {
-                $place                   = 'place'.$i;
-                $place                   = $this->place_model;
-                $place->place            = $form['placeForm'][$i]['place'];
-                $place->place_detail     = $form['placeForm'][$i]['detail'];
-                $place->main_bookmark_id = $bookmark->id;
-                $place->save();
+            if (count($form['placeForm']) > 0) {
+                for ($i = 0, $size = count($form['placeForm']); $size > $i; $i++) {
+                    $place                   = 'place'.$i;
+                    $place                   = $this->place_model;
+                    $place->place            = $form['placeForm'][$i]['place'];
+                    $place->place_detail     = $form['placeForm'][$i]['detail'];
+                    $place->main_bookmark_id = $bookmark->id;
+                    $place->save();
+                }
             }
  
         } catch ( Exception $e ) {
