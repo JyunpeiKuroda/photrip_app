@@ -19,22 +19,23 @@ class MainBookmarkTest extends TestCase
     {
         parent::setUp();
 
-        // factory(MainBookmark::class)->create()
-        // ->each(function($bookmark) {
-        //     $bookmark->bookmarkOverviews()->save(
-        //         factory(BookmarkOverview::class)->make(['main_bookmark_id' => $bookmark->id])
-        //     );
-        //     $bookmark->placeDetails()->save(
-        //         factory(BookmarkPlace::class)->make(['main_bookmark_id' => $bookmark->id])
-        //     );
-        // });
+        factory(MainBookmark::class, 2)
+        ->create()
+        ->each(function($bookmark) {
+            $bookmark->bookmarkOverviews()->save(
+                factory(BookmarkOverview::class)->make(['main_bookmark_id' => $bookmark->id])
+            );
+            $bookmark->placeDetails()->save(
+                factory(BookmarkPlace::class)->make(['main_bookmark_id' => $bookmark->id])
+            );
+        });
     }
 
     public function test_get_bookmarks_list()
     {
         $this->withoutExceptionHandling();
         $this->withoutMiddleware();
-
+        
         $response = $this->get('/api/v1/bookmark');
         // $bookmark = MainBookmark::first();
         // dd($bookmark_main);
