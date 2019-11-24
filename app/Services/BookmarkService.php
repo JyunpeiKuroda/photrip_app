@@ -3,7 +3,7 @@ namespace App\Services;
 
 use App\Http\Resources\BookmarkResource as BookmarkResource;
 use App\Repositories\Bookmark as BookmarkRepository;
-
+use Illuminate\Http\Request;
 
 class BookmarkService 
 {
@@ -23,7 +23,13 @@ class BookmarkService
     /** ID取得　Json整形 */
     public function getIdBookmarks(int $id)
     {
-        return new BookmarkService($this->bookmark_repository->getIdBookmark($id));
+        return new BookmarkResource($this->bookmark_repository->getIdBookmark($id));
     }
+
+   /** しおり作成 DB登録処理 */
+   public function ComposeGuide(Request $request)
+   {
+       return $this->bookmark_repository->ComposeGuide($request);
+   }
     
 }

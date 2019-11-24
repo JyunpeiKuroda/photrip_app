@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookmarkOverview;
-use App\Models\BookmarkPlace;
-use App\Models\MainBookmark;
 use App\Services\BookmarkService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class MainBookmarkController extends Controller
 {
@@ -41,46 +38,7 @@ class MainBookmarkController extends Controller
      */
     public function store(Request $request)
     {
-
-        $form = $request->all();
-
-        DB::beginTransaction();
-
-        try {
-            
-            // しおり固定作成
-            $bookmark = MainBookmark::create($request->get('bookmark', []));
-
-            // 概要
-            for ($i = 0, $size = count($form['overviewForm']); $size > $i; $i++) {
-                $overview                   = 'overview'.$i;
-                $overview                   = new BookmarkOverview();
-                $overview->overview         = $form['overviewForm'][$i]['overview'];
-                $overview->content          = $form['overviewForm'][$i]['content'];
-                $overview->main_bookmark_id = $bookmark->id;
-                $overview->save();
-            }
-
-            // 場所詳細
-            for ($i = 0, $size = count($form['placeForm']); $size > $i; $i++) {
-                $place                   = 'place'.$i;
-                $place                   = new BookmarkPlace();
-                $place->place            = $form['placeForm'][$i]['place'];
-                $place->place_detail     = $form['placeForm'][$i]['detail'];
-                $place->main_bookmark_id = $bookmark->id;
-                $place->save();
-            }
-
-        } catch ( Exception $e ) {
-
-            DB::rollback();
-            return back()->withInput();
-
-        }
-
-        DB::commit();
-
-        return response()->json([], 200);
+        return $this->bookmark_service->ComposeGuide($request);
     }
 
     /**
