@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\BookmarkOverview;
-use App\BookmarkPlace;
-use App\MainBookmark;
+use App\Models\BookmarkOverview;
+use App\Models\BookmarkPlace;
+use App\Models\MainBookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,18 +12,19 @@ class MainBookmarkController extends Controller
 {
     /**
      * ・最新情報順に表示
-     * ・１ページに15行分のデータ
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // $query = MainBookmark::query();
-        // $bookmarks = $query->orderBy('id','desc')->paginate(10);
         
-        $bookmark_place = MainBookmark::find(1)->placeDetails();
-        dd($bookmark_place);
-        return $bookmark_place;
+        $guide = MainBookmark::join('bookmark_overviews', 'main_bookmark.id', '=', 'bookmark_overviews.main_bookmark_id')
+            ->join('bookmark_places', 'main_bookmark.id', '=', 'bookmark_places.main_bookmark_id')
+            ->get();
+
+        dd($guide);
+        return $guide;
+
     }
 
     /**

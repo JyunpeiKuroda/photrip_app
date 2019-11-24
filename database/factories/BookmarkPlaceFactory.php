@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(BookmarkPlace::class, function (Faker $faker) {
     return [
         'main_bookmark_id' => factory(MainBookmark::class),
-        'place'            => $faker->place,
-        'place_detail'     => $faker->place_detail
+        'place'            => $faker->city,
+        'place_detail'     => $faker->sentence
     ];
 });

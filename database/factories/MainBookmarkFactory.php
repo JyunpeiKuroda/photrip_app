@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(MainBookmark::class, function (Faker $faker) {
     return [
-        'bookmark_title' => $faker->bookmark_title,
-        'bookmark_days'  => $faker->bookmark_days
+        'bookmark_title' => $faker->sentence,
+        'bookmark_days'  => $faker->sentence
     ];
 });
