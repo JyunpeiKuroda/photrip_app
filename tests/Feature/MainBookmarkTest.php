@@ -15,19 +15,19 @@ class MainBookmarkTest extends TestCase
     use RefreshDatabase;
     use WithoutMiddleware;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        // factory(MainBookmark::class)->create()
-        // ->each(function($bookmark) {
-        //     $bookmark->bookmarkOverviews()->save(
-        //         factory(BookmarkOverview::class)->make(['main_bookmark_id' => $bookmark->id])
-        //     );
-        //     $bookmark->placeDetails()->save(
-        //         factory(BookmarkPlace::class)->make(['main_bookmark_id' => $bookmark->id])
-        //     );
-        // });
+        factory(MainBookmark::class)->create()
+        ->each(function($bookmark) {
+            $bookmark->bookmarkOverviews()->save(
+                factory(BookmarkOverview::class)->make(['main_bookmark_id' => $bookmark->id])
+            );
+            $bookmark->placeDetails()->save(
+                factory(BookmarkPlace::class)->make(['main_bookmark_id' => $bookmark->id])
+            );
+        });
     }
 
     public function test_get_bookmarks_list()
