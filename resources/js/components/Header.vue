@@ -21,19 +21,64 @@
         <router-link to="/photrip/compose/plan" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
             <i class="far fa-plus-square"></i><span class="ml-2">しおりを作成する</span>
         </router-link>
-        <router-link to="/photrip/user" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
-            <i class="fas fa-user"></i><span class="ml-2">ユーザー名</span>
-        </router-link>
+        <a @click="logout()" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
+            <i class="fas fa-user"></i><span class="ml-2">{{ username }}</span>
+        </a>
     </nav>
   </header>
 </template>
 
 <script>
+import  { UNPROCESSABLE_ENTITY }  from '../util';
+import  { INTERNAL_SERVER_ERROR }  from '../util';
+
 export default {
     data() {
         return {
         isOpen: false,
         }
+    },
+    computed: {
+      username() {
+        return this.$store.getters['auth/username']
+      },
+      errorCode() {
+        return this.$store.getters['error/code']
+      },
+      apiStatus() {
+          return this.$store.state.auth.apiStatus
+      },
+    },
+    watch: {
+      errorCode: {
+        handler(code) {
+          if (code === INTERNAL_SERVER_ERROR) {
+            this.$router.push({
+              path: '/',
+              query: { error: 'サーバーのエラーです' }
+            })
+          }
+        },
+        immediate: true
+      },
+      $route () {
+        this.$store.commit('error/setCode', null)
+      }
+    },
+    mounted() {
+        this.loginCheck()
+    },
+    methods: {
+      async logout() {
+        await this.$store.dispatch('auth/logout')
+
+        if (this.apiStatus) {
+          this.$router.push('/login')
+        }
+      },
+      async loginCheck() {
+        await this.$store.dispatch('auth/userinfo')
+      }
     }
 }
 </script>

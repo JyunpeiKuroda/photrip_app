@@ -13,12 +13,12 @@ class CreateMainBookmarksTable extends Migration
      */
     public function up()
     {
-        Schema::create('main_bookmarks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('days');
-            $table->timestamps();
-        });
+        // Schema::create('main_bookmarks', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->string('title');
+        //     $table->string('days');
+        //     $table->timestamps();
+        // });
     }
 
     /**
