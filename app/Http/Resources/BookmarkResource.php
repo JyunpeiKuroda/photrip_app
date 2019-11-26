@@ -16,10 +16,10 @@ class BookmarkResource extends JsonResource
     {
         return [
             'id'        => $this->id,
-            'title'     => $this->guide_title,
-            'days'      => $this->guide_days,
-            'overviews' => BookmarkOverviewResource::collection($this->overviewForm),
-            'places'    => BookmarkPlaceResource::collection($this->placeForm)
+            'title'     => $this->title,
+            'days'      => $this->days,
+            // 'overviews' => BookmarkOverviewResource::collection($this->overviewForm),
+            // 'places'    => BookmarkPlaceResource::collection($this->placeForm)
         ];
     }
 }
