@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Photo extends Model
+class Guide extends Model
 {
     protected $keyType = 'string';
 
     const ID_LENGTH = 12;
 
-    public $timestamps = false;
 
     public function __construct(array $attributes = [])
     {
@@ -44,8 +43,13 @@ class Photo extends Model
         return $id;
     }
 
-    public function place()
+    public function places()
     {
-        return $this->belongsTo(Place::class);
+        return $this->hasMany(Place::class);
+    }
+
+    public function overviews()
+    {
+        return $this->hasMany(Overview::class);
     }
 }
