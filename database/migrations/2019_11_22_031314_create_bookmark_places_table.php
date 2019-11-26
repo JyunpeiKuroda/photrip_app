@@ -13,17 +13,17 @@ class CreateBookmarkPlacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookmark_places', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('main_bookmark_id')->unsigned();
-            $table->string('place');
-            $table->string('place_detail')->nullable();
-            $table->timestamps();
+        // Schema::create('bookmark_places', function (Blueprint $table) {
+            // $table->bigIncrements('id');
+            // $table->bigIncrements('main_bookmark_id')->unsigned();
+            // $table->string('place');
+            // $table->string('place_detail')->nullable();
+            // $table->timestamps();
 
-            $table->foreign('main_bookmark_id')
-                  ->references('id')
-                  ->on('main_bookmarks');
-        });
+            // $table->foreign('main_bookmark_id')
+            //       ->references('id')
+            //       ->on('main_bookmarks');
+        // });
     }
 
     /**

@@ -13,14 +13,14 @@ class CreateBookmarkOverviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookmark_overviews', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('main_bookmark_id')->unsigned();
-            $table->foreign('main_bookmark_id')->references('id')->on('main_bookmarks');
-            $table->string('overview');
-            $table->string('content');
-            $table->timestamps();
-        });
+        // Schema::create('bookmark_overviews', function (Blueprint $table) {
+            // $table->bigIncrements('id');
+            // $table->bigIncrements('main_bookmark_id')->unsigned();
+            // $table->foreign('main_bookmark_id')->references('id')->on('main_bookmarks');
+            // $table->string('overview');
+            // $table->string('content');
+            // $table->timestamps();
+        // });
     }
 
     /**
