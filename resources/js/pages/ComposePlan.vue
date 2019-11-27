@@ -4,8 +4,8 @@
         <div class="pt-10" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg mb-30 h-auto overflow-scroll">
 
-                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" v-model="form.title"/>
-                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" v-model="form.days"/>
+                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" v-model="form.guide.title"/>
+                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" v-model="form.guide.days"/>
 
                 <!-- 概要フォーム -->
                 <div id="overview" class="pt-20">
@@ -13,7 +13,7 @@
                         <i class="fas fa-bars sm:text-xl lg:text-2xl text-center py-1 mr-2"></i><h1 class="sm:text-xl lg:text-2xl text-centerd">概要</h1>
                     </div>
                     <div class="pb-20"></div>
-                    <div class="mb-5" v-for="(form, index) in form.overviewForm" :key="index"> 
+                    <div class="mb-5" v-for="(form, index) in form.overview" :key="index"> 
                         <div class="w-7/12 bg-white m-auto rounded-lg border shadow-xl p-6 h-auto">
                             <!-- クリアボタン -->
                             <div class="pb-3">
@@ -44,7 +44,7 @@
                         <i class="fas fa-bars sm:text-xl lg:text-2xl text-center py-1 mr-2"></i><h1 class="sm:text-xl lg:text-2xl text-centerd">計画</h1>
                     </div>
                     <div class="pb-20"></div>
-                    <div class="mb-5" v-for="(form, index) in form.placeForm" :key="index">
+                    <div class="mb-5" v-for="(form, index) in form.place" :key="index">
                         <div class="w-7/12 bg-white m-auto rounded-lg border shadow-xl p-6 h-auto">
                             <!-- クリアボタン -->
                             <div class="pb-3">
@@ -91,12 +91,14 @@ export default {
     data() {
         return {
             form: {
-                title: '',
-                days: '',
-                overviewForm: [
+                guide: {
+                    title: '',
+                    days: '',
+                },
+                overview: [
                     { overview: '', content: '' }
                 ],
-                placeForm: [
+                place: [
                     { place: '', detail: '' }
                 ]
             },
@@ -105,7 +107,6 @@ export default {
     methods: {
         // 概要フォーム
         addOverviewPanel(form) {
-            console.log(form , 'form')
             const overview = form.overview
             const content = form.content
             const additionalForm = {
@@ -113,17 +114,17 @@ export default {
                 content: content
             }
 
-            this.form.overviewForm.push(additionalForm)
-            this.form.overviewForm[this.form.overviewForm.length - 1] = {
+            this.form.overview.push(additionalForm)
+            this.form.overview[this.form.overview.length - 1] = {
                 overview: '',
                 content: ''
             }
         },
         deleteOverviewPanel(index) {
-            if (this.form.overviewForm.length === 1) {
+            if (this.form.overview.length === 1) {
                 alert('これ以上削除することはできません')
             } else {
-                this.form.overviewForm.splice(index, 1)
+                this.form.overview.splice(index, 1)
             }
         },
         // プランフォーム
@@ -135,25 +136,26 @@ export default {
                 detail: detail
             }
 
-            this.form.placeForm.push(additionalForm)
-            this.form.placeForm[this.form.placeForm.length - 1] = {
+            this.form.place.push(additionalForm)
+            this.form.place[this.form.place.length - 1] = {
                 place: '',
                 detail: ''
             }
-
-            console.log('プランフォーム : ', this.placeForm)
         },
         deletePlacePanel(index) {
-            if (this.form.placeForm.length === 1) {
+            if (this.form.place.length === 1) {
                 alert('これ以上削除することはできません')
             } else {
-                this.form.placeForm.splice(index, 1)
+                this.form.place.splice(index, 1)
             }
         },
         composeBookmark() {
-            axios.post('/api/v1/bookmark', this.form)
+            axios.post('/api/v1/guides', this.form)
             .then(res => {
-                console.log(res);
+                this.$router.push('/photrip/home')
+            })
+            .catch(error => {
+                console.warn(error)
             })
         }
     }

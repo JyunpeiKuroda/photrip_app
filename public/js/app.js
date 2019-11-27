@@ -2347,13 +2347,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        title: '',
-        days: '',
-        overviewForm: [{
+        guide: {
+          title: '',
+          days: ''
+        },
+        overview: [{
           overview: '',
           content: ''
         }],
-        placeForm: [{
+        place: [{
           place: '',
           detail: ''
         }]
@@ -2363,24 +2365,23 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // 概要フォーム
     addOverviewPanel: function addOverviewPanel(form) {
-      console.log(form, 'form');
       var overview = form.overview;
       var content = form.content;
       var additionalForm = {
         overview: overview,
         content: content
       };
-      this.form.overviewForm.push(additionalForm);
-      this.form.overviewForm[this.form.overviewForm.length - 1] = {
+      this.form.overview.push(additionalForm);
+      this.form.overview[this.form.overview.length - 1] = {
         overview: '',
         content: ''
       };
     },
     deleteOverviewPanel: function deleteOverviewPanel(index) {
-      if (this.form.overviewForm.length === 1) {
+      if (this.form.overview.length === 1) {
         alert('これ以上削除することはできません');
       } else {
-        this.form.overviewForm.splice(index, 1);
+        this.form.overview.splice(index, 1);
       }
     },
     // プランフォーム
@@ -2391,23 +2392,26 @@ __webpack_require__.r(__webpack_exports__);
         place: place,
         detail: detail
       };
-      this.form.placeForm.push(additionalForm);
-      this.form.placeForm[this.form.placeForm.length - 1] = {
+      this.form.place.push(additionalForm);
+      this.form.place[this.form.place.length - 1] = {
         place: '',
         detail: ''
       };
-      console.log('プランフォーム : ', this.placeForm);
     },
     deletePlacePanel: function deletePlacePanel(index) {
-      if (this.form.placeForm.length === 1) {
+      if (this.form.place.length === 1) {
         alert('これ以上削除することはできません');
       } else {
-        this.form.placeForm.splice(index, 1);
+        this.form.place.splice(index, 1);
       }
     },
     composeBookmark: function composeBookmark() {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/v1/bookmark', this.form).then(function (res) {
-        console.log(res);
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/v1/guides', this.form).then(function (res) {
+        _this.$router.push('/photrip/home');
+      })["catch"](function (error) {
+        console.warn(error);
       });
     }
   }
@@ -2508,8 +2512,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_organisms_BookmarkList_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/organisms/BookmarkList.vue */ "./resources/js/components/organisms/BookmarkList.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_organisms_BookmarkList_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/organisms/BookmarkList.vue */ "./resources/js/components/organisms/BookmarkList.vue");
 //
 //
 //
@@ -2526,12 +2532,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    BookmarkList: _components_organisms_BookmarkList_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    BookmarkList: _components_organisms_BookmarkList_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  mounted: function mounted() {
+    this.init();
   },
   data: function data() {
     return {
@@ -2546,6 +2556,14 @@ __webpack_require__.r(__webpack_exports__);
         username: 'kkk'
       }]
     };
+  },
+  methods: {
+    // 画面描写
+    init: function init() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/v1/guides').then(function (res) {
+        console.log(res, 'response');
+      });
+    }
   }
 });
 
@@ -22699,11 +22717,11 @@ var render = function() {
                 placeholder: "タイトルを入力してください"
               },
               model: {
-                value: _vm.form.title,
+                value: _vm.form.guide.title,
                 callback: function($$v) {
-                  _vm.$set(_vm.form, "title", $$v)
+                  _vm.$set(_vm.form.guide, "title", $$v)
                 },
-                expression: "form.title"
+                expression: "form.guide.title"
               }
             }),
             _vm._v(" "),
@@ -22714,11 +22732,11 @@ var render = function() {
                 placeholder: "期間を入力してください。例）12日"
               },
               model: {
-                value: _vm.form.days,
+                value: _vm.form.guide.days,
                 callback: function($$v) {
-                  _vm.$set(_vm.form, "days", $$v)
+                  _vm.$set(_vm.form.guide, "days", $$v)
                 },
-                expression: "form.days"
+                expression: "form.guide.days"
               }
             }),
             _vm._v(" "),
@@ -22730,7 +22748,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "pb-20" }),
                 _vm._v(" "),
-                _vm._l(_vm.form.overviewForm, function(form, index) {
+                _vm._l(_vm.form.overview, function(form, index) {
                   return _c("div", { key: index, staticClass: "mb-5" }, [
                     _c(
                       "div",
@@ -22868,7 +22886,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "pb-20" }),
                 _vm._v(" "),
-                _vm._l(_vm.form.placeForm, function(form, index) {
+                _vm._l(_vm.form.place, function(form, index) {
                   return _c("div", { key: index, staticClass: "mb-5" }, [
                     _c(
                       "div",

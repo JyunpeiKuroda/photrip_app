@@ -16,8 +16,8 @@ class CreateOverviewsTable extends Migration
         Schema::create('overviews', function (Blueprint $table) {
             $table->increments('id');
             $table->string('guide_id');
-            $table->string('overview');
-            $table->string('content');
+            $table->string('overview')->nullable();
+            $table->string('content')->nullable();
             $table->timestamps();
 
             // $table->foreign('guide_id')->references('id')->on('guides');

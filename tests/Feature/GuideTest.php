@@ -57,6 +57,7 @@ class GuideTest extends TestCase
     //**登録テスト */
     public function test_can_save_guide_data()
     {
+        dd(json_encode($this->data()));
         $this->withoutExceptionHandling();
         $response = $this->actingAs($this->user)->post('/api/v1/guides', $this->data());
 
@@ -75,12 +76,12 @@ class GuideTest extends TestCase
                 'days' => 'days'
             ],
             'overview' => [[
-                'overview' => 'overview1',
-                'content' => 'content1'
+                'overview' => null,
+                'content' => null
             ]],
             'place' => [[
-                'place' => 'place',
-                'detail' => 'detail-sdfghjkl',
+                'place' => null,
+                'detail' => null,
             ]]
         ];
     }

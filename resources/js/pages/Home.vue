@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import LbHeader from '../components/Header.vue';
 import BookmarkList from '../components/organisms/BookmarkList.vue';
 
@@ -23,6 +24,9 @@ export default {
         LbHeader,
         BookmarkList
     },
+    mounted() {
+        this.init()
+    },
     data() {
         return {
             data: [
@@ -30,6 +34,16 @@ export default {
                 { bookmarkTitle: 'aaa', username: 'kkk'},
                 { bookmarkTitle: 'aaa', username: 'kkk'}
             ]
+        }
+    },
+    methods: {
+        // 画面描写
+        init() {
+            axios.get('/api/v1/guides')
+            .then(res => {
+                console.log(res, 'response')
+            })
+            
         }
     }
 }
