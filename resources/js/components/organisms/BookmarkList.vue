@@ -6,7 +6,7 @@
                 <img src="#" alt="">
             </div>
             <div id="bookmark_list_detail" class="inline-block ml-2">
-                <p class="font-medium">{{ bookmarkTitle }}</p>
+                <p class="font-medium">{{ title }} (日数：{{ days }})</p>
                 <p class="text-xs text-gray-600">dear {{ username }}</p>
             </div>
             </router-link>
@@ -17,7 +17,8 @@
 <script>
 export default {
     props: {
-        bookmarkTitle: String,
+        title: String,
+        days: String,
         username: String
     }
 }

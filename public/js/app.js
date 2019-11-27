@@ -2098,7 +2098,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    bookmarkTitle: String,
+    title: String,
+    days: String,
     username: String
   }
 });
@@ -2532,6 +2533,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2545,23 +2547,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      data: [{
-        bookmarkTitle: 'aaa',
-        username: 'kkk'
-      }, {
-        bookmarkTitle: 'aaa',
-        username: 'kkk'
-      }, {
-        bookmarkTitle: 'aaa',
-        username: 'kkk'
-      }]
+      guides: []
     };
   },
   methods: {
     // 画面描写
     init: function init() {
+      var _this = this;
+
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/v1/guides').then(function (res) {
-        console.log(res, 'response');
+        _this.guides = res.data.data;
+        console.log(_this.guides, 'guides');
       });
     }
   }
@@ -22493,7 +22489,7 @@ var render = function() {
             },
             [
               _c("p", { staticClass: "font-medium" }, [
-                _vm._v(_vm._s(_vm.bookmarkTitle))
+                _vm._v(_vm._s(_vm.title) + " (日数：" + _vm._s(_vm.days) + ")")
               ]),
               _vm._v(" "),
               _c("p", { staticClass: "text-xs text-gray-600" }, [
@@ -23240,12 +23236,13 @@ var render = function() {
           {
             staticClass: "w-8/12 bg-white h-64 m-auto rounded-lg h-screen mb-30"
           },
-          _vm._l(_vm.data, function(datum, index) {
+          _vm._l(_vm.guides, function(datum, index) {
             return _c("bookmark-list", {
               key: index,
               attrs: {
-                bookmarkTitle: datum.bookmarkTitle,
-                username: datum.username
+                title: datum.title,
+                days: datum.days,
+                username: datum.user.name
               }
             })
           }),

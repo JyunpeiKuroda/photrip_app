@@ -4,10 +4,11 @@
         <div class="pt-10" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg h-screen mb-30">
                 <bookmark-list
-                    v-for="(datum, index) in data"
+                    v-for="(datum, index) in guides"
                     :key="index"
-                    :bookmarkTitle="datum.bookmarkTitle"
-                    :username="datum.username"
+                    :title="datum.title"
+                    :days="datum.days"
+                    :username="datum.user.name"
                 ></bookmark-list>
             </div>
         </div>
@@ -29,11 +30,7 @@ export default {
     },
     data() {
         return {
-            data: [
-                { bookmarkTitle: 'aaa', username: 'kkk'},
-                { bookmarkTitle: 'aaa', username: 'kkk'},
-                { bookmarkTitle: 'aaa', username: 'kkk'}
-            ]
+            guides: []
         }
     },
     methods: {
@@ -41,7 +38,8 @@ export default {
         init() {
             axios.get('/api/v1/guides')
             .then(res => {
-                console.log(res, 'response')
+                this.guides = res.data.data
+                console.log(this.guides, 'guides')
             })
             
         }
