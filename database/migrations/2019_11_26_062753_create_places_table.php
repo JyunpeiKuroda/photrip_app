@@ -20,7 +20,7 @@ class CreatePlacesTable extends Migration
             $table->string('detail')->nullable();
             $table->timestamps();
 
-            $table->foreign('guide_id')->references('id')->on('guides');
+            // $table->foreign('guide_id')->references('id')->on('guides');
         });
     }
 

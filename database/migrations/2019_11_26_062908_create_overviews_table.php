@@ -20,7 +20,7 @@ class CreateOverviewsTable extends Migration
             $table->string('content');
             $table->timestamps();
 
-            $table->foreign('guide_id')->references('id')->on('guides');
+            // $table->foreign('guide_id')->references('id')->on('guides');
         });
     }
 

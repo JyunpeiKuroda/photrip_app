@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Guide;
 use App\Models\Photo;
+use App\Models\Place;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,6 +24,37 @@ class PhotoApiTest extends TestCase
     }
 
     /**
+     * 
+     */
+    public function test_can_return_valid_json()
+    {
+
+        $this->withoutExceptionHandling();
+        factory(Place::class)->create()->each(function ($place) {
+            $place->photos()->save(factory(Photo::class)->make());
+        });
+        dd(Photo::all());
+
+        $response = $this->get('/api/v1/photos');
+
+        $photos = Photo::all();
+        $expected_data = $photos->map(function ($photo) {
+            return [
+                'id' => $photo->id,
+                'url' => $photo->url,
+                'place' => $photo->place
+            ];
+        })
+        ->all();
+
+        $response->assertStatus(200)
+            ->assertJsonCount(5,'data')
+            ->assertJsonFragment([
+                "data" => $expected_data,
+            ]);
+    }
+
+    /**
      *・ストレージに保存されること
      *
      * @return void
@@ -31,13 +64,17 @@ class PhotoApiTest extends TestCase
         $this->withoutExceptionHandling();
         Storage::fake('s3');
 
+        factory(Guide::class)->create()->each(function ($guide) {
+            $guide->places()->saveMany(factory(Place::class, 3)->make());
+        });
+
         $response = $this->actingAs($this->user)->post('/api/v1/upload/photos', [
             's3' => UploadedFile::fake()->image('s3.jpg'),
         ]);
 
         $response->assertStatus(201);
         $photo = Photo::first();
-        
+
         // ファイルが保存されたことをアサート
         Storage::cloud('s3')->assertExists($photo->filename);
     }

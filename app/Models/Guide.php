@@ -8,6 +8,12 @@ class Guide extends Model
 {
     protected $keyType = 'string';
 
+    protected $guarded = ['id'];
+    
+    protected $visible = [
+        'id', 'title', 'days', 'user'
+    ];
+
     const ID_LENGTH = 12;
 
 
@@ -51,5 +57,10 @@ class Guide extends Model
     public function overviews()
     {
         return $this->hasMany(Overview::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

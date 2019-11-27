@@ -48,4 +48,9 @@ class Photo extends Model
     {
         return $this->belongsTo(Place::class);
     }
+
+    public function getUrlAttribute()
+    {
+        return Storage::cloud()->url($this->attributes['filename']);
+    }
 }
