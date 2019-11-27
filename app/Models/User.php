@@ -19,12 +19,12 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
+    protected $visible = [
+        'name'
     ];
+
+    public function guides()
+    {
+        return $this->hasMany(Guide::class);
+    }
 }

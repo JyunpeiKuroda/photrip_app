@@ -19,9 +19,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/v1/bookmark', 'MainBookmarkController@store');
 Route::get('/v1/bookmark', 'MainBookmarkController@index');
-Route::post('/v1/register', 'Auth\RegisterController@register')->name('register');
-Route::post('/v1/login', 'Auth\LoginController@login')->name('login');
-Route::post('/v1/logout', 'Auth\LoginController@logout')->name('logout');
+
+/**認証 */
+Route::post('/v1/register', 'Auth\RegisterController@register');
+Route::post('/v1/login', 'Auth\LoginController@login');
+Route::post('/v1/logout', 'Auth\LoginController@logout');
 Route::get('/v1/userinfo', function() {
     return Auth::user();
-})->name('userinfo');
+});
+
+/**写真 */
+Route::get('/v1/photos', 'PhotoController@index');
+Route::post('/v1/upload/photos', 'PhotoController@store');
+
+/**しおり */
+Route::post('/v1/guides', 'GuideController@store');
+Route::get('/v1/guides', 'GuideController@index');

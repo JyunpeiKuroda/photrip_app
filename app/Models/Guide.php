@@ -4,13 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Photo extends Model
+class Guide extends Model
 {
     protected $keyType = 'string';
 
+    protected $guarded = ['id'];
+    
+    protected $visible = [
+        'id', 'title', 'days', 'user'
+    ];
+
     const ID_LENGTH = 12;
 
-    public $timestamps = false;
 
     public function __construct(array $attributes = [])
     {
@@ -44,13 +49,18 @@ class Photo extends Model
         return $id;
     }
 
-    public function place()
+    public function places()
     {
-        return $this->belongsTo(Place::class);
+        return $this->hasMany(Place::class);
     }
 
-    public function getUrlAttribute()
+    public function overviews()
     {
-        return Storage::cloud()->url($this->attributes['filename']);
+        return $this->hasMany(Overview::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

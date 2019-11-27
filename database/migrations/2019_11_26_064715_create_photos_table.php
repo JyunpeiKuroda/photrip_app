@@ -13,13 +13,14 @@ class CreatePhotosTable extends Migration
      */
     public function up()
     {
-        // Schema::create('photos', function (Blueprint $table) {
-            // $table->bigIncrements('id');
-            // $table->bigIncrements('bookmark_place_id')->unsigned();
-            // $table->foreign('bookmark_place_id')->references('id')->on('bookmark_places');
-            // $table->string('img_url');
-            // $table->timestamps();
-        // });
+        Schema::create('photos', function (Blueprint $table) {
+            $table->string('id');
+            $table->Integer('place_id')->unsigned();
+            $table->string('filename');
+            $table->timestamps();
+
+            $table->foreign('place_id')->references('id')->on('places');
+        });
     }
 
     /**
