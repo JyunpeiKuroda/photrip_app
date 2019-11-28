@@ -2481,6 +2481,48 @@ __webpack_require__.r(__webpack_exports__);
         _this.form.place = res.data.places;
       });
     },
+    // 概要フォーム
+    addOverviewPanel: function addOverviewPanel(form) {
+      var overview = form.overview;
+      var content = form.content;
+      var additionalForm = {
+        overview: overview,
+        content: content
+      };
+      this.form.overview.push(additionalForm);
+      this.form.overview[this.form.overview.length - 1] = {
+        overview: '',
+        content: ''
+      };
+    },
+    deleteOverviewPanel: function deleteOverviewPanel(index) {
+      if (this.form.overview.length === 1) {
+        alert('これ以上削除することはできません');
+      } else {
+        this.form.overview.splice(index, 1);
+      }
+    },
+    // プランフォーム
+    addPlacePanel: function addPlacePanel(form) {
+      var place = form.place;
+      var detail = form.detail;
+      var additionalForm = {
+        place: place,
+        detail: detail
+      };
+      this.form.place.push(additionalForm);
+      this.form.place[this.form.place.length - 1] = {
+        place: '',
+        detail: ''
+      };
+    },
+    deletePlacePanel: function deletePlacePanel(index) {
+      if (this.form.place.length === 1) {
+        alert('これ以上削除することはできません');
+      } else {
+        this.form.place.splice(index, 1);
+      }
+    },
     composeGuide: function composeGuide() {
       var _this2 = this;
 
