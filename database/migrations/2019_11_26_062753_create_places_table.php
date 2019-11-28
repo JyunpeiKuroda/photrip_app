@@ -14,13 +14,14 @@ class CreatePlacesTable extends Migration
     public function up()
     {
         Schema::create('places', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('guide_id');
             $table->string('place')->nullable();
             $table->string('detail')->nullable();
             $table->timestamps();
 
-            // $table->foreign('guide_id')->references('id')->on('guides');
+            $table->foreign('guide_id')->references('id')->on('guides')->onDelete('cascade');
         });
     }
 

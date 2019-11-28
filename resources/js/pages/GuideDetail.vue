@@ -6,7 +6,7 @@
                 <div class="pb-10"></div>
 
                 <div id="bookmarkTitle" class="h-18 w-8/12 shadow-lg border-solid border-2 border-gray-600 m-auto py-4">
-                    <h1 class="text-center text-2xl text-gray-600">{{ bookmarkTitle }}</h1>
+                    <h1 class="text-center text-2xl text-gray-600">{{ title }}<span class="text-sm"> (日数：{{ days }})</span></h1>
                 </div>
                 <div class="pb-20"></div>
 
@@ -18,10 +18,10 @@
                     <div class="pb-20"></div>
                     <div class="">
                         <over-view
-                        v-for="(datum, index) in data"
+                        v-for="(datum, index) in overviews"
                         :key=index
-                        :overviewTitle="datum.overviewTitle"
-                        :overviewContent="datum.overviewContent"
+                        :overviewTitle="datum.overview"
+                        :overviewContent="datum.content"
                         ></over-view>
                     </div>
                 </div>
@@ -33,11 +33,11 @@
                     </div>
                     <div class="pb-10"></div>
                     <plan
-                    v-for="(datum, index) in planData"
+                    v-for="(datum, index) in places"
                     :key="index"
                     :day="datum.day"
                     :place="datum.place"
-                    :placeDetail="datum.placeDetail"
+                    :placeDetail="datum.detail"
                     :endDeclear="datum.endDeclear"
                     :imgLink="datum.imgLink"
                     ></plan>
@@ -66,28 +66,56 @@ export default {
         OverView,
         Plan
     },
+    mounted() {
+        this.init()
+    },
+    computed: {
+        checkQuery() {
+            return this.$route.query.guide_id
+        },
+    },
     data() {
         return {
-            data: [
-                { overviewTitle: '持ち物', overviewContent: '・充電器'},
-                { overviewTitle: '持ち物', overviewContent: '・充電器'},
-            ],
             planData: [
                 { day: '1', place: '東京駅', placeDetail: 'ここで集合です！！！！', endDeclear: false, imgLink: true },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false },
-                { day: '2', place: '東京駅', placeDetail: '', endDeclear: false, imgLink: false},
-                { day: '0', place: '東京駅', placeDetail: '', endDeclear: true, imgLink: false },
             ],
-            bookmarkTitle: '京都旅行'
+            title: '',
+            days: '',
+            overviews: [],
+            places: []
         }
     },
     methods: {
         toEditPage() {
             this.$router.push({
-                path: '/photrip/edit/plan'
+                path: '/photrip/edit/plan',
+                query : {
+                    'guide_id': this.checkQuery
+                }
             })
+        },
+        init(id) {
+            const endPoint = '/api/v1/edit/guides/' + this.checkQuery
+            console.log(typeof(this.checkQuery), 'this.checkQuery')
+
+            axios.get(endPoint)
+                .then(res => {
+                    const places = res.data.places
+
+                    this.title = res.data.title
+                    this.days = res.data.days
+                    this.overviews = res.data.overviews
+                    this.places = res.data.places
+                    this.endDeclear(places)
+
+                    console.log(res.data)
+                })
+        },
+        endDeclear(places) {
+            const size = places.length 
+            if (size > 0 && places[0].place !== null) {
+                places[places.length - 1]['endDeclear'] = true
+            }
         }
     }
 }

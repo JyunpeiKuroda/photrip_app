@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Guide extends Model
 {
     protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $guarded = ['id'];
     
     protected $visible = [
-        'id', 'title', 'days', 'user'
+        'id', 'title', 'days', 'user', 'overviews', 'places'
     ];
 
-    const ID_LENGTH = 12;
+    const ID_LENGTH = 15;
 
 
     public function __construct(array $attributes = [])
@@ -34,7 +35,7 @@ class Guide extends Model
     private function getRandomId()
     {
         $characters = array_merge(
-            range(0, 9), range('a', 'z'),
+            range(0, 15), range('a', 'z'),
             range('A', 'Z'), ['-', '_']
         );
 

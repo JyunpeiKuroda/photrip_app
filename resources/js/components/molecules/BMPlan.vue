@@ -10,7 +10,7 @@
                             <router-link to="/photrip/photo" v-if="imgLink">{{ place }}<i class="far fa-images pl-2"></i></router-link>
                             <p v-else>{{ place }}</p>
                         </div>
-                        <div class="bg-gray-200 rounded-lg py-3 px-2 my-3" v-if="placeDetail.trim()">
+                        <div class="bg-gray-200 rounded-lg py-3 px-2 my-3" v-if="placeDetail">
                             <p class="text-gray-600">{{ placeDetail }}</p>
                         </div>
                     </dd>

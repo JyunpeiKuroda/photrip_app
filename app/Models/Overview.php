@@ -10,6 +10,10 @@ class Overview extends Model
 
     public $timestamps=false;
 
+    protected $visible = [
+        'overview', 'content'
+    ];
+
     public function guide()
     {
         return $this->belongsTo(Guide::class);

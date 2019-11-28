@@ -10,6 +10,10 @@ class Place extends Model
 
     public $timestamps = false;
 
+    protected $visible = [
+        'place', 'detail'
+    ];
+
     public function guide()
     {
         return $this->belongsTo(Guide::class);

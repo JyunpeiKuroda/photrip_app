@@ -39,12 +39,10 @@ class GuideController extends Controller
      */
     public function store(Request $request)
     {
-
         DB::beginTransaction();
 
         try{
-            $guide = new Guide(array_merge($request->guide, ['user_id' => $request->user()->id]));
-            $guide->save();
+            $guide = Guide::create(array_merge($request->guide, ['user_id' => $request->user()->id]));
             $guide->overviews()->createMany($request->overview);
             $guide->places()->createMany($request->place);
         }catch(Exception $e){
@@ -57,29 +55,21 @@ class GuideController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * しおり詳細・編集データ）
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit($guideId)
     {
-        //
+        $guide = Guide::with(['places', 'overviews'])->get();
+        $guide = $guide->find($guideId);
+
+        return $guide;
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * 編集機能
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -87,7 +77,32 @@ class GuideController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $guide = Guide::find($id);
+
+        DB::beginTransaction();
+
+        try{
+            $guide->title = $request->guide['title'];
+            $guide->days = $request->guide['days'];
+
+            foreach ($request->overview as $overview) {
+                $guide->overviews()->overview = $overview['overview'];
+                $guide->overviews()->content = $overview['content'];
+                $guide->save();
+            }
+    
+            foreach ($request->place as $place) {
+                $guide->places()->place = $place['place'];
+                $guide->places()->detail = $place['detail'];
+                $guide->save();
+            }
+        }catch(Exception $e){
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+
+        return response($guide, 201);
     }
 
     /**

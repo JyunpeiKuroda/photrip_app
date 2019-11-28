@@ -22,8 +22,66 @@ class GuideTest extends TestCase
     }
 
     /**
+     * 編集機能API
+     * @return void
+     */
+    public function test_can_update_edit_data()
+    {
+        $this->withoutExceptionHandling();
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
+
+        $guideId = Guide::first()->id;
+        $guideTitle = Guide::first()->title;
+
+        $response = $this->actingAs($this->user)->post('/api/v1/edit/guides/'.$guideId, $this->updateData());
+
+        $response->assertStatus(201);
+        $this->assertEquals($this->updateData()['guide']['title'], Guide::first()->title);
+    }
+
+    /** 
+     * 詳細情報取得APIテスト
+     */
+    public function test_can_return_json_edit_data()
+    {
+        $this->withoutExceptionHandling();
+        
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
+
+        $guideId = Guide::first()->id;
+
+        $response = $this->actingAs($this->user)->get('/api/v1/edit/guides/'.$guideId);
+
+        $guides = Guide::with(['places', 'overviews'])->get();
+
+        $expected_data = $guides->map(function ($guide) {
+            return [
+                'id' => $guide->id,
+                'title' => $guide->title,
+                'days' => $guide->days,
+                'overviews' => [
+                    'overview' => $guide->associate,
+                    'content' => $guide->associate,
+                ],
+                'places' => [
+                    'place' => $guide->associate,
+                    'detail' => $guide->associate,
+                ],
+            ];
+        })
+        ->all();
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'data' => $expected_data
+            ]);
+
+    }
+
+    /**
      *  一覧なのでGuideのデータ + Username
-     * 
      */
     public function test_can_return_valid_guide_json()
     {
@@ -57,9 +115,8 @@ class GuideTest extends TestCase
     //**登録テスト */
     public function test_can_save_guide_data()
     {
-        dd(json_encode($this->data()));
         $this->withoutExceptionHandling();
-        $response = $this->actingAs($this->user)->post('/api/v1/guides', $this->data());
+        $response = $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
 
         $this->assertCount(1, Guide::all());
         $this->assertCount(1, Place::all());
@@ -72,16 +129,34 @@ class GuideTest extends TestCase
     {
         return [
             'guide' => [
-                'title' => 'title',
-                'days' => 'days'
+                'title' => 'kyoto trip',
+                'days' => '12days'
             ],
             'overview' => [[
-                'overview' => null,
-                'content' => null
+                'overview' => 'neccessary',
+                'content' => 'null'
             ]],
             'place' => [[
-                'place' => null,
-                'detail' => null,
+                'place' => 'oosaka station',
+                'detail' => '',
+            ]]
+        ];
+    }
+
+    public function updateData()
+    {
+        return [
+            'guide' => [
+                'title' => 'oosaka',
+                'days' => '5days'
+            ],
+            'overview' => [[
+                'overview' => 'neccessary',
+                'content' => 'null'
+            ]],
+            'place' => [[
+                'place' => 'kyoto station',
+                'detail' => '',
             ]]
         ];
     }

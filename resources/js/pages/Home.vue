@@ -5,6 +5,7 @@
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg h-screen mb-30">
                 <bookmark-list
                     v-for="(datum, index) in guides"
+                    :guideId="datum.id"
                     :key="index"
                     :title="datum.title"
                     :days="datum.days"
@@ -12,25 +13,34 @@
                 ></bookmark-list>
             </div>
         </div>
+        <paginate
+         class=""
+         :currentPage="currentPage"
+         :lastPage="lastPage"
+         ></paginate>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import LbHeader from '../components/Header.vue';
+import Paginate from '../components/organisms/Paginate.vue'
 import BookmarkList from '../components/organisms/BookmarkList.vue';
 
 export default {
     components: {
         LbHeader,
-        BookmarkList
+        BookmarkList,
+        Paginate
     },
     mounted() {
         this.init()
     },
     data() {
         return {
-            guides: []
+            guides: [],
+            currentPage: 0,
+            lastPage: 0
         }
     },
     methods: {
@@ -39,6 +49,8 @@ export default {
             axios.get('/api/v1/guides')
             .then(res => {
                 this.guides = res.data.data
+                this.currentPage = res.data.current_page
+                this.last_page = res.data.last_page
                 console.log(this.guides, 'guides')
             })
             

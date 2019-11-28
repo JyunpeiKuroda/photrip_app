@@ -14,13 +14,14 @@ class CreateOverviewsTable extends Migration
     public function up()
     {
         Schema::create('overviews', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('guide_id');
             $table->string('overview')->nullable();
             $table->string('content')->nullable();
             $table->timestamps();
 
-            // $table->foreign('guide_id')->references('id')->on('guides');
+            $table->foreign('guide_id')->references('id')->on('guides')->onDelete('cascade');
         });
     }
 

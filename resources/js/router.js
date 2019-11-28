@@ -6,7 +6,7 @@ import store from './store'
 import Login from './pages/Login.vue';
 import Register from './pages/Register.vue';
 import Home from './pages/Home.vue';
-import BookmarkDetail from './pages/BookmarkDetail.vue';
+import GuideDetail from './pages/GuideDetail.vue';
 import ComposePlan from './pages/ComposePlan.vue';
 import PhotoList from './pages/PhotoList.vue';
 import EditPlan from './pages/EditPlan.vue';
@@ -38,7 +38,7 @@ const routes = [
         }
     },
     { path: '/photrip/home', component: Home, meta: {auth: true} },
-    { path: '/photrip/bookmark/detail', component: BookmarkDetail, meta: {auth: true} },
+    { path: '/photrip/guide/detail', component: GuideDetail, meta: {auth: true} },
     { path: '/photrip/compose/plan', component: ComposePlan, meta: {auth: true} },
     { path: '/photrip/photo', component: PhotoList, meta: {auth: true} },
     { path: '/photrip/edit/plan', component: EditPlan, meta: {auth: true} },

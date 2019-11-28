@@ -150,7 +150,7 @@ export default {
             }
         },
         composeBookmark() {
-            axios.post('/api/v1/guides', this.form)
+            axios.post('/api/v1/compose/guides', this.form)
             .then(res => {
                 this.$router.push('/photrip/home')
             })
