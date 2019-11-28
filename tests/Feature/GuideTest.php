@@ -45,14 +45,14 @@ class GuideTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
-
+        
         $guideId = Guide::first()->id;
         $guideTitle = Guide::first()->title;
 
         $response = $this->actingAs($this->user)->put('/api/v1/guides/'.$guideId.'/edit', $this->updateData());
-        
+        dd(Place::all());
         $response->assertStatus(201);
-        $this->assertEquals($this->updateData()['guide']['title'], Guide::first()->title);
+        $this->assertEquals($this->updateData()['overview'][0]['overview'], Guide::first()->overviews());
     }
 
     /** 
@@ -168,11 +168,14 @@ class GuideTest extends TestCase
             ],
             'overview' => [[
                 'overview' => 'neccessary',
-                'content' => 'null'
+                'content' => 'asd'
+            ],[
+                'overview' => 'neccessary2',
+                'content' => 'asdf'
             ]],
             'place' => [[
                 'place' => 'kyoto station',
-                'detail' => '',
+                'detail' => 'adsfg',
             ]]
         ];
     }
