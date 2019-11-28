@@ -41566,7 +41566,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Login_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Login.vue */ "./resources/js/pages/Login.vue");
 /* harmony import */ var _pages_Register_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Register.vue */ "./resources/js/pages/Register.vue");
 /* harmony import */ var _pages_Home_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Home.vue */ "./resources/js/pages/Home.vue");
-/* harmony import */ var _pages_GuideDetail_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/GuideDetail.vue */ "./resources/js/pages/GuideDetail.vue");
+/* harmony import */ var _pages_GuideDetail_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/GuideDetail.vue */ "./resources/js/pages/GuideDetail.vue");
 /* harmony import */ var _pages_ComposePlan_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/ComposePlan.vue */ "./resources/js/pages/ComposePlan.vue");
 /* harmony import */ var _pages_PhotoList_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/PhotoList.vue */ "./resources/js/pages/PhotoList.vue");
 /* harmony import */ var _pages_EditPlan_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/EditPlan.vue */ "./resources/js/pages/EditPlan.vue");
@@ -41613,7 +41613,7 @@ var routes = [{
   }
 }, {
   path: '/photrip/guide/detail',
-  component: _pages_GuideDetail_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+  component: _pages_GuideDetail_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
   meta: {
     auth: true
   }
