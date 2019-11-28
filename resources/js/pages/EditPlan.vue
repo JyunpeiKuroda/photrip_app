@@ -123,10 +123,54 @@ export default {
                     this.form.overview    = res.data.overviews
                     this.form.place       = res.data.places
             })
+        },        
+        // 概要フォーム
+        addOverviewPanel(form) {
+            const overview = form.overview
+            const content = form.content
+            const additionalForm = {
+                overview: overview,
+                content: content
+            }
+
+            this.form.overview.push(additionalForm)
+            this.form.overview[this.form.overview.length - 1] = {
+                overview: '',
+                content: ''
+            }
+        },
+        deleteOverviewPanel(index) {
+            if (this.form.overview.length === 1) {
+                alert('これ以上削除することはできません')
+            } else {
+                this.form.overview.splice(index, 1)
+            }
+        },
+        // プランフォーム
+        addPlacePanel(form) {
+            const place = form.place
+            const detail = form.detail
+            const additionalForm = {
+                place: place,
+                detail: detail
+            }
+
+            this.form.place.push(additionalForm)
+            this.form.place[this.form.place.length - 1] = {
+                place: '',
+                detail: ''
+            }
+        },
+        deletePlacePanel(index) {
+            if (this.form.place.length === 1) {
+                alert('これ以上削除することはできません')
+            } else {
+                this.form.place.splice(index, 1)
+            }
         },
         composeGuide() {
-            const endPoint = '/api/v1/edit/guides/' + this.checkQuery
-            axios.post(endPoint, this.form)
+            const endPoint = '/api/v1/guides/' + this.checkQuery + '/edit'
+            axios.put(endPoint, this.form)
                 .then(res => {
                     console.log(res)
                     this.$router.push('/photrip/home')

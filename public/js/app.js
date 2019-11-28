@@ -2481,11 +2481,53 @@ __webpack_require__.r(__webpack_exports__);
         _this.form.place = res.data.places;
       });
     },
+    // 概要フォーム
+    addOverviewPanel: function addOverviewPanel(form) {
+      var overview = form.overview;
+      var content = form.content;
+      var additionalForm = {
+        overview: overview,
+        content: content
+      };
+      this.form.overview.push(additionalForm);
+      this.form.overview[this.form.overview.length - 1] = {
+        overview: '',
+        content: ''
+      };
+    },
+    deleteOverviewPanel: function deleteOverviewPanel(index) {
+      if (this.form.overview.length === 1) {
+        alert('これ以上削除することはできません');
+      } else {
+        this.form.overview.splice(index, 1);
+      }
+    },
+    // プランフォーム
+    addPlacePanel: function addPlacePanel(form) {
+      var place = form.place;
+      var detail = form.detail;
+      var additionalForm = {
+        place: place,
+        detail: detail
+      };
+      this.form.place.push(additionalForm);
+      this.form.place[this.form.place.length - 1] = {
+        place: '',
+        detail: ''
+      };
+    },
+    deletePlacePanel: function deletePlacePanel(index) {
+      if (this.form.place.length === 1) {
+        alert('これ以上削除することはできません');
+      } else {
+        this.form.place.splice(index, 1);
+      }
+    },
     composeGuide: function composeGuide() {
       var _this2 = this;
 
-      var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(endPoint, this.form).then(function (res) {
+      var endPoint = '/api/v1/guides/' + this.checkQuery + '/edit';
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(endPoint, this.form).then(function (res) {
         console.log(res);
 
         _this2.$router.push('/photrip/home');
@@ -2600,14 +2642,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
   },
   methods: {
-    toEditPage: function toEditPage() {
-      this.$router.push({
-        path: '/photrip/edit/plan',
-        query: {
-          'guide_id': this.checkQuery
-        }
-      });
-    },
     init: function init(id) {
       var _this = this;
 
@@ -2624,6 +2658,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         console.log(res.data);
       });
+    },
+    toEditPage: function toEditPage() {
+      this.$router.push({
+        path: '/photrip/edit/plan',
+        query: {
+          'guide_id': this.checkQuery
+        }
+      });
+    },
+    deletePlan: function deletePlan() {
+      var _this2 = this;
+
+      var endPoint = '/api/v1/guides/' + this.checkQuery;
+
+      if (window.confirm('プラン：「' + this.title + '」' + 'を削除してもよろしいでしょか？')) {
+        axios["delete"](endPoint).then(function (res) {
+          console.log(res, 'response');
+
+          _this2.$router.push('/photrip/home');
+        });
+      }
     },
     endDeclear: function endDeclear(places) {
       var size = places.length;
@@ -23892,17 +23947,6 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c(
-            "p",
-            {
-              staticClass: "text-gray-400 font-hairline",
-              attrs: { id: "loginSelectOr" }
-            },
-            [_vm._v("or")]
-          ),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _c(
             "div",
             { staticClass: "mt-4", attrs: { id: "registerLink" } },
             [
@@ -23955,33 +23999,6 @@ var staticRenderFns = [
           _c("br"),
           _vm._v(
             "\n                思い出の記録として後から楽しむこともできます。"
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "social-auth-links bg-blue-400 rounded-lg w-64 h-12 shadow-lg",
-        attrs: { id: "social-auth-wrap" }
-      },
-      [
-        _c("div", { attrs: { id: "social-auth-title" } }, [
-          _c("i", { staticClass: "fab fa-twitter text-white" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "text-white",
-              attrs: { href: "/photrip/home", id: "social-auth-title-link" }
-            },
-            [_vm._v("Twitterでログイン")]
           )
         ])
       ]
@@ -41804,7 +41821,9 @@ var actions = {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get('/api/v1/userinfo'));
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get('/api/v1/userinfo')["catch"](function (error) {
+              return error.response || error;
+            }));
 
           case 2:
             response = _context4.sent;
@@ -41888,7 +41907,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*!******************************!*\
   !*** ./resources/js/util.js ***!
   \******************************/
-/*! exports provided: OK, CREATED, INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, getCookieValue */
+/*! exports provided: OK, CREATED, INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, UNAUTHORIZED, getCookieValue */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41897,6 +41916,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATED", function() { return CREATED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INTERNAL_SERVER_ERROR", function() { return INTERNAL_SERVER_ERROR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNPROCESSABLE_ENTITY", function() { return UNPROCESSABLE_ENTITY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNAUTHORIZED", function() { return UNAUTHORIZED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookieValue", function() { return getCookieValue; });
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -41910,6 +41930,7 @@ var OK = 200;
 var CREATED = 201;
 var INTERNAL_SERVER_ERROR = 500;
 var UNPROCESSABLE_ENTITY = 422;
+var UNAUTHORIZED = 401;
 function getCookieValue(searchKey) {
   if (typeof searchKey === 'undefined') {
     return '';

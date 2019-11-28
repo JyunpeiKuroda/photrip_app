@@ -22,6 +22,22 @@ class GuideTest extends TestCase
     }
 
     /**
+     * 削除確認
+     *
+     * @return void
+     */
+    public function test_can_delete_guide()
+    {
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
+
+        $guideId = Guide::first()->id;
+        $response = $this->actingAs($this->user)->delete('/api/v1/guides/'.$guideId);
+
+        $response->assertStatus(200);
+        $this->assertCount(0, Guide::all());
+    }
+
+    /**
      * 編集機能API
      * @return void
      */
@@ -33,8 +49,8 @@ class GuideTest extends TestCase
         $guideId = Guide::first()->id;
         $guideTitle = Guide::first()->title;
 
-        $response = $this->actingAs($this->user)->post('/api/v1/edit/guides/'.$guideId, $this->updateData());
-
+        $response = $this->actingAs($this->user)->put('/api/v1/guides/'.$guideId.'/edit', $this->updateData());
+        
         $response->assertStatus(201);
         $this->assertEquals($this->updateData()['guide']['title'], Guide::first()->title);
     }

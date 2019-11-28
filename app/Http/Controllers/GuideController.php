@@ -12,107 +12,42 @@ use Illuminate\Support\Facades\DB;
 
 class GuideController extends Controller
 {
+    private $guide_service;
 
-    public function __construct()
+    public function __construct(GuideService $guide_service)
     {
         $this->middleware('auth')->except(['index']);
+
+        $this->guide_service = $guide_service;
     }
-    /**
-     * 一般ユーザーでも見れる
-     * ペジネートして、一覧表示
-     * 
-     * @return \Illuminate\Http\Response
-     */
+
+    /**一覧返却 */
     public function index()
     {
-        $guides = Guide::with(['user'])
-            ->orderBy(Guide::CREATED_AT, 'desc')->paginate();
-
-        return $guides;
+        return $this->guide_service->getGuideWithUser();
     }
 
-    /**
-     * しおり登録
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    /**登録完了ステータス返却 */
     public function store(Request $request)
     {
-        DB::beginTransaction();
-
-        try{
-            $guide = Guide::create(array_merge($request->guide, ['user_id' => $request->user()->id]));
-            $guide->overviews()->createMany($request->overview);
-            $guide->places()->createMany($request->place);
-        }catch(Exception $e){
-            DB::rollback();
-            throw $e;
-        }
-        DB::commit();
-
-        return response($guide, 201);
+        return $this->guide_service->createGuide($request);
     }
 
-    /**
-     * しおり詳細・編集データ）
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($guideId)
+    /**しおり詳細返却 */
+    public function edit($id)
     {
-        $guide = Guide::with(['places', 'overviews'])->get();
-        $guide = $guide->find($guideId);
-
-        return $guide;
+        return $this->guide_service->getEdittingData($id);
     }
 
-    /**
-     * 編集機能
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    /**更新完了ステータス返却 */
     public function update(Request $request, $id)
     {
-        $guide = Guide::find($id);
-
-        DB::beginTransaction();
-
-        try{
-            $guide->title = $request->guide['title'];
-            $guide->days = $request->guide['days'];
-
-            foreach ($request->overview as $overview) {
-                $guide->overviews()->overview = $overview['overview'];
-                $guide->overviews()->content = $overview['content'];
-                $guide->save();
-            }
-    
-            foreach ($request->place as $place) {
-                $guide->places()->place = $place['place'];
-                $guide->places()->detail = $place['detail'];
-                $guide->save();
-            }
-        }catch(Exception $e){
-            DB::rollback();
-            throw $e;
-        }
-        DB::commit();
-
-        return response($guide, 201);
+        return $this->guide_service->updateGuide($request, $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    /**削除完了ステータス返却 */
     public function destroy($id)
     {
-        //
+        return $this->guide_service->deleteGuide($id);
     }
 }

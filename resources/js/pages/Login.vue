@@ -29,13 +29,13 @@
                 <div id="loginBtn">
                     <button @click="login()" class="bg-blue-500 rounded-lg w-64 h-12  text-white font-hairline">ログイン</button>
                 </div>
-                <p class="text-gray-400 font-hairline" id="loginSelectOr">or</p>
+                <!-- <p class="text-gray-400 font-hairline" id="loginSelectOr">or</p>
                 <div class="social-auth-links bg-blue-400 rounded-lg w-64 h-12 shadow-lg" id="social-auth-wrap">
                     <div class="" id="social-auth-title">
                         <i class="fab fa-twitter text-white"></i>
                         <a href="/photrip/home" class="text-white" id="social-auth-title-link">Twitterでログイン</a>
                     </div>
-                </div>
+                </div> -->
                 <div id="registerLink" class="mt-4">
                     <router-link to="/register"><p class="text-gray-600 text-sm">まだ登録していない方はこちら</p></router-link>
                 </div>
