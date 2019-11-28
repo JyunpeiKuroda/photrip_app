@@ -1,4 +1,4 @@
-import  { OK, UNPROCESSABLE_ENTITY }  from '../util'
+import  { OK, UNPROCESSABLE_ENTITY, UNAUTHORIZED }  from '../util'
 
 const UNPROCESSABLE_ENTITY_MSG = 'メールアドレスまたはパスワードが違います'
 
@@ -69,7 +69,7 @@ const actions = {
     },
 
     async userinfo (context) {
-        const response = await axios.get('/api/v1/userinfo')
+        const response = await axios.get('/api/v1/userinfo').catch(error => error.response || error)
         const user = response.data || null
         context.commit('setUser', user)
       }

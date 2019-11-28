@@ -3,24 +3,42 @@ namespace App\Services;
 
 use App\Models\Overview;
 use App\Models\Place;
+use App\Repositories\GuideRepo as GuideRepository;;
 use Illuminate\Http\Request;
 
 class GuideService 
 {
+    private $guide_repository;
 
-    private $place_model;
-    private $overview_model;
-
-    public function __construct(Overview $overview_model, Place $place_model)
+    public function __construct(GuideRepository $guide_repository)
     {
-        $this->overview_model = $overview_model;
-        $this->place_model = $place_model;
+        $this->guide_repository = $guide_repository;
     }
 
-    /** 場所登録 */
-    public function placeRegister(int $guideId, $placeGroup)
+
+    public function createGuide(Request $request)
     {
-        dump($guideId);
-        dump($placeGroup);
+        return $this->guide_repository->saveGuide($request);
     }
+
+    public function updateGuide(Request $request, $id)
+    {
+        return $this->guide_repository->updateGuide($request, $id);
+    }
+
+    public function getGuideWithUser()
+    {
+        return $this->guide_repository->getGuideWithUser();
+    }
+
+    public function deleteGuide($id)
+    {
+        return $this->guide_repository->deleteGuide($id);
+    }
+
+    public function getEdittingData($id)
+    {
+        return $this->guide_repository->editGuide($id);
+    }
+
 }

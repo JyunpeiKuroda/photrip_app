@@ -17,9 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/v1/bookmark', 'MainBookmarkController@store');
-Route::get('/v1/bookmark', 'MainBookmarkController@index');
-
 /** 認証 */
 Route::post('/v1/register', 'Auth\RegisterController@register');
 Route::post('/v1/login', 'Auth\LoginController@login');
@@ -35,6 +32,6 @@ Route::post('/v1/upload/photos', 'PhotoController@store');
 /** しおり */
 Route::post('/v1/compose/guides', 'GuideController@store');
 Route::get('/v1/guides', 'GuideController@index');
-Route::get('/v1/edit/guides/{guideId}', 'GuideController@edit');
+Route::get('/v1/edit/guides/{guide}', 'GuideController@edit');
 Route::put('/v1/guides/{guide}/edit', 'GuideController@update');
 Route::delete('/v1/guides/{guide}', 'GuideController@destroy');
