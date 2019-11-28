@@ -26,7 +26,7 @@ class GuideController extends Controller
     public function index()
     {
         $guides = Guide::with(['user'])
-            ->orderBy(Guide::CREATED_AT, 'desc')->paginate();
+            ->orderBy(Guide::UPDATED_AT, 'desc')->paginate();
 
         return $guides;
     }
@@ -113,6 +113,19 @@ class GuideController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        DB::beginTransaction();
+
+        try {
+            $guide = Guide::find($id);
+            $guide->delete();
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+        DB::commit();
+
+        return response(200);
     }
 }

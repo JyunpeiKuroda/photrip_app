@@ -86,14 +86,6 @@ export default {
         }
     },
     methods: {
-        toEditPage() {
-            this.$router.push({
-                path: '/photrip/edit/plan',
-                query : {
-                    'guide_id': this.checkQuery
-                }
-            })
-        },
         init(id) {
             const endPoint = '/api/v1/edit/guides/' + this.checkQuery
             console.log(typeof(this.checkQuery), 'this.checkQuery')
@@ -110,6 +102,24 @@ export default {
 
                     console.log(res.data)
                 })
+        },
+        toEditPage() {
+            this.$router.push({
+                path: '/photrip/edit/plan',
+                query : {
+                    'guide_id': this.checkQuery
+                }
+            })
+        },
+        deletePlan() {
+            const endPoint = '/api/v1/guides/' + this.checkQuery
+            if (window.confirm('プラン：「' + this.title + '」'　+ 'を削除してもよろしいでしょか？')) {
+                axios.delete(endPoint)
+                    .then(res => {
+                        console.log(res, 'response')
+                        this.$router.push('/photrip/home')
+                    })  
+            }
         },
         endDeclear(places) {
             const size = places.length 

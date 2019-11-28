@@ -36,4 +36,5 @@ Route::post('/v1/upload/photos', 'PhotoController@store');
 Route::post('/v1/compose/guides', 'GuideController@store');
 Route::get('/v1/guides', 'GuideController@index');
 Route::get('/v1/edit/guides/{guideId}', 'GuideController@edit');
-Route::post('/v1/edit/guides/{guide}', 'GuideController@update');
+Route::put('/v1/guides/{guide}/edit', 'GuideController@update');
+Route::delete('/v1/guides/{guide}', 'GuideController@destroy');

@@ -125,8 +125,8 @@ export default {
             })
         },
         composeGuide() {
-            const endPoint = '/api/v1/edit/guides/' + this.checkQuery
-            axios.post(endPoint, this.form)
+            const endPoint = '/api/v1/guides/' + this.checkQuery + '/edit'
+            axios.put(endPoint, this.form)
                 .then(res => {
                     console.log(res)
                     this.$router.push('/photrip/home')
