@@ -19,6 +19,8 @@ class CreatePlacesTable extends Migration
             $table->string('guide_id');
             $table->string('place')->nullable();
             $table->string('detail')->nullable();
+            $table->string('schedule');
+            $table->string('time');
             $table->timestamps();
 
             $table->foreign('guide_id')->references('id')->on('guides')->onDelete('cascade');

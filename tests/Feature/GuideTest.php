@@ -78,12 +78,14 @@ class GuideTest extends TestCase
                 'title' => $guide->title,
                 'days' => $guide->days,
                 'overviews' => [
-                    'overview' => $guide->associate,
-                    'content' => $guide->associate,
+                    'overview' => $guide->overviews()->overview,
+                    'content' => $guide->overviews()->content,
                 ],
                 'places' => [
-                    'place' => $guide->associate,
-                    'detail' => $guide->associate,
+                    'place' => $guide->palces()->place,
+                    'detail' => $guide->palces()->detail,
+                    'schedule' => $guide->palces()->schedule,
+                    'time' => $guide->palces()->time,
                 ],
             ];
         })
@@ -133,7 +135,6 @@ class GuideTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $response = $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
-
         $this->assertCount(1, Guide::all());
         $this->assertCount(1, Place::all());
         $this->assertCount(1, Overview::all());
@@ -155,6 +156,8 @@ class GuideTest extends TestCase
             'place' => [[
                 'place' => 'oosaka station',
                 'detail' => '',
+                'schedule' => '2019-11-10',
+                'time' => '10:00'
             ]]
         ];
     }

@@ -35,7 +35,8 @@
                     <plan
                     v-for="(datum, index) in places"
                     :key="index"
-                    :day="datum.day"
+                    :section="datum.section"
+                    :time="datum.time"
                     :place="datum.place"
                     :placeDetail="datum.detail"
                     :endDeclear="datum.endDeclear"
@@ -43,12 +44,14 @@
                     ></plan>
                 </div> 
 
-                <!-- 編集ボタン -->
-                <div class="w-32 py-6 float-right">
-                    <button @click="toEditPage()" class="text-white text-center bg-gray-500 p-2 border-2 border-gray-500 rounded-full hover:bg-gray-300 hover:text-black">編集する</button>
-                </div>
-                <div class="w-32 py-6 float-right">
-                    <button @click="deletePlan()" class="text-red-500 text-center border-2 border-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white">削除する</button>
+                <div v-if="authorize">
+                    <!-- 編集ボタン -->
+                    <div class="w-32 py-6 float-right">
+                        <button @click="toEditPage()" class="text-white text-center bg-gray-500 p-2 border-2 border-gray-500 rounded-full hover:bg-gray-300 hover:text-black">編集する</button>
+                    </div>
+                    <div class="w-32 py-6 float-right">
+                        <button @click="deletePlan()" class="text-red-500 text-center border-2 border-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white">削除する</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,7 +70,7 @@ export default {
         Plan
     },
     mounted() {
-        this.init()
+        this.initView()
     },
     computed: {
         checkQuery() {
@@ -76,19 +79,16 @@ export default {
     },
     data() {
         return {
-            planData: [
-                { day: '1', place: '東京駅', placeDetail: 'ここで集合です！！！！', endDeclear: false, imgLink: true },
-            ],
             title: '',
             days: '',
             overviews: [],
-            places: []
+            places: [],
+            authorize: true
         }
     },
     methods: {
-        init(id) {
+        initView(id) {
             const endPoint = '/api/v1/edit/guides/' + this.checkQuery
-            console.log(typeof(this.checkQuery), 'this.checkQuery')
 
             axios.get(endPoint)
                 .then(res => {
@@ -99,8 +99,11 @@ export default {
                     this.overviews = res.data.overviews
                     this.places = res.data.places
                     this.endDeclear(places)
-
-                    console.log(res.data)
+                    this.ConvertDateToSection()
+                    console.log(this.places)
+                })
+                .catch(error => {
+                    console.warn(error)
                 })
         },
         toEditPage() {
@@ -125,6 +128,28 @@ export default {
             const size = places.length 
             if (size > 0 && places[0].place !== null) {
                 places[places.length - 1]['endDeclear'] = true
+            }
+        },
+        /**日付からセクションを算出 */
+        ConvertDateToSection() {
+            const size = this.places.length
+            let section = 0
+
+            if (this.places.length > 0) {
+                for (let i = 0; i < size; i++) {
+                    // 初めのループ
+                    // 前の日程と同じ
+                    // 次の日程
+                    if (i === 0) {
+                        this.places[i].section = 1
+                        section = 1
+                    } else if (this.places[i].schedule === this.places[i - 1].schedule) {
+                        this.places[i].section = 0
+                    } else {
+                        this.places[i].section = section + 1
+                        section += 1
+                    }  
+                }
             }
         }
     }

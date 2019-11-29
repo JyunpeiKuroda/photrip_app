@@ -53,6 +53,19 @@
                                 </a>
                             </div>
 
+                            <div id="day">
+                                <div class="flex">
+                                    <div class="pt-2 px-4 relative">
+                                        <label for="schedule" class="text-xs text-blue-400 font-bold absolute pt-2">日程</label>
+                                        <input id="schedule" v-model="form.schedule" type="date" class="border-b pt-8 focus:outline-none focus:border-blue-400">
+                                    </div>
+                                    <div class="ml-2 pt-2 px-2 relative">
+                                        <label for="time" class="text-xs text-blue-400 font-bold absolute pt-2">時間</label>
+                                        <input id="time" v-model="form.time" type="time" class="border-b pt-8 focus:outline-none focus:border-blue-400">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="relative pt-4 px-4">
                                 <label for="place" class="text-xs text-blue-400 font-bold absolute pt-2">概要</label>
                                 <input id="place" v-model="form.place" type="text" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="場所を入力してください">
@@ -107,7 +120,7 @@ export default {
                     { overview: '', content: '' }
                 ],
                 place: [
-                    { place: '', detail: '' }
+                    { place: '', detail: '', schedule: '', time: '' }
                 ]
             },
         }
