@@ -10,9 +10,7 @@ class Place extends Model
 
     public $timestamps = false;
 
-    protected $visible = [
-        'place', 'detail'
-    ];
+    protected $visible = ['place', 'detail', 'schedule', 'time', 'file_path'];
 
     public function guide()
     {

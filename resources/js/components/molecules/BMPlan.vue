@@ -2,13 +2,13 @@
     <div>
         <div id="overview" class="">
             <div id="planline" class="px-5">
-                <h3 class="subtitle font-extrabold" v-if="day !== '0'">{{ day }}日目</h3>
+                <h3 class="subtitle font-extrabold" v-if="section !== 0">{{ section }}日目</h3>
                 <dl class="schedule-item">
                     <dt></dt>
                     <dd class="content">
                         <div class="block">
-                            <router-link to="/photrip/photo" v-if="imgLink">{{ place }}<i class="far fa-images pl-2"></i></router-link>
-                            <p v-else>{{ place }}</p>
+                            <router-link to="/photrip/photo" v-if="imgLink !== null">{{ place }} ({{ time }})<i class="far fa-images pl-2"></i></router-link>
+                            <p v-else>{{ place }} ({{ time }})</p>
                         </div>
                         <div class="bg-gray-200 rounded-lg py-3 px-2 my-3" v-if="placeDetail">
                             <p class="text-gray-600">{{ placeDetail }}</p>
@@ -24,11 +24,12 @@
 <script>
 export default {
     props: {
-        day: String,
+        section: Number,
         place: String,
         placeDetail: String,
         endDeclear: Boolean,
-        imgLink: Boolean
+        imgLink: String,
+        time: String
     }
 }
 </script>

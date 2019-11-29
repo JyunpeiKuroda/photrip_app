@@ -4,8 +4,8 @@
         <div class="pt-10" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg mb-30 h-auto overflow-scroll">
 
-                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" v-model="form.guide.title"/>
-                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" v-model="form.guide.days"/>
+                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" type="text" v-model="form.guide.title"/>
+                <compose-i-f name="days" label="期間" placeholder="日数を数値で入力してください 例）20日の場合：20" type="number" v-model="form.guide.days"/>
 
                 <!-- 概要フォーム -->
                 <div id="overview" class="pt-20">
@@ -53,15 +53,30 @@
                                 </a>
                             </div>
 
+                            <div id="day">
+                                <div class="flex">
+                                    <div class="pt-2 px-4 relative">
+                                        <label for="schedule" class="text-xs text-blue-400 font-bold absolute pt-2">日程</label>
+                                        <input id="schedule" v-model="form.schedule" type="date" class="border-b pt-8 focus:outline-none focus:border-blue-400">
+                                    </div>
+                                    <div class="ml-2 pt-2 px-2 relative">
+                                        <label for="time" class="text-xs text-blue-400 font-bold absolute pt-2">時間</label>
+                                        <input id="time" v-model="form.time" type="time" class="border-b pt-8 focus:outline-none focus:border-blue-400">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="relative pt-4 px-4">
                                 <label for="place" class="text-xs text-blue-400 font-bold absolute pt-2">概要</label>
                                 <input id="place" v-model="form.place" type="text" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="場所を入力してください">
                             </div>
+
                             <div class="relative pt-4 px-4">
                                 <label for="name" class="text-xs text-blue-400 font-bold absolute pt-2">詳細</label>
                                 <textarea id="label" v-model="form.detail" class="border-b pt-8 w-full" placeholder="詳細を入力してください"></textarea>
                             </div>  
-                            <div class="pt-3 ml-8 clearfix">
+
+                            <div class="pt-3 ml-8 clearfix mt-3">
                                 <button @click="addPlacePanel(form)" class="focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
                             </div>
 
@@ -71,7 +86,7 @@
                 <!-- 計画フォーム end-->
 
                 <div class="pt-3 my-4 mx-4">
-                    <button id="composeBtn" @click="composeBookmark()" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">しおりを作成</button>
+                    <button id="composeBtn" @click="composeGuide()" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">しおりを作成</button>
                 </div>
             </div>
         </div>
@@ -99,8 +114,8 @@ export default {
                     { overview: '', content: '' }
                 ],
                 place: [
-                    { place: '', detail: '' }
-                ]
+                    { place: '', detail: '', schedule: '', time: '' }
+                ],
             },
         }
     },
@@ -149,7 +164,7 @@ export default {
                 this.form.place.splice(index, 1)
             }
         },
-        composeBookmark() {
+        composeGuide() {
             axios.post('/api/v1/compose/guides', this.form)
             .then(res => {
                 this.$router.push('/photrip/home')
@@ -157,9 +172,8 @@ export default {
             .catch(error => {
                 console.warn(error)
             })
-        }
+        },
     }
-
 }
 </script>
 

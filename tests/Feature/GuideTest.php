@@ -37,6 +37,16 @@ class GuideTest extends TestCase
         $this->assertCount(0, Guide::all());
     }
 
+    public function test_can_get_image_file_from_s3()
+    {
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->updateData());
+        dd(Place::all());
+        $response = $this->actingAs($this->user)->get('/api/v1/photos');
+        
+        
+
+    }
+
     /**
      * 編集機能API
      * @return void
@@ -45,14 +55,14 @@ class GuideTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
-
+        
         $guideId = Guide::first()->id;
         $guideTitle = Guide::first()->title;
 
         $response = $this->actingAs($this->user)->put('/api/v1/guides/'.$guideId.'/edit', $this->updateData());
-        
+
         $response->assertStatus(201);
-        $this->assertEquals($this->updateData()['guide']['title'], Guide::first()->title);
+        $this->assertEquals($this->updateData()['overview'][0]['overview'], Guide::first()->overviews());
     }
 
     /** 
@@ -78,12 +88,14 @@ class GuideTest extends TestCase
                 'title' => $guide->title,
                 'days' => $guide->days,
                 'overviews' => [
-                    'overview' => $guide->associate,
-                    'content' => $guide->associate,
+                    'overview' => $guide->overviews()->overview,
+                    'content' => $guide->overviews()->content,
                 ],
                 'places' => [
-                    'place' => $guide->associate,
-                    'detail' => $guide->associate,
+                    'place' => $guide->palces()->place,
+                    'detail' => $guide->palces()->detail,
+                    'schedule' => $guide->palces()->schedule,
+                    'time' => $guide->palces()->time,
                 ],
             ];
         })
@@ -133,7 +145,6 @@ class GuideTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $response = $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->data());
-
         $this->assertCount(1, Guide::all());
         $this->assertCount(1, Place::all());
         $this->assertCount(1, Overview::all());
@@ -155,6 +166,8 @@ class GuideTest extends TestCase
             'place' => [[
                 'place' => 'oosaka station',
                 'detail' => '',
+                'schedule' => '2019-11-10',
+                'time' => '10:00'
             ]]
         ];
     }
@@ -168,11 +181,17 @@ class GuideTest extends TestCase
             ],
             'overview' => [[
                 'overview' => 'neccessary',
-                'content' => 'null'
+                'content' => 'asd'
+            ],[
+                'overview' => 'neccessary2',
+                'content' => 'asdf'
             ]],
             'place' => [[
                 'place' => 'kyoto station',
-                'detail' => '',
+                'detail' => 'adsfg',
+                'schedule' => '2019-11-10',
+                'time' => '10:00',
+                'file_path' => 'uploads/img_5de0f75749d3e.png'
             ]]
         ];
     }

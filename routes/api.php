@@ -26,7 +26,7 @@ Route::get('/v1/userinfo', function() {
 });
 
 /** 写真 */
-Route::get('/v1/photos', 'PhotoController@index');
+Route::get('/v1/photos/{photos}', 'PhotoController@show');
 Route::post('/v1/upload/photos', 'PhotoController@store');
 
 /** しおり */

@@ -2030,11 +2030,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    day: String,
+    section: Number,
     place: String,
     placeDetail: String,
     endDeclear: Boolean,
-    imgLink: Boolean
+    imgLink: String,
+    time: String
   }
 });
 
@@ -2061,7 +2062,8 @@ __webpack_require__.r(__webpack_exports__);
     name: String,
     label: String,
     placeholder: String,
-    value: String
+    value: String,
+    type: String
   },
   methods: {
     updateValue: function updateValue(e) {
@@ -2258,6 +2260,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2279,7 +2296,9 @@ __webpack_require__.r(__webpack_exports__);
         }],
         place: [{
           place: '',
-          detail: ''
+          detail: '',
+          schedule: '',
+          time: ''
         }]
       }
     };
@@ -2327,7 +2346,7 @@ __webpack_require__.r(__webpack_exports__);
         this.form.place.splice(index, 1);
       }
     },
-    composeBookmark: function composeBookmark() {
+    composeGuide: function composeGuide() {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/v1/compose/guides', this.form).then(function (res) {
@@ -2434,6 +2453,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2443,7 +2485,7 @@ __webpack_require__.r(__webpack_exports__);
     ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
-    this.init();
+    this.initView();
   },
   computed: {
     checkQuery: function checkQuery() {
@@ -2463,18 +2505,20 @@ __webpack_require__.r(__webpack_exports__);
         }],
         place: [{
           place: '',
-          detail: ''
+          detail: '',
+          schedule: '',
+          time: '',
+          file_path: null
         }]
       }
     };
   },
   methods: {
-    init: function init() {
+    initView: function initView() {
       var _this = this;
 
       var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(endPoint).then(function (res) {
-        console.log(res.data.overviews, 'response');
         _this.form.guide.title = res.data.title;
         _this.form.guide.days = res.data.days;
         _this.form.overview = res.data.overviews;
@@ -2532,6 +2576,29 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$router.push('/photrip/home');
       });
+    },
+    // 画像選択＋アップロード
+    selectedFile: function selectedFile(index, e) {
+      var files = e.target.files;
+      this.$set(this.form.place[index], 'file_path', files[0]);
+      console.log(this.form.place[index]);
+    },
+    // ファイルアップロード
+    uploadFile: function uploadFile(index) {
+      var _this3 = this;
+
+      var formData = new FormData();
+      formData.append('s3', this.form.place[index].file_path);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/v1/upload/photos', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        _this3.form.place[index].file_path = res.data;
+        console.log(res.data, 'response');
+      })["catch"](function (error) {
+        console.warn(error, 'error');
+      });
     }
   }
 });
@@ -2550,8 +2617,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
 /* harmony import */ var _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/molecules/BMOverview.vue */ "./resources/js/components/molecules/BMOverview.vue");
 /* harmony import */ var _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/molecules/BMPlan.vue */ "./resources/js/components/molecules/BMPlan.vue");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
+//
+//
+//
 //
 //
 //
@@ -2619,7 +2687,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     Plan: _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
-    this.init();
+    this.initView();
   },
   computed: {
     checkQuery: function checkQuery() {
@@ -2628,25 +2696,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   },
   data: function data() {
     return {
-      planData: [{
-        day: '1',
-        place: '東京駅',
-        placeDetail: 'ここで集合です！！！！',
-        endDeclear: false,
-        imgLink: true
-      }],
       title: '',
       days: '',
       overviews: [],
-      places: []
+      places: [],
+      authorize: true
     };
   },
   methods: {
-    init: function init(id) {
+    initView: function initView(id) {
       var _this = this;
 
       var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
-      console.log(_typeof(this.checkQuery), 'this.checkQuery');
       axios.get(endPoint).then(function (res) {
         var places = res.data.places;
         _this.title = res.data.title;
@@ -2656,7 +2717,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         _this.endDeclear(places);
 
-        console.log(res.data);
+        _this.ConvertDateToSection();
+
+        console.log(res, 'response');
+      })["catch"](function (error) {
+        console.warn(error);
       });
     },
     toEditPage: function toEditPage() {
@@ -2685,6 +2750,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (size > 0 && places[0].place !== null) {
         places[places.length - 1]['endDeclear'] = true;
+      }
+    },
+
+    /**日付からセクションを算出 */
+    ConvertDateToSection: function ConvertDateToSection() {
+      var size = this.places.length;
+      var section = 0;
+
+      if (this.places.length > 0) {
+        for (var i = 0; i < size; i++) {
+          // 初めのループ
+          // 前の日程と同じ
+          // 次の日程
+          if (i === 0) {
+            this.places[i].section = 1;
+            section = 1;
+          } else if (this.places[i].schedule === this.places[i - 1].schedule) {
+            this.places[i].section = 0;
+          } else {
+            this.places[i].section = section + 1;
+            section += 1;
+          }
+        }
       }
     }
   }
@@ -22552,9 +22640,9 @@ var render = function() {
   return _c("div", [
     _c("div", { attrs: { id: "overview" } }, [
       _c("div", { staticClass: "px-5", attrs: { id: "planline" } }, [
-        _vm.day !== "0"
+        _vm.section !== 0
           ? _c("h3", { staticClass: "subtitle font-extrabold" }, [
-              _vm._v(_vm._s(_vm.day) + "日目")
+              _vm._v(_vm._s(_vm.section) + "日目")
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -22566,12 +22654,14 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm.imgLink
+                _vm.imgLink !== null
                   ? _c("router-link", { attrs: { to: "/photrip/photo" } }, [
-                      _vm._v(_vm._s(_vm.place)),
+                      _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")"),
                       _c("i", { staticClass: "far fa-images pl-2" })
                     ])
-                  : _c("p", [_vm._v(_vm._s(_vm.place))])
+                  : _c("p", [
+                      _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")")
+                    ])
               ],
               1
             ),
@@ -22636,7 +22726,7 @@ var render = function() {
     _c("input", {
       staticClass:
         "border-b pt-8 w-full focus:outline-none focus:border-blue-400",
-      attrs: { id: _vm.label, type: "text", placeholder: _vm.placeholder },
+      attrs: { id: _vm.label, type: _vm.type, placeholder: _vm.placeholder },
       domProps: { value: _vm.value },
       on: { input: _vm.updateValue }
     })
@@ -22839,7 +22929,8 @@ var render = function() {
               attrs: {
                 name: "title",
                 label: "タイトル",
-                placeholder: "タイトルを入力してください"
+                placeholder: "タイトルを入力してください",
+                type: "text"
               },
               model: {
                 value: _vm.form.guide.title,
@@ -22854,7 +22945,8 @@ var render = function() {
               attrs: {
                 name: "days",
                 label: "期間",
-                placeholder: "期間を入力してください。例）12日"
+                placeholder: "日数を数値で入力してください 例）20日の場合：20",
+                type: "number"
               },
               model: {
                 value: _vm.form.guide.days,
@@ -23041,6 +23133,92 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        _c("div", { attrs: { id: "day" } }, [
+                          _c("div", { staticClass: "flex" }, [
+                            _c("div", { staticClass: "pt-2 px-4 relative" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "text-xs text-blue-400 font-bold absolute pt-2",
+                                  attrs: { for: "schedule" }
+                                },
+                                [_vm._v("日程")]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: form.schedule,
+                                    expression: "form.schedule"
+                                  }
+                                ],
+                                staticClass:
+                                  "border-b pt-8 focus:outline-none focus:border-blue-400",
+                                attrs: { id: "schedule", type: "date" },
+                                domProps: { value: form.schedule },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      form,
+                                      "schedule",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "ml-2 pt-2 px-2 relative" },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass:
+                                      "text-xs text-blue-400 font-bold absolute pt-2",
+                                    attrs: { for: "time" }
+                                  },
+                                  [_vm._v("時間")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: form.time,
+                                      expression: "form.time"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "border-b pt-8 focus:outline-none focus:border-blue-400",
+                                  attrs: { id: "time", type: "time" },
+                                  domProps: { value: form.time },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        form,
+                                        "time",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
                         _c("div", { staticClass: "relative pt-4 px-4" }, [
                           _c(
                             "label",
@@ -23117,7 +23295,7 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "pt-3 ml-8 clearfix" }, [
+                        _c("div", { staticClass: "pt-3 ml-8 clearfix mt-3" }, [
                           _c(
                             "button",
                             {
@@ -23149,7 +23327,7 @@ var render = function() {
                   attrs: { id: "composeBtn" },
                   on: {
                     click: function($event) {
-                      return _vm.composeBookmark()
+                      return _vm.composeGuide()
                     }
                   }
                 },
@@ -23231,7 +23409,8 @@ var render = function() {
               attrs: {
                 name: "title",
                 label: "タイトル",
-                placeholder: "タイトルを入力してください"
+                placeholder: "タイトルを入力してください",
+                type: "text"
               },
               model: {
                 value: _vm.form.guide.title,
@@ -23246,7 +23425,8 @@ var render = function() {
               attrs: {
                 name: "days",
                 label: "期間",
-                placeholder: "期間を入力してください。例）12日"
+                placeholder: "期間を入力してください。例）12日",
+                type: "number"
               },
               model: {
                 value: _vm.form.guide.days,
@@ -23433,6 +23613,92 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        _c("div", { attrs: { id: "day" } }, [
+                          _c("div", { staticClass: "flex" }, [
+                            _c("div", { staticClass: "pt-2 px-4 relative" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "text-xs text-blue-400 font-bold absolute pt-2",
+                                  attrs: { for: "schedule" }
+                                },
+                                [_vm._v("日程")]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: form.schedule,
+                                    expression: "form.schedule"
+                                  }
+                                ],
+                                staticClass:
+                                  "border-b pt-8 focus:outline-none focus:border-blue-400",
+                                attrs: { id: "schedule", type: "date" },
+                                domProps: { value: form.schedule },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      form,
+                                      "schedule",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "ml-2 pt-2 px-2 relative" },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass:
+                                      "text-xs text-blue-400 font-bold absolute pt-2",
+                                    attrs: { for: "time" }
+                                  },
+                                  [_vm._v("時間")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: form.time,
+                                      expression: "form.time"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "border-b pt-8 focus:outline-none focus:border-blue-400",
+                                  attrs: { id: "time", type: "time" },
+                                  domProps: { value: form.time },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        form,
+                                        "time",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
                         _c("div", { staticClass: "relative pt-4 px-4" }, [
                           _c(
                             "label",
@@ -23510,6 +23776,59 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "pt-3 ml-8 clearfix" }, [
+                          _c("div", { staticClass: "inline" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass:
+                                  "border border-gray-500 text-gray-500 py-2 px-2 rounded-lg hover:text-gray-700",
+                                attrs: { for: "fileUpload" }
+                              },
+                              [
+                                _c("i", { staticClass: "fas fa-link mr-2" }),
+                                _vm._v(
+                                  "写真を選択\n                                "
+                                ),
+                                _c("input", {
+                                  staticClass: "hidden border border-gray-600",
+                                  attrs: {
+                                    id: "fileUpload",
+                                    accept: "image/jpeg, image/png",
+                                    type: "file"
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.selectedFile(index, $event)
+                                    }
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("i", { staticClass: "fas fa-arrow-right mx-2" }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "border border-gray-500 text-gray-500 py-2 px-2 rounded-lg hover:text-gray-700",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.uploadFile(index)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-cloud-upload-alt mr-2"
+                                }),
+                                _vm._v(
+                                  "写真をアップロード\n                                "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
@@ -23677,11 +23996,12 @@ var render = function() {
                   return _c("plan", {
                     key: index,
                     attrs: {
-                      day: datum.day,
+                      section: datum.section,
+                      time: datum.time,
                       place: datum.place,
                       placeDetail: datum.detail,
                       endDeclear: datum.endDeclear,
-                      imgLink: datum.imgLink
+                      imgLink: datum.file_path
                     }
                   })
                 })
@@ -23689,37 +24009,41 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "w-32 py-6 float-right" }, [
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "text-white text-center bg-gray-500 p-2 border-2 border-gray-500 rounded-full hover:bg-gray-300 hover:text-black",
-                  on: {
-                    click: function($event) {
-                      return _vm.toEditPage()
-                    }
-                  }
-                },
-                [_vm._v("編集する")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "w-32 py-6 float-right" }, [
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "text-red-500 text-center border-2 border-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white",
-                  on: {
-                    click: function($event) {
-                      return _vm.deletePlan()
-                    }
-                  }
-                },
-                [_vm._v("削除する")]
-              )
-            ])
+            _vm.authorize
+              ? _c("div", [
+                  _c("div", { staticClass: "w-32 py-6 float-right" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "text-white text-center bg-gray-500 p-2 border-2 border-gray-500 rounded-full hover:bg-gray-300 hover:text-black",
+                        on: {
+                          click: function($event) {
+                            return _vm.toEditPage()
+                          }
+                        }
+                      },
+                      [_vm._v("編集する")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-32 py-6 float-right" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "text-red-500 text-center border-2 border-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white",
+                        on: {
+                          click: function($event) {
+                            return _vm.deletePlan()
+                          }
+                        }
+                      },
+                      [_vm._v("削除する")]
+                    )
+                  ])
+                ])
+              : _vm._e()
           ]
         )
       ])
