@@ -68,34 +68,13 @@ class GuideRepo implements GuideRepositoryInterface{
         return Guide::with(['user'])->orderBy(Guide::UPDATED_AT, 'desc')->paginate();
     }
 
+    /**編集機能（delete + create）かなり無理矢理 */
     public function updateGuide(Request $request, $id)
     {
-        $guide = Guide::find($id);
+        $this->deleteGuide($id);
+        $this->saveGuide($request);
 
-        DB::beginTransaction();
-
-        try{
-            $guide->title = $request->guide['title'];
-            $guide->days = $request->guide['days'];
-
-            foreach ($request->overview as $overview) {
-                $guide->overviews()->overview = $overview['overview'];
-                $guide->overviews()->content = $overview['content'];
-                $guide->save();
-            }
-    
-            foreach ($request->place as $place) {
-                $guide->places()->place = $place['place'];
-                $guide->places()->detail = $place['detail'];
-                $guide->save();
-            }
-        }catch(Exception $e){
-            DB::rollback();
-            throw $e;
-        }
-        DB::commit();
-
-        return response($guide, 201);
+        return response(201);
     }
 
     public function editGuide($id)
