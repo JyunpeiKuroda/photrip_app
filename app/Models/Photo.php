@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
+
+    protected $guarded = ['id'];
+
+    protected $visible = ['file_path'];
+    
     protected $keyType = 'string';
 
     const ID_LENGTH = 12;

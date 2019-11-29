@@ -4,8 +4,8 @@
         <div class="pt-10" id="mainContent">
             <div class="w-8/12 bg-white h-64 m-auto rounded-lg mb-30 h-auto overflow-scroll">
 
-                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" v-model="form.guide.title"/>
-                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" v-model="form.guide.days"/>
+                <compose-i-f name="title" label="タイトル" placeholder="タイトルを入力してください" type="text"  v-model="form.guide.title"/>
+                <compose-i-f name="days" label="期間" placeholder="期間を入力してください。例）12日" type="number"  v-model="form.guide.days"/>
 
                 <!-- 概要フォーム -->
                 <div id="overview" class="pt-20">
@@ -75,6 +75,16 @@
                                 <textarea id="label" v-model="form.detail" class="border-b pt-8 w-full" placeholder="詳細を入力してください"></textarea>
                             </div>  
                             <div class="pt-3 ml-8 clearfix">
+                                <div class="inline">
+                                    <label for="fileUpload" class="border border-gray-500 text-gray-500 py-2 px-2 rounded-lg hover:text-gray-700"> 
+                                        <i class="fas fa-link mr-2"></i>写真を選択
+                                    <input id="fileUpload" accept="image/jpeg, image/png" class="hidden border border-gray-600" @change="selectedFile(index, $event)" type="file">
+                                    </label>
+                                    <i class="fas fa-arrow-right mx-2"></i>
+                                    <button class="border border-gray-500 text-gray-500 py-2 px-2 rounded-lg hover:text-gray-700" @click="uploadFile(index)">
+                                        <i class="fas fa-cloud-upload-alt mr-2"></i>写真をアップロード
+                                    </button>
+                                </div>
                                 <button @click="addPlacePanel(form)" class="focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
                             </div>
 
@@ -102,7 +112,7 @@ export default {
         ComposeIF
     },
     mounted () {
-        this.init()
+        this.initView()
     },
     computed: {
         checkQuery() {
@@ -120,17 +130,16 @@ export default {
                     { overview: '', content: '' }
                 ],
                 place: [
-                    { place: '', detail: '', schedule: '', time: '' }
+                    { place: '', detail: '', schedule: '', time: '', file_path: null }
                 ]
             },
         }
     },
     methods: {
-        init() {
+        initView() {
             const endPoint = '/api/v1/edit/guides/' + this.checkQuery
             axios.get(endPoint)
                 .then(res => {
-                    console.log(res.data.overviews, 'response')
                     this.form.guide.title = res.data.title
                     this.form.guide.days  = res.data.days
                     this.form.overview    = res.data.overviews
@@ -188,6 +197,31 @@ export default {
                     console.log(res)
                     this.$router.push('/photrip/home')
                 })
+        },
+        // 画像選択＋アップロード
+        selectedFile(index, e) {
+            let files = e.target.files;
+            this.$set(this.form.place[index], 'file_path', files[0])
+            console.log(this.form.place[index])
+        },
+        // ファイルアップロード
+        uploadFile(index) {
+            var formData = new FormData()
+
+            formData.append('s3', this.form.place[index].file_path)
+
+            axios.post('/api/v1/upload/photos', formData, {
+                headers: {
+                     'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                this.form.place[index].file_path = res.data
+                console.log(res.data, 'response')
+            })
+            .catch(error => {
+                console.warn(error, 'error')
+            })
         }
     }
 }

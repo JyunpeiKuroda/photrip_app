@@ -40,7 +40,7 @@
                     :place="datum.place"
                     :placeDetail="datum.detail"
                     :endDeclear="datum.endDeclear"
-                    :imgLink="datum.imgLink"
+                    :imgLink="datum.file_path"
                     ></plan>
                 </div> 
 
@@ -100,7 +100,7 @@ export default {
                     this.places = res.data.places
                     this.endDeclear(places)
                     this.ConvertDateToSection()
-                    console.log(this.places)
+                    console.log(res, 'response')
                 })
                 .catch(error => {
                     console.warn(error)
