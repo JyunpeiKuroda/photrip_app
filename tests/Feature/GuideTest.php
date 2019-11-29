@@ -37,6 +37,16 @@ class GuideTest extends TestCase
         $this->assertCount(0, Guide::all());
     }
 
+    public function test_can_get_image_file_from_s3()
+    {
+        $this->actingAs($this->user)->post('/api/v1/compose/guides', $this->updateData());
+        dd(Place::all());
+        $response = $this->actingAs($this->user)->get('/api/v1/photos');
+        
+        
+
+    }
+
     /**
      * 編集機能API
      * @return void
@@ -50,7 +60,7 @@ class GuideTest extends TestCase
         $guideTitle = Guide::first()->title;
 
         $response = $this->actingAs($this->user)->put('/api/v1/guides/'.$guideId.'/edit', $this->updateData());
-        dd(Place::all());
+
         $response->assertStatus(201);
         $this->assertEquals($this->updateData()['overview'][0]['overview'], Guide::first()->overviews());
     }
@@ -179,6 +189,9 @@ class GuideTest extends TestCase
             'place' => [[
                 'place' => 'kyoto station',
                 'detail' => 'adsfg',
+                'schedule' => '2019-11-10',
+                'time' => '10:00',
+                'file_path' => 'uploads/img_5de0f75749d3e.png'
             ]]
         ];
     }

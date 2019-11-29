@@ -7,7 +7,7 @@
                     <dt></dt>
                     <dd class="content">
                         <div class="block">
-                            <router-link to="/photrip/photo" v-if="imgLink">{{ place }} ({{ time }})<i class="far fa-images pl-2"></i></router-link>
+                            <router-link to="/photrip/photo" v-if="imgLink !== null">{{ place }} ({{ time }})<i class="far fa-images pl-2"></i></router-link>
                             <p v-else>{{ place }} ({{ time }})</p>
                         </div>
                         <div class="bg-gray-200 rounded-lg py-3 px-2 my-3" v-if="placeDetail">
@@ -28,7 +28,7 @@ export default {
         place: String,
         placeDetail: String,
         endDeclear: Boolean,
-        imgLink: Boolean,
+        imgLink: String,
         time: String
     }
 }

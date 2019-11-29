@@ -20,6 +20,7 @@ class CreatePlacesTable extends Migration
             $table->string('place')->nullable();
             $table->string('detail')->nullable();
             $table->string('schedule');
+            $table->string('file_path')->nullable();
             $table->string('time');
             $table->timestamps();
 

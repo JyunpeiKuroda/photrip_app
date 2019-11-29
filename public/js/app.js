@@ -2034,7 +2034,7 @@ __webpack_require__.r(__webpack_exports__);
     place: String,
     placeDetail: String,
     endDeclear: Boolean,
-    imgLink: Boolean,
+    imgLink: String,
     time: String
   }
 });
@@ -2062,7 +2062,8 @@ __webpack_require__.r(__webpack_exports__);
     name: String,
     label: String,
     placeholder: String,
-    value: String
+    value: String,
+    type: String
   },
   methods: {
     updateValue: function updateValue(e) {
@@ -2179,6 +2180,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+//
 //
 //
 //
@@ -2464,6 +2466,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2473,7 +2485,7 @@ __webpack_require__.r(__webpack_exports__);
     ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
-    this.init();
+    this.initView();
   },
   computed: {
     checkQuery: function checkQuery() {
@@ -2495,18 +2507,18 @@ __webpack_require__.r(__webpack_exports__);
           place: '',
           detail: '',
           schedule: '',
-          time: ''
+          time: '',
+          file_path: null
         }]
       }
     };
   },
   methods: {
-    init: function init() {
+    initView: function initView() {
       var _this = this;
 
       var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(endPoint).then(function (res) {
-        console.log(res.data.overviews, 'response');
         _this.form.guide.title = res.data.title;
         _this.form.guide.days = res.data.days;
         _this.form.overview = res.data.overviews;
@@ -2563,6 +2575,29 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
 
         _this2.$router.push('/photrip/home');
+      });
+    },
+    // 画像選択＋アップロード
+    selectedFile: function selectedFile(index, e) {
+      var files = e.target.files;
+      this.$set(this.form.place[index], 'file_path', files[0]);
+      console.log(this.form.place[index]);
+    },
+    // ファイルアップロード
+    uploadFile: function uploadFile(index) {
+      var _this3 = this;
+
+      var formData = new FormData();
+      formData.append('s3', this.form.place[index].file_path);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/v1/upload/photos', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        _this3.form.place[index].file_path = res.data;
+        console.log(res.data, 'response');
+      })["catch"](function (error) {
+        console.warn(error, 'error');
       });
     }
   }
@@ -2684,7 +2719,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.ConvertDateToSection();
 
-        console.log(_this.places);
+        console.log(res, 'response');
       })["catch"](function (error) {
         console.warn(error);
       });
@@ -22619,7 +22654,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm.imgLink
+                _vm.imgLink !== null
                   ? _c("router-link", { attrs: { to: "/photrip/photo" } }, [
                       _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")"),
                       _c("i", { staticClass: "far fa-images pl-2" })
@@ -22691,7 +22726,7 @@ var render = function() {
     _c("input", {
       staticClass:
         "border-b pt-8 w-full focus:outline-none focus:border-blue-400",
-      attrs: { id: _vm.label, type: "text", placeholder: _vm.placeholder },
+      attrs: { id: _vm.label, type: _vm.type, placeholder: _vm.placeholder },
       domProps: { value: _vm.value },
       on: { input: _vm.updateValue }
     })
@@ -22894,7 +22929,8 @@ var render = function() {
               attrs: {
                 name: "title",
                 label: "タイトル",
-                placeholder: "タイトルを入力してください"
+                placeholder: "タイトルを入力してください",
+                type: "text"
               },
               model: {
                 value: _vm.form.guide.title,
@@ -22909,7 +22945,8 @@ var render = function() {
               attrs: {
                 name: "days",
                 label: "期間",
-                placeholder: "期間を入力してください。例）12日"
+                placeholder: "日数を数値で入力してください 例）20日の場合：20",
+                type: "number"
               },
               model: {
                 value: _vm.form.guide.days,
@@ -23258,7 +23295,7 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "pt-3 ml-8 clearfix" }, [
+                        _c("div", { staticClass: "pt-3 ml-8 clearfix mt-3" }, [
                           _c(
                             "button",
                             {
@@ -23372,7 +23409,8 @@ var render = function() {
               attrs: {
                 name: "title",
                 label: "タイトル",
-                placeholder: "タイトルを入力してください"
+                placeholder: "タイトルを入力してください",
+                type: "text"
               },
               model: {
                 value: _vm.form.guide.title,
@@ -23387,7 +23425,8 @@ var render = function() {
               attrs: {
                 name: "days",
                 label: "期間",
-                placeholder: "期間を入力してください。例）12日"
+                placeholder: "期間を入力してください。例）12日",
+                type: "number"
               },
               model: {
                 value: _vm.form.guide.days,
@@ -23737,6 +23776,59 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "pt-3 ml-8 clearfix" }, [
+                          _c("div", { staticClass: "inline" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass:
+                                  "border border-gray-500 text-gray-500 py-2 px-2 rounded-lg hover:text-gray-700",
+                                attrs: { for: "fileUpload" }
+                              },
+                              [
+                                _c("i", { staticClass: "fas fa-link mr-2" }),
+                                _vm._v(
+                                  "写真を選択\n                                "
+                                ),
+                                _c("input", {
+                                  staticClass: "hidden border border-gray-600",
+                                  attrs: {
+                                    id: "fileUpload",
+                                    accept: "image/jpeg, image/png",
+                                    type: "file"
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.selectedFile(index, $event)
+                                    }
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("i", { staticClass: "fas fa-arrow-right mx-2" }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "border border-gray-500 text-gray-500 py-2 px-2 rounded-lg hover:text-gray-700",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.uploadFile(index)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-cloud-upload-alt mr-2"
+                                }),
+                                _vm._v(
+                                  "写真をアップロード\n                                "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
@@ -23909,7 +24001,7 @@ var render = function() {
                       place: datum.place,
                       placeDetail: datum.detail,
                       endDeclear: datum.endDeclear,
-                      imgLink: datum.imgLink
+                      imgLink: datum.file_path
                     }
                   })
                 })

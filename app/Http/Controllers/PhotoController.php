@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
-use App\Models\Photo;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
@@ -38,43 +36,39 @@ class PhotoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * S3 アップロード
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(PhotoRequest $request)
     {
-        $extension = $request->s3->extension();
 
-        $photo = new Photo();
+        $image = $request->file('s3');
+        $filename = ((string)(uniqid("img_"))) .".". $image->getClientOriginalExtension();
+        $filepath = Storage::disk('s3')->putFileAs('uploads', $image, $filename, 'public');
 
-        $photo->filename = $photo->id . '.' . $extension;
-        Storage::cloud()->putFileAs('', $request->s3, $photo->filename, 'public');
-
-        // データベースエラー時にファイル削除を行う
-        DB::beginTransaction();
-        try {
-            $photo->save();
-            DB::commit();
-        } catch(Exception $e) {
-            DB::rollBack();
-            Storage::cloud()->delete($photo->filename);
-            throw $e;
-        }
-
-        return response($photo, 201);
+        return response($filepath, 201);
     }
 
     /**
-     * Display the specified resource.
+     * 画像取得
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $disk = Storage::disk('s3');
+
+        try {
+            $content = $disk->get($id);
+            $mimeType = $disk->mimeType($id);
+        } catch (Exception $e) {
+            return response(['message' => $e->getMessage()], 404);
+        }
+
+        return response($content)->header('Content-Type', $mimeType);
     }
 
     /**
