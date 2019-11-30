@@ -27,11 +27,19 @@
                 </div>
             </div>
         </div>
+        <loading-bar
+        :isLoading="isLoading"
+        ></loading-bar>
     </div>
 </template>
 
 <script>
+import LoadingBar from '../components/LoadingBar.vue';
+
 export default {
+    computed: {
+        LoadingBar
+    },
     data() {
         return {
             registerForm: {
@@ -44,9 +52,11 @@ export default {
     methods: {
         async register() {
             if (this.validator()) {
+                this.$store.commit('loading/setLoading', true)
                 await this.$store.dispatch('auth/register', this.registerForm)
+                this.$store.commit('loading/setLoading', false)
+
                 this.$router.push('/photrip/home')
-                console.log(this.registerForm)
             }
             console.log('error出力');
         },

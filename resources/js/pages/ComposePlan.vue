@@ -90,18 +90,29 @@
                 </div>
             </div>
         </div>
+        <loading-bar
+        :isLoading="isLoading"
+        ></loading-bar>
     </div>
 </template>
 
 <script>
 import LbHeader from '../components/Header.vue';
 import ComposeIF from '../components/molecules/ComposeInputField.vue';
+import LoadingBar from '../components/LoadingBar.vue';
+
 import axios from 'axios';
 
 export default {
     components: {
         LbHeader,
-        ComposeIF
+        ComposeIF,
+        LoadingBar
+    },
+    computed: {
+        isLoading() {
+            return this.$store.state.loading.isLoading
+        }
     },
     data() {
         return {
@@ -165,6 +176,7 @@ export default {
             }
         },
         composeGuide() {
+            this.$store.commit('loading/setLoading', true)
             axios.post('/api/v1/compose/guides', this.form)
             .then(res => {
                 this.$router.push('/photrip/home')
@@ -172,6 +184,7 @@ export default {
             .catch(error => {
                 console.warn(error)
             })
+            this.$store.commit('loading/setLoading', false)
         },
     }
 }

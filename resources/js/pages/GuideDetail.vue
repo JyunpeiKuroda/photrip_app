@@ -55,6 +55,9 @@
                 </div>
             </div>
         </div>
+        <loading-bar
+        :isLoading="isLoading"
+        ></loading-bar>
     </div>
 </template>
 
@@ -62,12 +65,14 @@
 import LbHeader from '../components/Header.vue';
 import OverView from '../components/molecules/BMOverview.vue';
 import Plan from '../components/molecules/BMPlan.vue';
+import LoadingBar from '../components/LoadingBar.vue';
 
 export default {
     components: {
         LbHeader,
         OverView,
-        Plan
+        Plan,
+        LoadingBar
     },
     mounted() {
         this.initView()
@@ -76,6 +81,9 @@ export default {
         checkQuery() {
             return this.$route.query.guide_id
         },
+        isLoading() {
+            return this.$store.state.loading.isLoading
+        }
     },
     data() {
         return {
@@ -88,6 +96,7 @@ export default {
     },
     methods: {
         initView(id) {
+            this.$store.commit('loading/setLoading', true)
             const endPoint = '/api/v1/edit/guides/' + this.checkQuery
 
             axios.get(endPoint)
@@ -105,6 +114,7 @@ export default {
                 .catch(error => {
                     console.warn(error)
                 })
+            this.$store.commit('loading/setLoading', false)
         },
         toEditPage() {
             this.$router.push({
@@ -117,11 +127,13 @@ export default {
         deletePlan() {
             const endPoint = '/api/v1/guides/' + this.checkQuery
             if (window.confirm('プラン：「' + this.title + '」'　+ 'を削除してもよろしいでしょか？')) {
+                this.$store.commit('loading/setLoading', true)
                 axios.delete(endPoint)
                     .then(res => {
                         console.log(res, 'response')
                         this.$router.push('/photrip/home')
                     })  
+                this.$store.commit('loading/setLoading', false)
             }
         },
         endDeclear(places) {

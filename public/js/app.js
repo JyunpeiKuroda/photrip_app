@@ -2204,8 +2204,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
 /* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 //
 //
 //
@@ -2301,13 +2302,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  computed: {
+    isLoading: function isLoading() {
+      return this.$store.state.loading.isLoading;
+    }
   },
   data: function data() {
     return {
@@ -2375,11 +2386,13 @@ __webpack_require__.r(__webpack_exports__);
     composeGuide: function composeGuide() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/v1/compose/guides', this.form).then(function (res) {
+      this.$store.commit('loading/setLoading', true);
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/api/v1/compose/guides', this.form).then(function (res) {
         _this.$router.push('/photrip/home');
       })["catch"](function (error) {
         console.warn(error);
       });
+      this.$store.commit('loading/setLoading', false);
     }
   }
 });
@@ -2399,6 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
 /* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
 //
 //
 //
@@ -2502,13 +2516,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   mounted: function mounted() {
     this.initView();
@@ -2516,6 +2535,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     checkQuery: function checkQuery() {
       return this.$route.query.guide_id;
+    },
+    isLoading: function isLoading() {
+      return this.$store.state.loading.isLoading;
     }
   },
   data: function data() {
@@ -2544,12 +2566,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
+      this.$store.commit('loading/setLoading', true);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(endPoint).then(function (res) {
         _this.form.guide.title = res.data.title;
         _this.form.guide.days = res.data.days;
         _this.form.overview = res.data.overviews;
         _this.form.place = res.data.places;
       });
+      this.$store.commit('loading/setLoading', false);
     },
     // 概要フォーム
     addOverviewPanel: function addOverviewPanel(form) {
@@ -2597,17 +2621,18 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var endPoint = '/api/v1/guides/' + this.checkQuery + '/edit';
+      this.$store.commit('loading/setLoading', true);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(endPoint, this.form).then(function (res) {
         console.log(res);
 
         _this2.$router.push('/photrip/home');
       });
+      this.$store.commit('loading/setLoading', false);
     },
     // 画像選択＋アップロード
     selectedFile: function selectedFile(index, e) {
       var files = e.target.files;
       this.$set(this.form.place[index], 'file_path', files[0]);
-      console.log(this.form.place[index]);
     },
     // ファイルアップロード
     uploadFile: function uploadFile(index) {
@@ -2615,6 +2640,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var formData = new FormData();
       formData.append('s3', this.form.place[index].file_path);
+      this.$store.commit('loading/setLoading', true);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/v1/upload/photos', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -2625,6 +2651,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.warn(error, 'error');
       });
+      this.$store.commit('loading/setLoading', false);
     }
   }
 });
@@ -2643,6 +2670,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
 /* harmony import */ var _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/molecules/BMOverview.vue */ "./resources/js/components/molecules/BMOverview.vue");
 /* harmony import */ var _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/molecules/BMPlan.vue */ "./resources/js/components/molecules/BMPlan.vue");
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
 //
 //
 //
@@ -2703,6 +2731,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -2710,7 +2742,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     OverView: _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Plan: _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Plan: _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   mounted: function mounted() {
     this.initView();
@@ -2718,6 +2751,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     checkQuery: function checkQuery() {
       return this.$route.query.guide_id;
+    },
+    isLoading: function isLoading() {
+      return this.$store.state.loading.isLoading;
     }
   },
   data: function data() {
@@ -2733,6 +2769,7 @@ __webpack_require__.r(__webpack_exports__);
     initView: function initView(id) {
       var _this = this;
 
+      this.$store.commit('loading/setLoading', true);
       var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
       axios.get(endPoint).then(function (res) {
         var places = res.data.places;
@@ -2749,6 +2786,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.warn(error);
       });
+      this.$store.commit('loading/setLoading', false);
     },
     toEditPage: function toEditPage() {
       this.$router.push({
@@ -2764,11 +2802,13 @@ __webpack_require__.r(__webpack_exports__);
       var endPoint = '/api/v1/guides/' + this.checkQuery;
 
       if (window.confirm('プラン：「' + this.title + '」' + 'を削除してもよろしいでしょか？')) {
+        this.$store.commit('loading/setLoading', true);
         axios["delete"](endPoint).then(function (res) {
           console.log(res, 'response');
 
           _this2.$router.push('/photrip/home');
         });
+        this.$store.commit('loading/setLoading', false);
       }
     },
     endDeclear: function endDeclear(places) {
@@ -2905,6 +2945,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
 
 //
 //
@@ -2953,7 +2994,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       loginForm: {
@@ -2971,6 +3019,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     loginErrorMsg: function loginErrorMsg() {
       return this.$store.state.auth.loginErrorMsg;
+    },
+    isLoading: function isLoading() {
+      return this.$store.state.loading.isLoading;
     }
   },
   methods: {
@@ -3142,6 +3193,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
 
 //
 //
@@ -3175,7 +3227,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       registerForm: {
@@ -3192,21 +3251,22 @@ __webpack_require__.r(__webpack_exports__);
           switch (_context.prev = _context.next) {
             case 0:
               if (!this.validator()) {
-                _context.next = 5;
+                _context.next = 6;
                 break;
               }
 
-              _context.next = 3;
+              this.$store.commit('loading/setLoading', true);
+              _context.next = 4;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(this.$store.dispatch('auth/register', this.registerForm));
 
-            case 3:
+            case 4:
+              this.$store.commit('loading/setLoading', false);
               this.$router.push('/photrip/home');
-              console.log(this.registerForm);
-
-            case 5:
-              console.log('error出力');
 
             case 6:
+              console.log('error出力');
+
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -36921,7 +36981,9 @@ var render = function() {
           ],
           1
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("loading-bar", { attrs: { isLoading: _vm.isLoading } })
     ],
     1
   )
@@ -37454,7 +37516,9 @@ var render = function() {
           ],
           1
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("loading-bar", { attrs: { isLoading: _vm.isLoading } })
     ],
     1
   )
@@ -37630,7 +37694,9 @@ var render = function() {
               : _vm._e()
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("loading-bar", { attrs: { isLoading: _vm.isLoading } })
     ],
     1
   )
@@ -37743,135 +37809,142 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {}, [
-    _c(
-      "div",
-      {
-        staticClass: "h-full mx-auto flex justify-center items-center",
-        attrs: { id: "login_background" }
-      },
-      [
-        _c("div", { staticClass: "w-96 bg-white rounded-lg shadow-xl p-6" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _vm.loginErrorMsg
-            ? _c(
-                "div",
-                {
-                  staticClass: "border-2 border-red-500 py-4 px-4",
-                  attrs: { id: "errorVisble" }
-                },
-                [
-                  _c("p", { staticClass: "text-red-600" }, [
-                    _vm._v(_vm._s(_vm.loginErrorMsg))
-                  ])
-                ]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", {}, [
-            _c("div", {}, [
-              _c("input", {
-                directives: [
+  return _c(
+    "div",
+    {},
+    [
+      _c(
+        "div",
+        {
+          staticClass: "h-full mx-auto flex justify-center items-center",
+          attrs: { id: "login_background" }
+        },
+        [
+          _c("div", { staticClass: "w-96 bg-white rounded-lg shadow-xl p-6" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm.loginErrorMsg
+              ? _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.loginForm.email,
-                    expression: "loginForm.email"
-                  }
-                ],
-                staticClass:
-                  "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
-                attrs: {
-                  id: "email",
-                  type: "email",
-                  placeholder: "メールアドレス",
-                  name: "email",
-                  required: "",
-                  autocomplete: "email",
-                  autofocus: ""
-                },
-                domProps: { value: _vm.loginForm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.loginForm, "email", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", {}, [
+                    staticClass: "border-2 border-red-500 py-4 px-4",
+                    attrs: { id: "errorVisble" }
+                  },
+                  [
+                    _c("p", { staticClass: "text-red-600" }, [
+                      _vm._v(_vm._s(_vm.loginErrorMsg))
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
             _c("div", {}, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.loginForm.password,
-                    expression: "loginForm.password"
-                  }
-                ],
-                staticClass:
-                  "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
-                attrs: {
-                  id: "password",
-                  type: "password",
-                  placeholder: "パスワード",
-                  name: "password",
-                  required: "",
-                  autocomplete: "current-password"
-                },
-                domProps: { value: _vm.loginForm.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", {}, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.loginForm.email,
+                      expression: "loginForm.email"
                     }
-                    _vm.$set(_vm.loginForm, "password", $event.target.value)
+                  ],
+                  staticClass:
+                    "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
+                  attrs: {
+                    id: "email",
+                    type: "email",
+                    placeholder: "メールアドレス",
+                    name: "email",
+                    required: "",
+                    autocomplete: "email",
+                    autofocus: ""
+                  },
+                  domProps: { value: _vm.loginForm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.loginForm, "email", $event.target.value)
+                    }
                   }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { attrs: { id: "loginBtn" } }, [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "bg-blue-500 rounded-lg w-64 h-12  text-white font-hairline",
-                on: {
-                  click: function($event) {
-                    return _vm.login()
-                  }
-                }
-              },
-              [_vm._v("ログイン")]
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "mt-4", attrs: { id: "registerLink" } },
-            [
-              _c("router-link", { attrs: { to: "/register" } }, [
-                _c("p", { staticClass: "text-gray-600 text-sm" }, [
-                  _vm._v("まだ登録していない方はこちら")
-                ])
+                })
               ])
-            ],
-            1
-          )
-        ])
-      ]
-    )
-  ])
+            ]),
+            _vm._v(" "),
+            _c("div", {}, [
+              _c("div", {}, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.loginForm.password,
+                      expression: "loginForm.password"
+                    }
+                  ],
+                  staticClass:
+                    "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
+                  attrs: {
+                    id: "password",
+                    type: "password",
+                    placeholder: "パスワード",
+                    name: "password",
+                    required: "",
+                    autocomplete: "current-password"
+                  },
+                  domProps: { value: _vm.loginForm.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.loginForm, "password", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "loginBtn" } }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "bg-blue-500 rounded-lg w-64 h-12  text-white font-hairline",
+                  on: {
+                    click: function($event) {
+                      return _vm.login()
+                    }
+                  }
+                },
+                [_vm._v("ログイン")]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "mt-4", attrs: { id: "registerLink" } },
+              [
+                _c("router-link", { attrs: { to: "/register" } }, [
+                  _c("p", { staticClass: "text-gray-600 text-sm" }, [
+                    _vm._v("まだ登録していない方はこちら")
+                  ])
+                ])
+              ],
+              1
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("loading-bar", { attrs: { isLoading: _vm.isLoading } })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -38076,140 +38149,151 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {}, [
-    _c(
-      "div",
-      {
-        staticClass: "h-full mx-auto flex justify-center items-center",
-        attrs: { id: "login_background" }
-      },
-      [
-        _c("div", { staticClass: "w-96 bg-white rounded-lg shadow-xl p-6" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", {}, [
+  return _c(
+    "div",
+    {},
+    [
+      _c(
+        "div",
+        {
+          staticClass: "h-full mx-auto flex justify-center items-center",
+          attrs: { id: "login_background" }
+        },
+        [
+          _c("div", { staticClass: "w-96 bg-white rounded-lg shadow-xl p-6" }, [
+            _vm._m(0),
+            _vm._v(" "),
             _c("div", {}, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.registerForm.name,
-                    expression: "registerForm.name"
-                  }
-                ],
-                staticClass:
-                  "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
-                attrs: {
-                  id: "name",
-                  type: "text",
-                  placeholder: "名前",
-                  name: "name",
-                  required: "",
-                  autocomplete: "name",
-                  autofocus: ""
-                },
-                domProps: { value: _vm.registerForm.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", {}, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.registerForm.name,
+                      expression: "registerForm.name"
                     }
-                    _vm.$set(_vm.registerForm, "name", $event.target.value)
+                  ],
+                  staticClass:
+                    "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
+                  attrs: {
+                    id: "name",
+                    type: "text",
+                    placeholder: "名前",
+                    name: "name",
+                    required: "",
+                    autocomplete: "name",
+                    autofocus: ""
+                  },
+                  domProps: { value: _vm.registerForm.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.registerForm, "name", $event.target.value)
+                    }
                   }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", {}, [
+                })
+              ])
+            ]),
+            _vm._v(" "),
             _c("div", {}, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.registerForm.email,
-                    expression: "registerForm.email"
-                  }
-                ],
-                staticClass:
-                  "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
-                attrs: {
-                  id: "email",
-                  type: "email",
-                  placeholder: "メールアドレス",
-                  name: "email",
-                  required: "",
-                  autocomplete: "email",
-                  autofocus: ""
-                },
-                domProps: { value: _vm.registerForm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", {}, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.registerForm.email,
+                      expression: "registerForm.email"
                     }
-                    _vm.$set(_vm.registerForm, "email", $event.target.value)
+                  ],
+                  staticClass:
+                    "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
+                  attrs: {
+                    id: "email",
+                    type: "email",
+                    placeholder: "メールアドレス",
+                    name: "email",
+                    required: "",
+                    autocomplete: "email",
+                    autofocus: ""
+                  },
+                  domProps: { value: _vm.registerForm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.registerForm, "email", $event.target.value)
+                    }
                   }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", {}, [
+                })
+              ])
+            ]),
+            _vm._v(" "),
             _c("div", {}, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.registerForm.password,
-                    expression: "registerForm.password"
-                  }
-                ],
-                staticClass:
-                  "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
-                attrs: {
-                  id: "password",
-                  type: "password",
-                  placeholder: "パスワード",
-                  name: "password",
-                  required: "",
-                  autocomplete: "current-password"
-                },
-                domProps: { value: _vm.registerForm.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", {}, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.registerForm.password,
+                      expression: "registerForm.password"
                     }
-                    _vm.$set(_vm.registerForm, "password", $event.target.value)
+                  ],
+                  staticClass:
+                    "pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400",
+                  attrs: {
+                    id: "password",
+                    type: "password",
+                    placeholder: "パスワード",
+                    name: "password",
+                    required: "",
+                    autocomplete: "current-password"
+                  },
+                  domProps: { value: _vm.registerForm.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.registerForm,
+                        "password",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              })
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mt-10", attrs: { id: "register" } }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "bg-blue-500 rounded-lg w-64 h-12  text-white font-hairline",
+                  on: {
+                    click: function($event) {
+                      return _vm.register()
+                    }
+                  }
+                },
+                [_vm._v("登録")]
+              )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mt-10", attrs: { id: "register" } }, [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "bg-blue-500 rounded-lg w-64 h-12  text-white font-hairline",
-                on: {
-                  click: function($event) {
-                    return _vm.register()
-                  }
-                }
-              },
-              [_vm._v("登録")]
-            )
           ])
-        ])
-      ]
-    )
-  ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("loading-bar", { attrs: { isLoading: _vm.isLoading } })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

@@ -42,11 +42,19 @@
 
             </div>
         </div>
+        <loading-bar
+        :isLoading="isLoading"
+        ></loading-bar>
     </div>
 </template>
 
 <script>
+import LoadingBar from '../components/LoadingBar.vue';
+
 export default {
+    components: {
+        LoadingBar
+    },  
     data() {
         return {
             loginForm: {
@@ -64,11 +72,15 @@ export default {
         },
         loginErrorMsg() {
             return this.$store.state.auth.loginErrorMsg
+        },
+        isLoading() {
+            return this.$store.state.loading.isLoading
         }
     },
     methods: {
         async login() {
             await this.$store.dispatch('auth/login', this.loginForm)
+
             console.log(this.loginErrorMsg);
             if (this.apiStatus) {
                 this.$router.push('/photrip/home')

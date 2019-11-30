@@ -98,6 +98,9 @@
                 </div>
             </div>
         </div>
+        <loading-bar
+        :isLoading="isLoading"
+        ></loading-bar>
     </div>
 </template>
 
@@ -105,11 +108,13 @@
 import axios from 'axios';
 import LbHeader from '../components/Header.vue';
 import ComposeIF from '../components/molecules/ComposeInputField.vue';
+import LoadingBar from '../components/LoadingBar.vue';
 
 export default {
     components: {
         LbHeader,
-        ComposeIF
+        ComposeIF,
+        LoadingBar
     },
     mounted () {
         this.initView()
@@ -118,6 +123,9 @@ export default {
         checkQuery() {
             return this.$route.query.guide_id
         },
+        isLoading() {
+            return this.$store.state.loading.isLoading
+        }
     },
     data() {
         return {
@@ -138,6 +146,7 @@ export default {
     methods: {
         initView() {
             const endPoint = '/api/v1/edit/guides/' + this.checkQuery
+            this.$store.commit('loading/setLoading', true)
             axios.get(endPoint)
                 .then(res => {
                     this.form.guide.title = res.data.title
@@ -145,6 +154,7 @@ export default {
                     this.form.overview    = res.data.overviews
                     this.form.place       = res.data.places
             })
+            this.$store.commit('loading/setLoading', false)
         },        
         // 概要フォーム
         addOverviewPanel(form) {
@@ -192,17 +202,19 @@ export default {
         },
         composeGuide() {
             const endPoint = '/api/v1/guides/' + this.checkQuery + '/edit'
+
+            this.$store.commit('loading/setLoading', true)
             axios.put(endPoint, this.form)
                 .then(res => {
                     console.log(res)
                     this.$router.push('/photrip/home')
                 })
+            this.$store.commit('loading/setLoading', false)
         },
         // 画像選択＋アップロード
         selectedFile(index, e) {
             let files = e.target.files;
             this.$set(this.form.place[index], 'file_path', files[0])
-            console.log(this.form.place[index])
         },
         // ファイルアップロード
         uploadFile(index) {
@@ -210,6 +222,7 @@ export default {
 
             formData.append('s3', this.form.place[index].file_path)
 
+            this.$store.commit('loading/setLoading', true)
             axios.post('/api/v1/upload/photos', formData, {
                 headers: {
                      'Content-Type': 'multipart/form-data'
@@ -222,6 +235,7 @@ export default {
             .catch(error => {
                 console.warn(error, 'error')
             })
+            this.$store.commit('loading/setLoading', false)
         }
     }
 }
