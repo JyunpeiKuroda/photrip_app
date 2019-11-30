@@ -47,8 +47,9 @@ class PhotoController extends Controller
         $image = $request->file('s3');
         $filename = ((string)(uniqid("img_"))) .".". $image->getClientOriginalExtension();
         $filepath = Storage::disk('s3')->putFileAs('uploads', $image, $filename, 'public');
+        $url = Storage::disk('s3')->url($filepath);
 
-        return response($filepath, 201);
+        return response($url, 201);
     }
 
     /**

@@ -22650,21 +22650,16 @@ var render = function() {
           _c("dt"),
           _vm._v(" "),
           _c("dd", { staticClass: "content" }, [
-            _c(
-              "div",
-              { staticClass: "block" },
-              [
-                _vm.imgLink !== null
-                  ? _c("router-link", { attrs: { to: "/photrip/photo" } }, [
-                      _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")"),
-                      _c("i", { staticClass: "far fa-images pl-2" })
-                    ])
-                  : _c("p", [
-                      _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")")
-                    ])
-              ],
-              1
-            ),
+            _c("div", { staticClass: "block" }, [
+              _vm.imgLink !== null
+                ? _c("a", { attrs: { href: _vm.imgLink } }, [
+                    _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")"),
+                    _c("i", { staticClass: "far fa-images pl-2" })
+                  ])
+                : _c("p", [
+                    _vm._v(_vm._s(_vm.place) + " (" + _vm._s(_vm.time) + ")")
+                  ])
+            ]),
             _vm._v(" "),
             _vm.placeDetail
               ? _c(
