@@ -1,5 +1,12 @@
 # フォトリップApp
 
+# 技術スタック
+
+- **バックエンド**：Laravel
+- **フロントエンド**：Vue.js(SPA), Vue Router, Vuex, tailwindcss, Buefy
+- **インフラ**：Heroku
+
+※ [herokuにデプロイした備忘録](https://www.kmmk.work/entry/2019/11/30/030459)
 
 # 作成するアプリケーションの要件
 
