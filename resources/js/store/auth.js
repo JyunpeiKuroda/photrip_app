@@ -6,7 +6,7 @@ const UNPROCESSABLE_ENTITY_MSG = 'メールアドレスまたはパスワード�
 const state = {
     user: null,
     apiStatus: null,
-    loginErrorMsg: null
+    loginErrorMsg: null,
 }
 
 /** ステートの内容から算出される値 */
@@ -30,14 +30,19 @@ const mutations = {
 /** ステートを更新する（非同期処理） */
 const actions = {
     async register (context, data) {
+        context.commit('loading/setLoading', true, { root: true })
         const response = await axios.post('/api/v1/register', data)
-        context.commit('setUser', response.data)
+        context.commit('loading/setLoading', false, { root: true })
+
+        context.commit('setUser', response.data)  
     },
 
     async login(context, data) {
         context.commit('setApiStatus', null)
 
+        context.commit('loading/setLoading', true, { root: true })
         const response = await axios.post('/api/v1/login', data).catch(error => error.response || error)
+        context.commit('loading/setLoading', false, { root: true })
 
         /**　正常 */
         if (response.status === OK) {
@@ -56,7 +61,9 @@ const actions = {
     },
 
     async logout(context) {
+        context.commit('loading/setLoading', true, { root: true })
         const response = await axios.post('/api/v1/logout').catch(error => error.response || error)
+        context.commit('loading/setLoading', false, { root: true })
 
         if (response.status === OK) {
             context.commit('setApiStatus', true)
@@ -69,7 +76,10 @@ const actions = {
     },
 
     async userinfo (context) {
+        context.commit('loading/setLoading', true, { root: true })
         const response = await axios.get('/api/v1/userinfo').catch(error => error.response || error)
+        context.commit('loading/setLoading', false, { root: true })
+
         const user = response.data || null
         context.commit('setUser', user)
       }

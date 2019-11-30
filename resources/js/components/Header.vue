@@ -48,6 +48,9 @@ export default {
       apiStatus() {
           return this.$store.state.auth.apiStatus
       },
+      isLoading() {
+          return this.$store.state.auth.isLoading
+      }
     },
     watch: {
       errorCode: {

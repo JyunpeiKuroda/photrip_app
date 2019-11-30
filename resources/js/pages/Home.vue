@@ -18,6 +18,9 @@
          :currentPage="currentPage"
          :lastPage="lastPage"
          ></paginate>
+         <loading-bar
+         :isLoading="isLoading"
+         ></loading-bar>
     </div>
 </template>
 
@@ -26,12 +29,14 @@ import axios from 'axios';
 import LbHeader from '../components/Header.vue';
 import Paginate from '../components/organisms/Paginate.vue'
 import BookmarkList from '../components/organisms/BookmarkList.vue';
+import LoadingBar from '../components/LoadingBar.vue';
 
 export default {
     components: {
         LbHeader,
         BookmarkList,
-        Paginate
+        Paginate,
+        LoadingBar
     },
     mounted() {
         this.init()
@@ -43,15 +48,22 @@ export default {
             lastPage: 0
         }
     },
+    computed: {
+        isLoading() {
+            return this.$store.state.loading.isLoading
+        }
+    },
     methods: {
         // 画面描写
         init() {
+            this.$store.commit('loading/setLoading', true)
             axios.get('/api/v1/guides')
             .then(res => {
                 this.guides = res.data.data
                 this.currentPage = res.data.current_page
                 this.last_page = res.data.last_page
                 console.log(this.guides, 'guides')
+                this.$store.commit('loading/setLoading', false)
             })
             
         }
