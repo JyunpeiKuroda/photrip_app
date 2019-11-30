@@ -1,6 +1,8 @@
 <template>
   <header class="bg-white sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-lg">
-    <router-link to="/photrip/home" class=""><img class="float-left w-30 h-20" src="../asset/login_logo.png"></router-link>
+    <div id="headerlogo" class="my-auto inline align-middle">
+      <router-link to="/photrip/home" class=""><img class="float-left w-30 h-10 my-3 mx-2" src="../asset/headerLogo.png"></router-link>
+    </div>
     <div class="flex items-center justify-between px-4 py-4 sm:p-0">
       <div>
         <img class="" src="" alt="">
@@ -14,7 +16,7 @@
         </button>
       </div>
     </div>
-    <nav :class="isOpen ? 'block' : 'hidden'" class="px-4 pt-4 pb-4 sm:flex sm:p-0">
+    <nav :class="isOpen ? 'block' : 'hidden'" class="px-4 pt-4 pb-2 sm:flex sm:p-0">
         <router-link to="/photrip/home" class="mt-1 block px-2 py-1 text-black font-semibold rounded">
             <i class="fas fa-home"></i><span class="ml-2">ホーム</span>
         </router-link>
