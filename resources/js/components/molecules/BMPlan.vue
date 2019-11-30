@@ -40,11 +40,11 @@ export default {
     background-color: #fff;
     color: #21252B;
     margin-top: 0;
-    margin-bottom: 0;
     width: 64px;
     height: 64px;
     border: 4px solid #21252B;
     border-radius: 50%;
+    margin-bottom: 0px !important;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 14px;

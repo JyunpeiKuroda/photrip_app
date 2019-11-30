@@ -95,11 +95,11 @@ export default {
         }
     },
     methods: {
-        initView(id) {
+        async initView(id) {
             this.$store.commit('loading/setLoading', true)
             const endPoint = '/api/v1/edit/guides/' + this.checkQuery
 
-            axios.get(endPoint)
+            await axios.get(endPoint)
                 .then(res => {
                     const places = res.data.places
 

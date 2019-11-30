@@ -1884,6 +1884,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2408,54 +2410,290 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  mounted: function mounted() {
+    this.initView();
+  },
+  computed: {
+    checkQuery: function checkQuery() {
+      return this.$route.query.guide_id;
+    },
+    isLoading: function isLoading() {
+      return this.$store.state.loading.isLoading;
+    }
+  },
+  data: function data() {
+    return {
+      form: {
+        guide: {
+          title: '',
+          days: ''
+        },
+        overview: [{
+          overview: '',
+          content: ''
+        }],
+        place: [{
+          place: '',
+          detail: '',
+          schedule: '',
+          time: '',
+          file_path: null
+        }]
+      }
+    };
+  },
+  methods: {
+    initView: function initView() {
+      var _this = this;
+
+      var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
+      this.$store.commit('loading/setLoading', true);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endPoint).then(function (res) {
+        _this.form.guide.title = res.data.title;
+        _this.form.guide.days = res.data.days;
+        _this.form.overview = res.data.overviews;
+        _this.form.place = res.data.places;
+      });
+      this.$store.commit('loading/setLoading', false);
+    },
+    // 概要フォーム
+    addOverviewPanel: function addOverviewPanel(form) {
+      var overview = form.overview;
+      var content = form.content;
+      var additionalForm = {
+        overview: overview,
+        content: content
+      };
+      this.form.overview.push(additionalForm);
+      this.form.overview[this.form.overview.length - 1] = {
+        overview: '',
+        content: ''
+      };
+    },
+    deleteOverviewPanel: function deleteOverviewPanel(index) {
+      if (this.form.overview.length === 1) {
+        alert('これ以上削除することはできません');
+      } else {
+        this.form.overview.splice(index, 1);
+      }
+    },
+    // プランフォーム
+    addPlacePanel: function addPlacePanel(form) {
+      var place = form.place;
+      var detail = form.detail;
+      var additionalForm = {
+        place: place,
+        detail: detail
+      };
+      this.form.place.push(additionalForm);
+      this.form.place[this.form.place.length - 1] = {
+        place: '',
+        detail: ''
+      };
+    },
+    deletePlacePanel: function deletePlacePanel(index) {
+      if (this.form.place.length === 1) {
+        alert('これ以上削除することはできません');
+      } else {
+        this.form.place.splice(index, 1);
+      }
+    },
+    composeGuide: function composeGuide() {
+      var _this2 = this;
+
+      var endPoint = '/api/v1/guides/' + this.checkQuery + '/edit';
+      this.$store.commit('loading/setLoading', true);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(endPoint, this.form).then(function (res) {
+        console.log(res);
+
+        _this2.$router.push('/photrip/home');
+      });
+      this.$store.commit('loading/setLoading', false);
+    },
+    // 画像選択＋アップロード
+    selectedFile: function selectedFile(index, e) {
+      var files = e.target.files;
+      this.$set(this.form.place[index], 'file_path', files[0]);
+    },
+    // ファイルアップロード
+    uploadFile: function uploadFile(index) {
+      var _this3 = this;
+
+      var formData;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function uploadFile$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              formData = new FormData();
+              formData.append('s3', this.form.place[index].file_path);
+              this.$store.commit('loading/setLoading', true);
+              _context.next = 5;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/v1/upload/photos', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              }).then(function (res) {
+                _this3.form.place[index].file_path = res.data;
+                console.log(res.data, 'response');
+              })["catch"](function (error) {
+                console.warn(error, 'error');
+              }));
+
+            case 5:
+              this.$store.commit('loading/setLoading', false);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, null, this);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/GuideDetail.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/GuideDetail.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
-/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/molecules/BMOverview.vue */ "./resources/js/components/molecules/BMOverview.vue");
+/* harmony import */ var _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/molecules/BMPlan.vue */ "./resources/js/components/molecules/BMPlan.vue");
+/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
+
 //
 //
 //
@@ -2526,224 +2764,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ComposeIF: _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
-  mounted: function mounted() {
-    this.initView();
-  },
-  computed: {
-    checkQuery: function checkQuery() {
-      return this.$route.query.guide_id;
-    },
-    isLoading: function isLoading() {
-      return this.$store.state.loading.isLoading;
-    }
-  },
-  data: function data() {
-    return {
-      form: {
-        guide: {
-          title: '',
-          days: ''
-        },
-        overview: [{
-          overview: '',
-          content: ''
-        }],
-        place: [{
-          place: '',
-          detail: '',
-          schedule: '',
-          time: '',
-          file_path: null
-        }]
-      }
-    };
-  },
-  methods: {
-    initView: function initView() {
-      var _this = this;
-
-      var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
-      this.$store.commit('loading/setLoading', true);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(endPoint).then(function (res) {
-        _this.form.guide.title = res.data.title;
-        _this.form.guide.days = res.data.days;
-        _this.form.overview = res.data.overviews;
-        _this.form.place = res.data.places;
-      });
-      this.$store.commit('loading/setLoading', false);
-    },
-    // 概要フォーム
-    addOverviewPanel: function addOverviewPanel(form) {
-      var overview = form.overview;
-      var content = form.content;
-      var additionalForm = {
-        overview: overview,
-        content: content
-      };
-      this.form.overview.push(additionalForm);
-      this.form.overview[this.form.overview.length - 1] = {
-        overview: '',
-        content: ''
-      };
-    },
-    deleteOverviewPanel: function deleteOverviewPanel(index) {
-      if (this.form.overview.length === 1) {
-        alert('これ以上削除することはできません');
-      } else {
-        this.form.overview.splice(index, 1);
-      }
-    },
-    // プランフォーム
-    addPlacePanel: function addPlacePanel(form) {
-      var place = form.place;
-      var detail = form.detail;
-      var additionalForm = {
-        place: place,
-        detail: detail
-      };
-      this.form.place.push(additionalForm);
-      this.form.place[this.form.place.length - 1] = {
-        place: '',
-        detail: ''
-      };
-    },
-    deletePlacePanel: function deletePlacePanel(index) {
-      if (this.form.place.length === 1) {
-        alert('これ以上削除することはできません');
-      } else {
-        this.form.place.splice(index, 1);
-      }
-    },
-    composeGuide: function composeGuide() {
-      var _this2 = this;
-
-      var endPoint = '/api/v1/guides/' + this.checkQuery + '/edit';
-      this.$store.commit('loading/setLoading', true);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(endPoint, this.form).then(function (res) {
-        console.log(res);
-
-        _this2.$router.push('/photrip/home');
-      });
-      this.$store.commit('loading/setLoading', false);
-    },
-    // 画像選択＋アップロード
-    selectedFile: function selectedFile(index, e) {
-      var files = e.target.files;
-      this.$set(this.form.place[index], 'file_path', files[0]);
-    },
-    // ファイルアップロード
-    uploadFile: function uploadFile(index) {
-      var _this3 = this;
-
-      var formData = new FormData();
-      formData.append('s3', this.form.place[index].file_path);
-      this.$store.commit('loading/setLoading', true);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/v1/upload/photos', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (res) {
-        _this3.form.place[index].file_path = res.data;
-        console.log(res.data, 'response');
-      })["catch"](function (error) {
-        console.warn(error, 'error');
-      });
-      this.$store.commit('loading/setLoading', false);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/GuideDetail.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/GuideDetail.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/molecules/BMOverview.vue */ "./resources/js/components/molecules/BMOverview.vue");
-/* harmony import */ var _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/molecules/BMPlan.vue */ "./resources/js/components/molecules/BMPlan.vue");
-/* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    OverView: _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Plan: _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    OverView: _components_molecules_BMOverview_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Plan: _components_molecules_BMPlan_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   mounted: function mounted() {
     this.initView();
@@ -2769,24 +2792,39 @@ __webpack_require__.r(__webpack_exports__);
     initView: function initView(id) {
       var _this = this;
 
-      this.$store.commit('loading/setLoading', true);
-      var endPoint = '/api/v1/edit/guides/' + this.checkQuery;
-      axios.get(endPoint).then(function (res) {
-        var places = res.data.places;
-        _this.title = res.data.title;
-        _this.days = res.data.days;
-        _this.overviews = res.data.overviews;
-        _this.places = res.data.places;
+      var endPoint;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function initView$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              this.$store.commit('loading/setLoading', true);
+              endPoint = '/api/v1/edit/guides/' + this.checkQuery;
+              _context.next = 4;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get(endPoint).then(function (res) {
+                var places = res.data.places;
+                _this.title = res.data.title;
+                _this.days = res.data.days;
+                _this.overviews = res.data.overviews;
+                _this.places = res.data.places;
 
-        _this.endDeclear(places);
+                _this.endDeclear(places);
 
-        _this.ConvertDateToSection();
+                _this.ConvertDateToSection();
 
-        console.log(res, 'response');
-      })["catch"](function (error) {
-        console.warn(error);
-      });
-      this.$store.commit('loading/setLoading', false);
+                console.log(res, 'response');
+              })["catch"](function (error) {
+                console.warn(error);
+              }));
+
+            case 4:
+              this.$store.commit('loading/setLoading', false);
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, null, this);
     },
     toEditPage: function toEditPage() {
       this.$router.push({
@@ -16814,7 +16852,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".subtitle[data-v-4424db01] {\n  padding-top: 20px;\n  background-color: #fff;\n  color: #21252B;\n  margin-top: 0;\n  margin-bottom: 0;\n  width: 64px;\n  height: 64px;\n  border: 4px solid #21252B;\n  border-radius: 50%;\n  box-sizing: border-box;\n  font-size: 14px;\n  text-align: center;\n  margin-left: 25px;\n  font-family: 'Roboto Condensed', sans-serif;\n  line-height: 16px;\n  letter-spacing: 1px;\n  text-indent: 1px;\n  -webkit-column-break-inside: avoid;\n     -moz-column-break-inside: avoid;\n          break-inside: avoid;\n  padding-bottom: 1px;\n}\n.schedule-item > .content[data-v-4424db01] {\n  min-height: 3em;\n  position: relative;\n  margin-left: 55px;\n  padding: 6px 0 .2rem 12px;\n  border-left: 4px solid #13b1f1;\n  z-index: 0;\n}\n.schedule-item > .content[data-v-4424db01]::before {\n  content: '';\n  display: block;\n  width: 16px;\n  height: 16px;\n  box-sizing: border-box;\n  border: 4px solid #21252b;\n  border-radius: 50%;\n  position: absolute;\n  left: -10px;\n  top: 8px;\n  background-color: #fff;\n}\n.endtitle[data-v-4424db01] {\n  font-size: 12px;\n  padding-left:3px;\n}\n", ""]);
+exports.push([module.i, ".subtitle[data-v-4424db01] {\n  padding-top: 20px;\n  background-color: #fff;\n  color: #21252B;\n  margin-top: 0;\n  width: 64px;\n  height: 64px;\n  border: 4px solid #21252B;\n  border-radius: 50%;\n  margin-bottom: 0px !important;\n  box-sizing: border-box;\n  font-size: 14px;\n  text-align: center;\n  margin-left: 25px;\n  font-family: 'Roboto Condensed', sans-serif;\n  line-height: 16px;\n  letter-spacing: 1px;\n  text-indent: 1px;\n  -webkit-column-break-inside: avoid;\n     -moz-column-break-inside: avoid;\n          break-inside: avoid;\n  padding-bottom: 1px;\n}\n.schedule-item > .content[data-v-4424db01] {\n  min-height: 3em;\n  position: relative;\n  margin-left: 55px;\n  padding: 6px 0 .2rem 12px;\n  border-left: 4px solid #13b1f1;\n  z-index: 0;\n}\n.schedule-item > .content[data-v-4424db01]::before {\n  content: '';\n  display: block;\n  width: 16px;\n  height: 16px;\n  box-sizing: border-box;\n  border: 4px solid #21252b;\n  border-radius: 50%;\n  position: absolute;\n  left: -10px;\n  top: 8px;\n  background-color: #fff;\n}\n.endtitle[data-v-4424db01] {\n  font-size: 12px;\n  padding-left:3px;\n}\n", ""]);
 
 // exports
 
@@ -36057,12 +36095,22 @@ var render = function() {
         "bg-white sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-lg"
     },
     [
-      _c("router-link", { attrs: { to: "/photrip/home" } }, [
-        _c("img", {
-          staticClass: "float-left w-30 h-20",
-          attrs: { src: __webpack_require__(/*! ../asset/login_logo.png */ "./resources/js/asset/login_logo.png") }
-        })
-      ]),
+      _c(
+        "div",
+        {
+          staticClass: "my-auto inline align-middle",
+          attrs: { id: "headerlogo" }
+        },
+        [
+          _c("router-link", { attrs: { to: "/photrip/home" } }, [
+            _c("img", {
+              staticClass: "float-left w-30 h-10 my-3 mx-2",
+              attrs: { src: __webpack_require__(/*! ../asset/headerLogo.png */ "./resources/js/asset/headerLogo.png") }
+            })
+          ])
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -36123,7 +36171,7 @@ var render = function() {
       _c(
         "nav",
         {
-          staticClass: "px-4 pt-4 pb-4 sm:flex sm:p-0",
+          staticClass: "px-4 pt-4 pb-2 sm:flex sm:p-0",
           class: _vm.isOpen ? "block" : "hidden"
         },
         [
@@ -36174,8 +36222,7 @@ var render = function() {
         ],
         1
       )
-    ],
-    1
+    ]
   )
 }
 var staticRenderFns = [
@@ -54458,6 +54505,17 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 //         }
 //     }
 // });
+
+/***/ }),
+
+/***/ "./resources/js/asset/headerLogo.png":
+/*!*******************************************!*\
+  !*** ./resources/js/asset/headerLogo.png ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/headerLogo.png?b7f49ca5ae2dc30088d445a7a2b6f2da";
 
 /***/ }),
 

@@ -217,13 +217,13 @@ export default {
             this.$set(this.form.place[index], 'file_path', files[0])
         },
         // ファイルアップロード
-        uploadFile(index) {
+        async uploadFile(index) {
             var formData = new FormData()
 
             formData.append('s3', this.form.place[index].file_path)
 
             this.$store.commit('loading/setLoading', true)
-            axios.post('/api/v1/upload/photos', formData, {
+            await axios.post('/api/v1/upload/photos', formData, {
                 headers: {
                      'Content-Type': 'multipart/form-data'
                 }
