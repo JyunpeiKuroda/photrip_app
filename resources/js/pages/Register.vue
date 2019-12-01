@@ -25,6 +25,9 @@
                 <div id="register" class="mt-10">
                     <button @click="register()" class="bg-blue-500 rounded-lg w-64 h-12  text-white font-hairline">登録</button>
                 </div>
+                <div id="loginLink" class="mt-4">
+                    <router-link to="/login"><p class="text-gray-600 text-sm mx-auto">ログイン画面へ</p></router-link>
+                </div>
             </div>
         </div>
         <loading-bar
@@ -98,6 +101,10 @@ export default {
 }
 
 #register {
+    text-align: center;
+}
+
+#loginLink p {
     text-align: center;
 }
 </style>

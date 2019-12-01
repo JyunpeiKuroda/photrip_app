@@ -3251,6 +3251,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
@@ -16930,7 +16933,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "[data-v-364a2fac]::-webkit-input-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]::-moz-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]:-ms-input-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]::-ms-input-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]::placeholder {\n  font-size: 13px;\n}\n#name[data-v-364a2fac] {\n  width: 400px;\n}\n#loginTitle[data-v-364a2fac] {\n  text-align: center;\n}\n#login_background[data-v-364a2fac] {\n  background-color: #FFCC66;\n}\n#register[data-v-364a2fac] {\n  text-align: center;\n}\n", ""]);
+exports.push([module.i, "[data-v-364a2fac]::-webkit-input-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]::-moz-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]:-ms-input-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]::-ms-input-placeholder {\n  font-size: 13px;\n}\n[data-v-364a2fac]::placeholder {\n  font-size: 13px;\n}\n#name[data-v-364a2fac] {\n  width: 400px;\n}\n#loginTitle[data-v-364a2fac] {\n  text-align: center;\n}\n#login_background[data-v-364a2fac] {\n  background-color: #FFCC66;\n}\n#register[data-v-364a2fac] {\n  text-align: center;\n}\n#loginLink p[data-v-364a2fac] {\n  text-align: center;\n}\n", ""]);
 
 // exports
 
@@ -37281,11 +37284,7 @@ var render = function() {
                         }
                       }
                     }),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(form.id) +
-                        "\n                    "
-                    ),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -38340,7 +38339,20 @@ var render = function() {
                 },
                 [_vm._v("登録")]
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "mt-4", attrs: { id: "loginLink" } },
+              [
+                _c("router-link", { attrs: { to: "/login" } }, [
+                  _c("p", { staticClass: "text-gray-600 text-sm mx-auto" }, [
+                    _vm._v("ログイン画面へ")
+                  ])
+                ])
+              ],
+              1
+            )
           ])
         ]
       ),

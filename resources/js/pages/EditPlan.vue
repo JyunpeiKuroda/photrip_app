@@ -46,7 +46,7 @@
                     <div class="pb-20"></div>
                     <div class="mb-5" v-for="(form, index) in form.place" :key="index">
                         <input id="id" v-model="form.id" type="hidden">
-                        {{ form.id }}
+
                         <div class="w-7/12 bg-white m-auto rounded-lg border shadow-xl p-6 h-auto">
                             <!-- クリアボタン -->
                             <div class="pb-3">
