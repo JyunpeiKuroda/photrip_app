@@ -3,7 +3,7 @@
 
 # 技術スタック
 
-- **バックエンド**：Laravel
+- **バックエンド**：Laravel 5.8
 - **フロントエンド**：Vue.js(SPA), Vue Router, Vuex, tailwindcss, Buefy
 - **インフラ**：Heroku
 
