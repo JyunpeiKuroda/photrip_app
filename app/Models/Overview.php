@@ -11,7 +11,7 @@ class Overview extends Model
     public $timestamps=false;
 
     protected $visible = [
-        'overview', 'content'
+        'overview', 'content', 'id'
     ];
 
     public function guide()

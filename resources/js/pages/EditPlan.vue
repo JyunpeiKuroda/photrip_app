@@ -31,7 +31,7 @@
                                 <textarea id="label" v-model="form.content" class="border-b pt-8 w-full focus:outline-none focus:border-blue-400" placeholder="例）充電コード"></textarea>
                             </div>  
                             <div class="pt-3 ml-8 clearfix">
-                                <button @click="addOverviewPanel(form)" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
+                                <button @click="addOverviewPanel(form, index)" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
                             </div>
                         </div>
                     </div>
@@ -46,6 +46,7 @@
                     <div class="pb-20"></div>
                     <div class="mb-5" v-for="(form, index) in form.place" :key="index">
                         <input id="id" v-model="form.id" type="hidden">
+                        {{ form.id }}
                         <div class="w-7/12 bg-white m-auto rounded-lg border shadow-xl p-6 h-auto">
                             <!-- クリアボタン -->
                             <div class="pb-3">
@@ -111,6 +112,8 @@ import LbHeader from '../components/Header.vue';
 import ComposeIF from '../components/molecules/ComposeInputField.vue';
 import LoadingBar from '../components/LoadingBar.vue';
 
+const NEW_CREATE_ID = 0
+
 export default {
     components: {
         LbHeader,
@@ -157,12 +160,11 @@ export default {
                     console.log(res, 'response')
             })
             this.$store.commit('loading/setLoading', false)
-        },        
+        },
         // 概要フォーム
-        addOverviewPanel(form) {
+        addOverviewPanel(form, index) {
             const emptyPanel = {
-                overview: '',
-                content: ''
+                id: NEW_CREATE_ID
             }
 
             this.form.overview.splice(index + 1, 0, emptyPanel);
@@ -177,10 +179,7 @@ export default {
         // プランフォーム
         addPlacePanel(form, index) {
             const emptyPanel = {
-                place: '',
-                detail: '',
-                schedule: '',
-                time: ''
+                id: NEW_CREATE_ID
             }
 
             this.form.place.splice(index + 1, 0, emptyPanel);
@@ -199,7 +198,7 @@ export default {
             this.$store.commit('loading/setLoading', true)
             axios.put(endPoint, this.form)
                 .then(res => {
-                    console.log(res)
+                    console.log(res, '@@@@@@@@@@@')
                     this.$router.push('/photrip/home')
                 })
             this.$store.commit('loading/setLoading', false)

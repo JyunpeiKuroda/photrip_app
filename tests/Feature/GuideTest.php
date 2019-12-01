@@ -160,10 +160,16 @@ class GuideTest extends TestCase
                 'days' => '12days'
             ],
             'overview' => [[
+                'id' => '1',
+                'overview' => 'neccessary',
+                'content' => 'null'
+            ],[
+                'id' => '2',
                 'overview' => 'neccessary',
                 'content' => 'null'
             ]],
             'place' => [[
+                'id' =>'1',
                 'place' => 'oosaka station',
                 'detail' => '',
                 'schedule' => '2019-11-10',
@@ -180,13 +186,20 @@ class GuideTest extends TestCase
                 'days' => '5days'
             ],
             'overview' => [[
+                'id' =>'1',
                 'overview' => 'neccessary',
                 'content' => 'asd'
             ],[
+                'id' =>'2',
                 'overview' => 'neccessary2',
                 'content' => 'asdf'
+            ],[
+                'id' => '3',
+                'overview' => 'neccessary',
+                'content' => 'null'
             ]],
             'place' => [[
+                'id' =>'1',
                 'place' => 'kyoto station',
                 'detail' => 'adsfg',
                 'schedule' => '2019-11-10',
