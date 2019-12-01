@@ -27,6 +27,11 @@ class GuideRepo implements GuideRepositoryInterface{
         return Guide::find($id);
     }
 
+    public function PlaceFindById()
+    {
+
+    }
+
     public function deleteGuide($id) 
     {
         $guide = $this->findById($id);
@@ -68,7 +73,11 @@ class GuideRepo implements GuideRepositoryInterface{
         return Guide::with(['user'])->orderBy(Guide::UPDATED_AT, 'desc')->paginate();
     }
 
-    /**　編集機能 */
+    /**　編集機能 
+     * ・リレーションされているPlace / OverviewのIDを保管
+     * ・更新するごとにそのIDを配列から削除
+     * ・残ったID = 既存のものを削除しているので削除する
+    */
     public function updateGuide(Request $request, $id)
     {
 
@@ -78,25 +87,57 @@ class GuideRepo implements GuideRepositoryInterface{
 
             $guide = $this->guide_model::find($id);
             $guide->fill($request->guide)->save();
+
+            /** 概要の編集 */
+            $overviewAllIds = $this->overview_model->pluck('id');
+            foreach ($request->overview as $overviewData) {
+                $overview = $this->overview_model::find($overviewData['id']) ?: new $this->overview_model;
+                /** 新規作成 */
+                if (is_null($overview->id)) {
+                    $guide->overviews()->create($overviewData);
+                } else {
+                    $overview->fill([
+                        'overview' => $overviewData['overview'],
+                        'content' => $overviewData['content']
+                    ]);
+                    $overview->save();
+
+                    $overviewAllIds = $overviewAllIds->diff([(int)$overviewData['id']]);
+                }
+            }
             
-            foreach ($request->overview as $overview) {
-                foreach ($guide->overviews as $relation_overview) {
-                    if($guide->overviews){
-                        $relation_overview->fill($overview)->save();
-                    }else{
-                        $guide->overviews()->save($overview);
-                    }
+            foreach ($overviewAllIds as $id)
+            {
+                $overview = $this->overview_model::find($id);
+                if (!empty($overview)) $overview->delete();
+            }
+
+            /** 場所の編集 */
+            $placeAllIds = $this->place_model->pluck('id');
+            foreach ($request->place as $placeData) {
+                $place = $this->place_model::find($placeData['id']) ?: new $this->place_model;
+                /** 新規作成 */
+                if (is_null($place->id)) {
+                    $guide->places()->create($placeData);
+                } else {
+                    $place->fill([
+                        'place'     => $placeData['place'],
+                        'detail'    => $placeData['detail'],
+                        'schedule'  => $placeData['schedule'],
+                        'time'      => $placeData['time'],
+                        'file_path' => $placeData['file_path']
+                    ]);
+                    $place->save();
+
+
+                    $placeAllIds = $placeAllIds->diff([(int)$placeData['id']]);
                 }
             }
 
-            foreach ($request->place as $place) {
-                foreach ($guide->places as $relation_place) {
-                    if($guide->places){
-                        $relation_place->fill($place)->save();
-                    }else{
-                        $guide->places()->create($place);
-                    }
-                }
+            foreach ($placeAllIds as $id)
+            {
+                $place = $this->place_model::find($id);
+                if (!empty($place)) $place->delete();
             }
             
         }catch(Exception $e){
@@ -105,7 +146,7 @@ class GuideRepo implements GuideRepositoryInterface{
         }
         DB::commit();
 
-        return response(201);
+        return response(200);
     }
 
     public function editGuide($id)

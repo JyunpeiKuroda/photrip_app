@@ -2516,10 +2516,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
 
+var NEW_CREATE_ID = 0;
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     LbHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -2574,10 +2576,9 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.commit('loading/setLoading', false);
     },
     // 概要フォーム
-    addOverviewPanel: function addOverviewPanel(form) {
+    addOverviewPanel: function addOverviewPanel(form, index) {
       var emptyPanel = {
-        overview: '',
-        content: ''
+        id: NEW_CREATE_ID
       };
       this.form.overview.splice(index + 1, 0, emptyPanel);
     },
@@ -2591,10 +2592,7 @@ __webpack_require__.r(__webpack_exports__);
     // プランフォーム
     addPlacePanel: function addPlacePanel(form, index) {
       var emptyPanel = {
-        place: '',
-        detail: '',
-        schedule: '',
-        time: ''
+        id: NEW_CREATE_ID
       };
       this.form.place.splice(index + 1, 0, emptyPanel);
       console.log(this.form.place);
@@ -2612,7 +2610,7 @@ __webpack_require__.r(__webpack_exports__);
       var endPoint = '/api/v1/guides/' + this.checkQuery + '/edit';
       this.$store.commit('loading/setLoading', true);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(endPoint, this.form).then(function (res) {
-        console.log(res);
+        console.log(res, '@@@@@@@@@@@');
 
         _this2.$router.push('/photrip/home');
       });
@@ -37238,7 +37236,7 @@ var render = function() {
                                 "float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300",
                               on: {
                                 click: function($event) {
-                                  return _vm.addOverviewPanel(form)
+                                  return _vm.addOverviewPanel(form, index)
                                 }
                               }
                             },
@@ -37283,7 +37281,11 @@ var render = function() {
                         }
                       }
                     }),
-                    _vm._v(" "),
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(form.id) +
+                        "\n                    "
+                    ),
                     _c(
                       "div",
                       {
