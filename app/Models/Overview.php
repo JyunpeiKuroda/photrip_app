@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Overview extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public $timestamps=false;
 

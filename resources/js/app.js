@@ -14,13 +14,3 @@ const app = new Vue({
     store,
     el: '#app',
 });
-
-// router.beforeEach((to, from, next) => {
-//     if (to.matched.some(record => record.meta.auth)) {
-//         if (store.getter['auth/check']) {
-//             next()
-//         } else {
-//             next('/login')
-//         }
-//     }
-// });

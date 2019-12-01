@@ -77,7 +77,7 @@
                             </div>  
 
                             <div class="pt-3 ml-8 clearfix mt-3">
-                                <button @click="addPlacePanel(form)" class="focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
+                                <button @click="addPlacePanel(form, index)" class="focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">項目を追加</button>
                             </div>
 
                         </div>
@@ -127,24 +127,18 @@ export default {
                 place: [
                     { place: '', detail: '', schedule: '', time: '' }
                 ],
-            },
+            }
         }
     },
     methods: {
         // 概要フォーム
         addOverviewPanel(form) {
-            const overview = form.overview
-            const content = form.content
-            const additionalForm = {
-                overview: overview,
-                content: content
-            }
-
-            this.form.overview.push(additionalForm)
-            this.form.overview[this.form.overview.length - 1] = {
+            const emptyPanel = {
                 overview: '',
                 content: ''
             }
+
+            this.form.overview.splice(index + 1, 0, emptyPanel);
         },
         deleteOverviewPanel(index) {
             if (this.form.overview.length === 1) {
@@ -154,19 +148,16 @@ export default {
             }
         },
         // プランフォーム
-        addPlacePanel(form) {
-            const place = form.place
-            const detail = form.detail
-            const additionalForm = {
-                place: place,
-                detail: detail
+        addPlacePanel(form, index) {
+            const emptyPanel = {
+                place: '',
+                detail: '',
+                schedule: '',
+                time: ''
             }
 
-            this.form.place.push(additionalForm)
-            this.form.place[this.form.place.length - 1] = {
-                place: '',
-                detail: ''
-            }
+            this.form.place.splice(index + 1, 0, emptyPanel);
+            console.log(this.form.place)
         },
         deletePlacePanel(index) {
             if (this.form.place.length === 1) {

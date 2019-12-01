@@ -1,4 +1,5 @@
 import  { OK, UNPROCESSABLE_ENTITY, UNAUTHORIZED }  from '../util'
+import router from '../router'
 
 const UNPROCESSABLE_ENTITY_MSG = 'メールアドレスまたはパスワードが違います'
 
@@ -82,7 +83,12 @@ const actions = {
 
         const user = response.data || null
         context.commit('setUser', user)
-      }
+
+        // セッションが切れてたらログイン画面に遷移
+        if (response.data === "") {
+            router.push('/login')
+        }
+    }
 }
 
 export default {

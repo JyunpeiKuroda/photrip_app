@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public $timestamps = false;
 
-    protected $visible = ['place', 'detail', 'schedule', 'time', 'file_path'];
+    protected $visible = ['id', 'place', 'detail', 'schedule', 'time', 'file_path'];
 
     public function guide()
     {

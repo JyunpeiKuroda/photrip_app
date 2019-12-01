@@ -2345,17 +2345,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // 概要フォーム
     addOverviewPanel: function addOverviewPanel(form) {
-      var overview = form.overview;
-      var content = form.content;
-      var additionalForm = {
-        overview: overview,
-        content: content
-      };
-      this.form.overview.push(additionalForm);
-      this.form.overview[this.form.overview.length - 1] = {
+      var emptyPanel = {
         overview: '',
         content: ''
       };
+      this.form.overview.splice(index + 1, 0, emptyPanel);
     },
     deleteOverviewPanel: function deleteOverviewPanel(index) {
       if (this.form.overview.length === 1) {
@@ -2365,18 +2359,15 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // プランフォーム
-    addPlacePanel: function addPlacePanel(form) {
-      var place = form.place;
-      var detail = form.detail;
-      var additionalForm = {
-        place: place,
-        detail: detail
-      };
-      this.form.place.push(additionalForm);
-      this.form.place[this.form.place.length - 1] = {
+    addPlacePanel: function addPlacePanel(form, index) {
+      var emptyPanel = {
         place: '',
-        detail: ''
+        detail: '',
+        schedule: '',
+        time: ''
       };
+      this.form.place.splice(index + 1, 0, emptyPanel);
+      console.log(this.form.place);
     },
     deletePlacePanel: function deletePlacePanel(index) {
       if (this.form.place.length === 1) {
@@ -2418,6 +2409,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
 /* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
 
+//
 //
 //
 //
@@ -2577,22 +2569,17 @@ __webpack_require__.r(__webpack_exports__);
         _this.form.guide.days = res.data.days;
         _this.form.overview = res.data.overviews;
         _this.form.place = res.data.places;
+        console.log(res, 'response');
       });
       this.$store.commit('loading/setLoading', false);
     },
     // 概要フォーム
     addOverviewPanel: function addOverviewPanel(form) {
-      var overview = form.overview;
-      var content = form.content;
-      var additionalForm = {
-        overview: overview,
-        content: content
-      };
-      this.form.overview.push(additionalForm);
-      this.form.overview[this.form.overview.length - 1] = {
+      var emptyPanel = {
         overview: '',
         content: ''
       };
+      this.form.overview.splice(index + 1, 0, emptyPanel);
     },
     deleteOverviewPanel: function deleteOverviewPanel(index) {
       if (this.form.overview.length === 1) {
@@ -2602,18 +2589,15 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // プランフォーム
-    addPlacePanel: function addPlacePanel(form) {
-      var place = form.place;
-      var detail = form.detail;
-      var additionalForm = {
-        place: place,
-        detail: detail
-      };
-      this.form.place.push(additionalForm);
-      this.form.place[this.form.place.length - 1] = {
+    addPlacePanel: function addPlacePanel(form, index) {
+      var emptyPanel = {
         place: '',
-        detail: ''
+        detail: '',
+        schedule: '',
+        time: ''
       };
+      this.form.place.splice(index + 1, 0, emptyPanel);
+      console.log(this.form.place);
     },
     deletePlacePanel: function deletePlacePanel(index) {
       if (this.form.place.length === 1) {
@@ -2649,9 +2633,10 @@ __webpack_require__.r(__webpack_exports__);
           switch (_context.prev = _context.next) {
             case 0:
               formData = new FormData();
+              console.log(index);
               formData.append('s3', this.form.place[index].file_path);
               this.$store.commit('loading/setLoading', true);
-              _context.next = 5;
+              _context.next = 6;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/v1/upload/photos', formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
@@ -2663,10 +2648,10 @@ __webpack_require__.r(__webpack_exports__);
                 console.warn(error, 'error');
               }));
 
-            case 5:
+            case 6:
               this.$store.commit('loading/setLoading', false);
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -36994,7 +36979,7 @@ var render = function() {
                                 "focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300",
                               on: {
                                 click: function($event) {
-                                  return _vm.addPlacePanel(form)
+                                  return _vm.addPlacePanel(form, index)
                                 }
                               }
                             },
@@ -37278,6 +37263,27 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(_vm.form.place, function(form, index) {
                   return _c("div", { key: index, staticClass: "mb-5" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: form.id,
+                          expression: "form.id"
+                        }
+                      ],
+                      attrs: { id: "id", type: "hidden" },
+                      domProps: { value: form.id },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(form, "id", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -37529,7 +37535,7 @@ var render = function() {
                                 "focus:outline-none float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300",
                               on: {
                                 click: function($event) {
-                                  return _vm.addPlacePanel(form)
+                                  return _vm.addPlacePanel(form, index)
                                 }
                               }
                             },
@@ -54496,15 +54502,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: _router__WEBPACK_IMPORTED_MODULE_1__["default"],
   store: _store__WEBPACK_IMPORTED_MODULE_2__["default"],
   el: '#app'
-}); // router.beforeEach((to, from, next) => {
-//     if (to.matched.some(record => record.meta.auth)) {
-//         if (store.getter['auth/check']) {
-//             next()
-//         } else {
-//             next('/login')
-//         }
-//     }
-// });
+});
 
 /***/ }),
 
@@ -55806,6 +55804,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../router */ "./resources/js/router.js");
+
 
 
 var UNPROCESSABLE_ENTITY_MSG = 'メールアドレスまたはパスワードが違います';
@@ -55980,9 +55980,13 @@ var actions = {
               root: true
             });
             user = response.data || null;
-            context.commit('setUser', user);
+            context.commit('setUser', user); // セッションが切れてたらログイン画面に遷移
 
-          case 7:
+            if (response.data === "") {
+              _router__WEBPACK_IMPORTED_MODULE_2__["default"].push('/login');
+            }
+
+          case 8:
           case "end":
             return _context4.stop();
         }
