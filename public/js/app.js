@@ -2768,7 +2768,7 @@ __webpack_require__.r(__webpack_exports__);
       days: '',
       overviews: [],
       places: [],
-      authorize: true
+      authorize: false
     };
   },
   methods: {
@@ -2794,6 +2794,8 @@ __webpack_require__.r(__webpack_exports__);
 
                 _this.ConvertDateToSection();
 
+                _this.judgeAuthor(res.data.user.name);
+
                 console.log(res, 'response');
               })["catch"](function (error) {
                 console.warn(error);
@@ -2808,6 +2810,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }, null, this);
+    },
+    judgeAuthor: function judgeAuthor(username) {
+      this.authorize = this.$store.getters['auth/username'] === username ? true : false;
     },
     toEditPage: function toEditPage() {
       this.$router.push({

@@ -91,7 +91,7 @@ export default {
             days: '',
             overviews: [],
             places: [],
-            authorize: true
+            authorize: false
         }
     },
     methods: {
@@ -109,12 +109,16 @@ export default {
                     this.places = res.data.places
                     this.endDeclear(places)
                     this.ConvertDateToSection()
+                    this.judgeAuthor(res.data.user.name)
                     console.log(res, 'response')
                 })
                 .catch(error => {
                     console.warn(error)
                 })
             this.$store.commit('loading/setLoading', false)
+        },
+        judgeAuthor(username) {
+            this.authorize = this.$store.getters['auth/username'] === username ? true : false
         },
         toEditPage() {
             this.$router.push({

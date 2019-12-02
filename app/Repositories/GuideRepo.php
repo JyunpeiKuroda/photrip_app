@@ -151,7 +151,7 @@ class GuideRepo implements GuideRepositoryInterface{
 
     public function editGuide($id)
     {
-        return Guide::with(['places', 'overviews'])->get()->find($id);
+        return Guide::with(['places', 'overviews', 'user'])->get()->find($id);
     }
 
 }
