@@ -1,4 +1,4 @@
-import  { OK, UNPROCESSABLE_ENTITY, UNAUTHORIZED }  from '../util'
+import  { OK, UNPROCESSABLE_ENTITY, UNAUTHORIZED, CREATED }  from '../util'
 import router from '../router'
 
 const UNPROCESSABLE_ENTITY_MSG = 'メールアドレスまたはパスワードが違います'
@@ -8,6 +8,7 @@ const state = {
     user: null,
     apiStatus: null,
     loginErrorMsg: null,
+    registerErrorMsg: null
 }
 
 /** ステートの内容から算出される値 */
@@ -26,16 +27,31 @@ const mutations = {
     },
     setLoginErrorMsg (state, loginErrorMsg) {
         state.loginErrorMsg = loginErrorMsg
+    },
+    setRegisterErrorMsg (state, registerErrorMsg) {
+        state.registerErrorMsg = registerErrorMsg
     }
 }
 /** ステートを更新する（非同期処理） */
 const actions = {
     async register (context, data) {
+        context.commit('setApiStatus', null)
+
         context.commit('loading/setLoading', true, { root: true })
-        const response = await axios.post('/api/v1/register', data)
+        const response = await axios.post('/api/v1/register', data).catch(error => error.response || error)
         context.commit('loading/setLoading', false, { root: true })
 
-        context.commit('setUser', response.data)  
+        if (response.status === CREATED) {
+            context.commit('setApiStatus', true)
+            context.commit('setUser', response.data)  
+        }
+
+        /** 失敗 */
+        context.commit('setApiStatus', false)
+
+        if (response.status === UNPROCESSABLE_ENTITY) {
+            context.commit('setRegisterErrorMsg', response.data.errors)
+        }
     },
 
     async login(context, data) {

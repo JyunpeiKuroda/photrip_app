@@ -4,6 +4,20 @@
             <div class="w-96 bg-white rounded-lg shadow-xl p-6">
                 <h1 class="text-black text-3xl" id="loginTitle"><img class="m-auto w-30 h-20" src="../asset/login_logo.png"></h1>
 
+                <div id="errorVisble" class="border-2 border-red-500 py-4 px-4" v-if="registerErrorMsg">
+                    <ul class="text-red-600">
+                        <li v-for="msg in registerErrorMsg.name" :key="msg">{{ msg }}</li>
+                    </ul>
+
+                    <ul class="text-red-600">
+                        <li v-for="msg in registerErrorMsg.email" :key="msg" >{{ msg }}</li>
+                    </ul>
+
+                    <ul class="text-red-600">
+                        <li v-for="msg in registerErrorMsg.password" :key="msg" >{{ msg }}</li>
+                    </ul>
+                </div>
+
                 <div class="">
                     <div class="">
                         <input id="name" v-model="registerForm.name" type="text" placeholder="名前" class="pt-8 w-full rounded-lg p-3 border-b focus:outline-none focus:border-blue-400" name="name" required autocomplete="name" autofocus>
@@ -40,8 +54,22 @@
 import LoadingBar from '../components/LoadingBar.vue';
 
 export default {
-    computed: {
+    components: {
         LoadingBar
+    },
+    created() {
+        this.clearMsg()
+    },
+    computed: {
+        isLoading() {
+            return this.$store.state.loading.isLoading
+        },
+        registerErrorMsg() {
+            return this.$store.state.auth.registerErrorMsg
+        },
+        apiStatus() {
+            return this.$store.state.auth.apiStatus
+        },
     },
     data() {
         return {
@@ -54,30 +82,14 @@ export default {
     },
     methods: {
         async register() {
-            if (this.validator()) {
-                this.$store.commit('loading/setLoading', true)
-                await this.$store.dispatch('auth/register', this.registerForm)
-                this.$store.commit('loading/setLoading', false)
+            await this.$store.dispatch('auth/register', this.registerForm)
 
+            if (this.apiStatus) {
                 this.$router.push('/photrip/home')
-            }
-            console.log('error出力');
+            }       
         },
-        validator() {
-            // 空白チェック
-            if (
-                this.registerForm.name.trim() === '' || 
-                this.registerForm.email.trim() === '' || 
-                this.registerForm.password.trim() === ''
-                ) 
-            {
-                return false
-            }   
-
-            if (this.registerForm.name.length > 10 ) {
-                return false
-            }
-            return true
+        clearMsg() {
+            this.$store.commit('auth/setRegisterErrorMsg', null)
         }
     }
 }

@@ -3060,13 +3060,11 @@ __webpack_require__.r(__webpack_exports__);
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(this.$store.dispatch('auth/login', this.loginForm));
 
             case 2:
-              console.log(this.loginErrorMsg);
-
               if (this.apiStatus) {
                 this.$router.push('/photrip/home');
               }
 
-            case 4:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -3259,10 +3257,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: {
+  components: {
     LoadingBar: _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  created: function created() {
+    this.clearMsg();
+  },
+  computed: {
+    isLoading: function isLoading() {
+      return this.$store.state.loading.isLoading;
+    },
+    registerErrorMsg: function registerErrorMsg() {
+      return this.$store.state.auth.registerErrorMsg;
+    },
+    apiStatus: function apiStatus() {
+      return this.$store.state.auth.apiStatus;
+    }
   },
   data: function data() {
     return {
@@ -3279,40 +3305,23 @@ __webpack_require__.r(__webpack_exports__);
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!this.validator()) {
-                _context.next = 6;
-                break;
-              }
-
-              this.$store.commit('loading/setLoading', true);
-              _context.next = 4;
+              _context.next = 2;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(this.$store.dispatch('auth/register', this.registerForm));
 
-            case 4:
-              this.$store.commit('loading/setLoading', false);
-              this.$router.push('/photrip/home');
+            case 2:
+              if (this.apiStatus) {
+                this.$router.push('/photrip/home');
+              }
 
-            case 6:
-              console.log('error出力');
-
-            case 7:
+            case 3:
             case "end":
               return _context.stop();
           }
         }
       }, null, this);
     },
-    validator: function validator() {
-      // 空白チェック
-      if (this.registerForm.name.trim() === '' || this.registerForm.email.trim() === '' || this.registerForm.password.trim() === '') {
-        return false;
-      }
-
-      if (this.registerForm.name.length > 10) {
-        return false;
-      }
-
-      return true;
+    clearMsg: function clearMsg() {
+      this.$store.commit('auth/setRegisterErrorMsg', null);
     }
   }
 });
@@ -38222,6 +38231,44 @@ var render = function() {
           _c("div", { staticClass: "w-96 bg-white rounded-lg shadow-xl p-6" }, [
             _vm._m(0),
             _vm._v(" "),
+            _vm.registerErrorMsg
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "border-2 border-red-500 py-4 px-4",
+                    attrs: { id: "errorVisble" }
+                  },
+                  [
+                    _c(
+                      "ul",
+                      { staticClass: "text-red-600" },
+                      _vm._l(_vm.registerErrorMsg.name, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      { staticClass: "text-red-600" },
+                      _vm._l(_vm.registerErrorMsg.email, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      { staticClass: "text-red-600" },
+                      _vm._l(_vm.registerErrorMsg.password, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             _c("div", {}, [
               _c("div", {}, [
                 _c("input", {
@@ -55833,7 +55880,8 @@ var UNPROCESSABLE_ENTITY_MSG = 'メールアドレスまたはパスワードが
 var state = {
   user: null,
   apiStatus: null,
-  loginErrorMsg: null
+  loginErrorMsg: null,
+  registerErrorMsg: null
 };
 /** ステートの内容から算出される値 */
 
@@ -55856,6 +55904,9 @@ var mutations = {
   },
   setLoginErrorMsg: function setLoginErrorMsg(state, loginErrorMsg) {
     state.loginErrorMsg = loginErrorMsg;
+  },
+  setRegisterErrorMsg: function setRegisterErrorMsg(state, registerErrorMsg) {
+    state.registerErrorMsg = registerErrorMsg;
   }
 };
 /** ステートを更新する（非同期処理） */
@@ -55867,20 +55918,35 @@ var actions = {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            context.commit('setApiStatus', null);
             context.commit('loading/setLoading', true, {
               root: true
             });
-            _context.next = 3;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/api/v1/register', data));
+            _context.next = 4;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/api/v1/register', data)["catch"](function (error) {
+              return error.response || error;
+            }));
 
-          case 3:
+          case 4:
             response = _context.sent;
             context.commit('loading/setLoading', false, {
               root: true
             });
-            context.commit('setUser', response.data);
 
-          case 6:
+            if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"]) {
+              context.commit('setApiStatus', true);
+              context.commit('setUser', response.data);
+            }
+            /** 失敗 */
+
+
+            context.commit('setApiStatus', false);
+
+            if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
+              context.commit('setRegisterErrorMsg', response.data.errors);
+            }
+
+          case 9:
           case "end":
             return _context.stop();
         }

@@ -81,7 +81,6 @@ export default {
         async login() {
             await this.$store.dispatch('auth/login', this.loginForm)
 
-            console.log(this.loginErrorMsg);
             if (this.apiStatus) {
                 this.$router.push('/photrip/home')
             }
