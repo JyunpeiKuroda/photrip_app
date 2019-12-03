@@ -9,7 +9,8 @@ use App\Repositories\Interfaces\GuideRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GuideRepo implements GuideRepositoryInterface{
+class GuideRepo implements GuideRepositoryInterface
+{
 
     public function __construct(
         Guide $guide_model,

@@ -95,8 +95,14 @@
                 </div>
                 <!-- 計画フォーム end-->
 
+                <div id="errorVisble" class="border-2 border-red-500 py-4 px-4" v-if="errorMsg.length > 0">
+                    <ul class="text-red-600">
+                        <li v-for="msg in errorMsg" :key="msg">{{ msg }}</li>
+                    </ul>
+                </div>
+                
                 <div class="pt-3 my-4 mx-4">
-                    <button id="composeBtn" @click="composeGuide()" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">しおりを更新</button>
+                    <button id="composeBtn" @click="updateGuide()" class="float-right bg-blue-500 px-3 py-2 rounded-full text-white border border-gray-600 hover:bg-blue-300">しおりを更新</button>
                 </div>
             </div>
         </div>
@@ -111,6 +117,7 @@ import axios from 'axios';
 import LbHeader from '../components/Header.vue';
 import ComposeIF from '../components/molecules/ComposeInputField.vue';
 import LoadingBar from '../components/LoadingBar.vue';
+import { checkBlank } from '../common/validator.js';
 
 const NEW_CREATE_ID = 0
 
@@ -145,6 +152,7 @@ export default {
                     { place: '', detail: '', schedule: '', time: '', file_path: null }
                 ]
             },
+            errorMsg: []
         }
     },
     methods: {
@@ -192,9 +200,11 @@ export default {
                 this.form.place.splice(index, 1)
             }
         },
-        composeGuide() {
+        updateGuide() {
             const endPoint = '/api/v1/guides/' + this.checkQuery + '/edit'
 
+            if (this.checkInput()) return 
+            
             this.$store.commit('loading/setLoading', true)
             axios.put(endPoint, this.form)
                 .then(res => {
@@ -229,6 +239,24 @@ export default {
                 console.warn(error, 'error')
             })
             this.$store.commit('loading/setLoading', false)
+        },
+        checkInput() {
+            this.errorMsg = []
+
+            // 空欄チェック
+            if (checkBlank(this.form.guide.title)) this.errorMsg.push('タイトルが未入力です')
+            if (checkBlank(this.form.guide.days)) this.errorMsg.push('期間が未入力です')
+
+            let scheduleCnt = 0
+            let timeCnt = 0
+            for (let i = 0; this.form.place.length > i; i++) {
+                if (this.form.place[i].schedule === '') scheduleCnt++
+                if (this.form.place[i].time === '') timeCnt++
+            }
+            if (scheduleCnt > 0) this.errorMsg.push('日程が未入力です')
+            if (timeCnt > 0) this.errorMsg.push('時間が未入力です')
+
+            if (this.errorMsg.length > 0) return true
         }
     }
 }
