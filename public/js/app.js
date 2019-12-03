@@ -56119,20 +56119,24 @@ var actions = {
               root: true
             });
 
-            if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"]) {
-              context.commit('setApiStatus', true);
-              context.commit('setUser', response.data);
+            if (!(response.status === _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+              _context.next = 10;
+              break;
             }
+
+            context.commit('setApiStatus', true);
+            context.commit('setUser', response.data);
+            return _context.abrupt("return", false);
+
+          case 10:
             /** 失敗 */
-
-
             context.commit('setApiStatus', false);
 
             if (response.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
               context.commit('setRegisterErrorMsg', response.data.errors);
             }
 
-          case 9:
+          case 12:
           case "end":
             return _context.stop();
         }

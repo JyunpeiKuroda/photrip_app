@@ -44,6 +44,7 @@ const actions = {
         if (response.status === CREATED) {
             context.commit('setApiStatus', true)
             context.commit('setUser', response.data)  
+            return false
         }
 
         /** 失敗 */
