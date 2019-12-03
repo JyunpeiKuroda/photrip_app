@@ -2408,6 +2408,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Header.vue */ "./resources/js/components/Header.vue");
 /* harmony import */ var _components_molecules_ComposeInputField_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/molecules/ComposeInputField.vue */ "./resources/js/components/molecules/ComposeInputField.vue");
 /* harmony import */ var _components_LoadingBar_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/LoadingBar.vue */ "./resources/js/components/LoadingBar.vue");
+/* harmony import */ var _common_validator_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/validator.js */ "./resources/js/common/validator.js");
 
 //
 //
@@ -2517,6 +2518,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2557,7 +2565,8 @@ var NEW_CREATE_ID = 0;
           time: '',
           file_path: null
         }]
-      }
+      },
+      errorMsg: []
     };
   },
   methods: {
@@ -2604,10 +2613,11 @@ var NEW_CREATE_ID = 0;
         this.form.place.splice(index, 1);
       }
     },
-    composeGuide: function composeGuide() {
+    updateGuide: function updateGuide() {
       var _this2 = this;
 
       var endPoint = '/api/v1/guides/' + this.checkQuery + '/edit';
+      if (this.checkInput()) return;
       this.$store.commit('loading/setLoading', true);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(endPoint, this.form).then(function (res) {
         console.log(res, '@@@@@@@@@@@');
@@ -2655,6 +2665,23 @@ var NEW_CREATE_ID = 0;
           }
         }
       }, null, this);
+    },
+    checkInput: function checkInput() {
+      this.errorMsg = []; // 空欄チェック
+
+      if (Object(_common_validator_js__WEBPACK_IMPORTED_MODULE_5__["checkBlank"])(this.form.guide.title)) this.errorMsg.push('タイトルが未入力です');
+      if (Object(_common_validator_js__WEBPACK_IMPORTED_MODULE_5__["checkBlank"])(this.form.guide.days)) this.errorMsg.push('期間が未入力です');
+      var scheduleCnt = 0;
+      var timeCnt = 0;
+
+      for (var i = 0; this.form.place.length > i; i++) {
+        if (this.form.place[i].schedule === '') scheduleCnt++;
+        if (this.form.place[i].time === '') timeCnt++;
+      }
+
+      if (scheduleCnt > 0) this.errorMsg.push('日程が未入力です');
+      if (timeCnt > 0) this.errorMsg.push('時間が未入力です');
+      if (this.errorMsg.length > 0) return true;
     }
   }
 });
@@ -3060,11 +3087,13 @@ __webpack_require__.r(__webpack_exports__);
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(this.$store.dispatch('auth/login', this.loginForm));
 
             case 2:
+              console.log(this.loginErrorMsg);
+
               if (this.apiStatus) {
                 this.$router.push('/photrip/home');
               }
 
-            case 3:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -37565,6 +37594,26 @@ var render = function() {
               2
             ),
             _vm._v(" "),
+            _vm.errorMsg.length > 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "border-2 border-red-500 py-4 px-4",
+                    attrs: { id: "errorVisble" }
+                  },
+                  [
+                    _c(
+                      "ul",
+                      { staticClass: "text-red-600" },
+                      _vm._l(_vm.errorMsg, function(msg) {
+                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             _c("div", { staticClass: "pt-3 my-4 mx-4" }, [
               _c(
                 "button",
@@ -37574,7 +37623,7 @@ var render = function() {
                   attrs: { id: "composeBtn" },
                   on: {
                     click: function($event) {
-                      return _vm.composeGuide()
+                      return _vm.updateGuide()
                     }
                   }
                 },
@@ -54612,6 +54661,27 @@ window.axios.interceptors.request.use(function (config) {
   config.headers['X-XSRF-TOKEN'] = Object(_util__WEBPACK_IMPORTED_MODULE_0__["getCookieValue"])('XSRF-TOKEN');
   return config;
 });
+
+/***/ }),
+
+/***/ "./resources/js/common/validator.js":
+/*!******************************************!*\
+  !*** ./resources/js/common/validator.js ***!
+  \******************************************/
+/*! exports provided: checkBlank */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkBlank", function() { return checkBlank; });
+// 空欄チェック
+function checkBlank(value) {
+  if (value === '' || value === null || value === undefined) {
+    return true;
+  }
+
+  return false;
+}
 
 /***/ }),
 
