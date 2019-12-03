@@ -28,6 +28,7 @@ Route::get('/v1/userinfo', function() {
 /** 写真 */
 Route::get('/v1/photos/{photos}', 'PhotoController@show');
 Route::post('/v1/upload/photos', 'PhotoController@store');
+Route::delete('/v1/upload/photos/{photo}', 'PhotoController@destroy');
 
 /** しおり */
 Route::post('/v1/compose/guides', 'GuideController@store');

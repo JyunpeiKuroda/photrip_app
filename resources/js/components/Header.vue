@@ -16,16 +16,29 @@
         </button>
       </div>
     </div>
-    <nav :class="isOpen ? 'block' : 'hidden'" class="px-4 pt-4 pb-2 sm:flex sm:p-0">
+    <nav :class="isOpen ? 'block' : 'hidden'" class="px-4 pt-4 sm:flex sm:p-0">
         <router-link to="/photrip/home" class="mt-1 block px-2 py-1 text-black font-semibold rounded">
             <i class="fas fa-home"></i><span class="ml-2">ホーム</span>
         </router-link>
         <router-link to="/photrip/compose/plan" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
             <i class="far fa-plus-square"></i><span class="ml-2">しおりを作成する</span>
         </router-link>
-        <a @click="logout()" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
-            <i class="fas fa-user"></i><span class="ml-2">{{ username }}</span>
-        </a>
+        <div>
+          <a @click="DropIsOpen = !DropIsOpen" class="mt-1 block px-2 py-1 text-black font-semibold rounded sm:mt-0 sm:ml-2">
+              <i class="fas fa-user"></i><span class="ml-2">{{ username }}さん▼</span>
+          </a>
+          <span class="relative block h-auto ml-3 bg-white">
+              <ul v-if="DropIsOpen" class="absolute top-100 left-1 block mt-3 py-4 bg-white px-2 w-100 border border-gray-500">
+                  <li>
+                      <a @click="logout()" class="block text-black font-semibold">
+                        <i class="fas fa-sign-out-alt"></i> ログアウト
+                      </a>
+                  </li>
+              </ul>
+              <ul v-if="!DropIsOpen"></ul>
+          </span>
+        </div>
+
     </nav>
   </header>
 </template>
@@ -38,6 +51,7 @@ export default {
     data() {
         return {
         isOpen: false,
+        DropIsOpen: false
         }
     },
     computed: {
@@ -89,5 +103,7 @@ export default {
 </script>
 
 <style scoped>
-
+.DropIsOpen {
+  display: none
+}
 </style>

@@ -96,13 +96,13 @@ class PhotoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 写真削除機能
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        
     }
 }
