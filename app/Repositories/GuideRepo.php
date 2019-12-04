@@ -28,11 +28,6 @@ class GuideRepo implements GuideRepositoryInterface
         return Guide::find($id);
     }
 
-    public function PlaceFindById()
-    {
-
-    }
-
     public function deleteGuide($id) 
     {
         $guide = $this->findById($id);
@@ -71,7 +66,7 @@ class GuideRepo implements GuideRepositoryInterface
     /** 全取得（ユーザー付き） */
     public function getGuideWithUser()
     {
-        return Guide::with(['user'])->orderBy(Guide::UPDATED_AT, 'desc')->paginate();
+        return Guide::with(['user'])->orderBy(Guide::UPDATED_AT, 'desc')->paginate(9);
     }
 
     /**　編集機能 

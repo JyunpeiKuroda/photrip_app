@@ -1,26 +1,19 @@
 <template>
-    <div>
-        <ul class="flex list-reset border border-grey-light rounded w-auto font-sans">
+    <div class="block flex">
+        <ul class="list-reset border border-grey-light rounded w-auto font-sans mx-auto">
             <li v-if="!isFirstPage">
-                <router-link
-                 class="block hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-2" 
-                 :to="`/?page=${currentPage - 1}`"
+                <p
+                 class="block hover:bg-blue text-blue border-r border-grey-light px-3 py-2" 
+                 @click="$emit('backPage')"
                  >&laquo; 戻る
-                 </router-link>
+                 </p>
             </li>
-            <li>
-                <router-link
-                 class="block hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-2" 
-                 :to="`/?page=${currentPage + 1}`"
-                 >
-                 </router-link>
-            </li>
-            <li v-if="!isLastPage !== 1">
-                <router-link
-                 class="block hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-2" 
-                 :to="`/?page=${currentPage + 1}`"
+            <li v-if="!isLastPage">
+                <p
+                 class="block hover:bg-blue text-blue border-r border-grey-light px-3 py-2" 
+                 @click="$emit('nextPage')"
                  >進む &raquo;
-                 </router-link>
+                 </p>
             </li>
         </ul>
     </div>

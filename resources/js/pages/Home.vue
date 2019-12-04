@@ -14,9 +14,10 @@
             </div>
         </div>
         <paginate
-         class=""
          :currentPage="currentPage"
          :lastPage="lastPage"
+         @nextPage="nextPage()"
+         @backPage="backPage()"
          ></paginate>
          <loading-bar
          :isLoading="isLoading"
@@ -44,7 +45,7 @@ export default {
     data() {
         return {
             guides: [],
-            currentPage: 0,
+            currentPage: 1,
             lastPage: 0
         }
     },
@@ -55,23 +56,27 @@ export default {
     },
     methods: {
         // 画面描写
-        init() {
+        init(params) {
             this.$store.commit('loading/setLoading', true)
-            axios.get('/api/v1/guides')
+            axios.get(`/api/v1/guides/?page=${this.currentPage}`)
             .then(res => {
                 this.guides = res.data.data
                 this.currentPage = res.data.current_page
-                this.last_page = res.data.last_page
-                console.log(this.guides, 'guides')
+                this.lastPage = res.data.last_page
                 this.$store.commit('loading/setLoading', false)
             })
             
+        },
+        nextPage() {
+            this.currentPage += 1
+            this.init()
+        },
+        backPage() {
+            this.currentPage -= 1
+            this.init()
         }
     }
 }
 </script>
 <style scoped>
-/* #homeBackground {
-    background-color: #FFCC66;
-} */
 </style>
