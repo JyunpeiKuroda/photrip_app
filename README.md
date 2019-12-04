@@ -31,7 +31,7 @@
 <img width="730" alt="スクリーンショット 2019-11-23 10 25 23" src="https://user-images.githubusercontent.com/43497062/69470687-93639f80-0ddb-11ea-94a5-a43fe1667a36.png">
 
 
-# この改題を通して学習したこと
+# この課題を通して学習したこと
 - リポジトリパターン
 - Laravelにおけるs3への写真アップロード
 - laravelのログがstorage > logsに吐かれると言うこと
