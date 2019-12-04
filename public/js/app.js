@@ -2977,7 +2977,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // 画面描写
-    init: function init(params) {
+    init: function init() {
       var _this = this;
 
       this.$store.commit('loading/setLoading', true);
