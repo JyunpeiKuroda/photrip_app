@@ -58,7 +58,8 @@ export default {
         // 画面描写
         init() {
             this.$store.commit('loading/setLoading', true)
-            axios.get(`/api/v1/guides/?page=${this.currentPage}`)
+            //`/api/v1/guides/?page=${this.currentPage}`
+            axios.get('/api/v1/guides')
             .then(res => {
                 this.guides = res.data.data
                 this.currentPage = res.data.current_page

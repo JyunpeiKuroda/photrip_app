@@ -2980,8 +2980,9 @@ __webpack_require__.r(__webpack_exports__);
     init: function init() {
       var _this = this;
 
-      this.$store.commit('loading/setLoading', true);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/v1/guides/?page=".concat(this.currentPage)).then(function (res) {
+      this.$store.commit('loading/setLoading', true); //`/api/v1/guides/?page=${this.currentPage}`
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/v1/guides').then(function (res) {
         _this.guides = res.data.data;
         _this.currentPage = res.data.current_page;
         _this.lastPage = res.data.last_page;
