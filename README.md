@@ -1,6 +1,9 @@
 # フォトリップApp
 [本番環境](https://photrips.herokuapp.com/login)
 
+# 制作期間
+2週間
+
 # 技術スタック
  
 - **バックエンド**：Laravel 5.8 PHP 7.3.10
