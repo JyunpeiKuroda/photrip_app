@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router'
-import store from './store' 
+import store from './store'
 
 /** pages */
 import Login from './pages/Login.vue';
@@ -15,8 +15,8 @@ import NotPageError from './pages/NotPageError.vue';
 Vue.use(Router);
 
 const routes = [
-    { 
-        path: '/login', 
+    {
+        path: '/login',
         component: Login,
         beforeEnter(to, from, next) {
             if (store.getters['auth/check']) {
@@ -26,8 +26,8 @@ const routes = [
             }
         }
     },
-    { 
-        path: '/register', 
+    {
+        path: '/register',
         component: Register,
         beforeEnter(to, from, next) {
             if (store.getters['auth/check']) {
