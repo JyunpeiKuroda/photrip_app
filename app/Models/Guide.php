@@ -10,7 +10,7 @@ class Guide extends Model
     public $incrementing = false;
 
     protected $guarded = ['id'];
-    
+
     protected $visible = [
         'id', 'title', 'days', 'user', 'overviews', 'places'
     ];

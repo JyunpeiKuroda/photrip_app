@@ -6,7 +6,7 @@ use App\Models\Place;
 use App\Repositories\GuideRepo as GuideRepository;;
 use Illuminate\Http\Request;
 
-class GuideService 
+class GuideService
 {
     private $guide_repository;
 
